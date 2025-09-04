@@ -23,7 +23,7 @@ import historyBookCover from '@/assets/history-book-cover.jpg';
 const Dashboard = () => {
   const stats = [
     {
-      title: 'Books Purchased',
+      title: 'Books',
       value: '12',
       icon: BookOpen,
       color: 'text-primary',
@@ -37,9 +37,9 @@ const Dashboard = () => {
       bgColor: 'bg-success/10'
     },
     {
-      title: 'Study Hours',
+      title: 'Games Won',
       value: '156',
-      icon: Clock,
+      icon: Trophy,
       color: 'text-warning',
       bgColor: 'bg-warning/10'
     },

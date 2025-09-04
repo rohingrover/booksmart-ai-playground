@@ -9,7 +9,8 @@ import {
   Gamepad2,
   Home,
   Settings,
-  User
+  User,
+  Library
 } from 'lucide-react';
 import AIFloatingBot from './AIFloatingBot';
 import logoImage from '@/assets/oswaal360-logo.png';
@@ -25,7 +26,7 @@ const Layout = ({ children }: LayoutProps) => {
   
   const navItems = [
     { icon: Home, label: 'Dashboard', path: '/' },
-    { icon: BookOpen, label: 'My Books', path: '/books' },
+    { icon: Library, label: 'Books', path: '/books' },
     { icon: MessageCircle, label: 'AI Chat', path: '/chat' },
     { icon: BrainCircuit, label: 'Quiz', path: '/quiz' },
     { icon: Trophy, label: 'Practice Tests', path: '/practice' },

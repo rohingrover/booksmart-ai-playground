@@ -3,6 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import PracticeTestSetup from '@/components/PracticeTestSetup';
 import { 
   Clock, 
   BrainCircuit, 
@@ -22,11 +25,15 @@ import {
 } from 'lucide-react';
 
 const PracticeTests = () => {
+  const [showSetup, setShowSetup] = useState(true);
+  const [practiceSettings, setPracticeSettings] = useState<any>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [showAIDialog, setShowAIDialog] = useState(false);
+  const [aiQuestion, setAiQuestion] = useState('');
 
   const initialQuestions = [
     {
@@ -140,52 +147,16 @@ const PracticeTests = () => {
   };
 
   const handleAskAI = () => {
-    const aiDialog = document.createElement('div');
-    aiDialog.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
-    aiDialog.innerHTML = `
-      <div class="bg-background border rounded-lg p-6 max-w-md w-full mx-4">
-        <h3 class="text-lg font-semibold mb-4">Ask AI about this question</h3>
-        <div class="space-y-4">
-          <div class="p-3 bg-muted rounded">
-            <p class="text-sm"><strong>Question:</strong> ${currentQ.question}</p>
-          </div>
-          <textarea 
-            id="aiInput" 
-            placeholder="What would you like to know about this question?"
-            class="w-full p-3 border rounded resize-none"
-            rows="3"
-          ></textarea>
-          <div class="flex space-x-2">
-            <button id="askBtn" class="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90">
-              Ask AI
-            </button>
-            <button id="closeBtn" class="px-4 py-2 border rounded hover:bg-muted">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-    
-    document.body.appendChild(aiDialog);
-    
-    aiDialog.querySelector('#closeBtn')?.addEventListener('click', () => {
-      document.body.removeChild(aiDialog);
-    });
-    
-    aiDialog.querySelector('#askBtn')?.addEventListener('click', () => {
-      const input = aiDialog.querySelector('#aiInput') as HTMLTextAreaElement;
-      if (input.value.trim()) {
-        alert(`AI Response: This question tests your understanding of ${currentQ.concept}. ${currentQ.explanation}`);
-        document.body.removeChild(aiDialog);
-      }
-    });
-    
-    aiDialog.addEventListener('click', (e) => {
-      if (e.target === aiDialog) {
-        document.body.removeChild(aiDialog);
-      }
-    });
+    setShowAIDialog(true);
+  };
+
+  const handleAISubmit = () => {
+    if (aiQuestion.trim()) {
+      // Simulate AI response
+      alert(`AI Response: This question tests your understanding of ${currentQ.concept}. ${currentQ.explanation}`);
+      setShowAIDialog(false);
+      setAiQuestion('');
+    }
   };
 
   const getAnswerStatus = (option: string) => {
@@ -203,6 +174,21 @@ const PracticeTests = () => {
       default: return 'bg-primary text-primary-foreground';
     }
   };
+
+  const handleStartPractice = (settings: any) => {
+    setPracticeSettings(settings);
+    setShowSetup(false);
+    // Initialize practice test with settings
+    setCurrentQuestion(0);
+    setSelectedAnswer('');
+    setUserAnswers([]);
+    setShowHint(false);
+    setShowAnswer(false);
+  };
+
+  if (showSetup) {
+    return <PracticeTestSetup onStartPractice={handleStartPractice} />;
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
@@ -445,6 +431,34 @@ const PracticeTests = () => {
           </Card>
         </div>
       </div>
+
+      {/* AI Chat Dialog */}
+      <Dialog open={showAIDialog} onOpenChange={setShowAIDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Ask AI about this question</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="p-3 bg-muted rounded">
+              <p className="text-sm"><strong>Question:</strong> {currentQ.question}</p>
+            </div>
+            <Textarea
+              placeholder="What would you like to know about this question?"
+              value={aiQuestion}
+              onChange={(e) => setAiQuestion(e.target.value)}
+              rows={3}
+            />
+            <div className="flex space-x-2">
+              <Button onClick={handleAISubmit} className="gradient-primary">
+                Ask AI
+              </Button>
+              <Button variant="outline" onClick={() => setShowAIDialog(false)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

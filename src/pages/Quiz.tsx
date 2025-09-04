@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
+import QuizResults from '@/components/QuizResults';
 import { 
   Clock, 
   BrainCircuit, 
@@ -23,6 +24,8 @@ const Quiz = () => {
   const [questionCount, setQuestionCount] = useState([10]);
   const [showQuizSetup, setShowQuizSetup] = useState(true);
   const [quizActive, setQuizActive] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [quizResults, setQuizResults] = useState<any[]>([]);
   const [quizSettings, setQuizSettings] = useState<any>(null);
   const [currentQuizQuestion, setCurrentQuizQuestion] = useState(0);
   const [quizTimeLeft, setQuizTimeLeft] = useState(0);
@@ -208,9 +211,19 @@ const Quiz = () => {
 
   const endQuiz = () => {
     setQuizActive(false);
-    const percentage = Math.round((quizScore / quizQuestions.length) * 100);
-    alert(`Quiz Complete!\nScore: ${quizScore}/${quizQuestions.length} (${percentage}%)`);
-    setShowQuizSetup(true);
+    
+    // Create detailed results
+    const results = quizQuestions.slice(0, quizSettings?.questions || quizQuestions.length).map((q, index) => ({
+      question: q.question,
+      options: q.options,
+      correct: q.correct,
+      userAnswer: quizAnswers[index] || '',
+      isCorrect: (quizAnswers[index] || '') === q.correct,
+      timeSpent: 30 // You can track actual time per question
+    }));
+    
+    setQuizResults(results);
+    setShowResults(true);
   };
 
   const formatTime = (seconds: number) => {
@@ -303,6 +316,26 @@ const Quiz = () => {
           </CardContent>
         </Card>
       </div>
+    );
+  }
+
+  if (showResults) {
+    return (
+      <QuizResults
+        results={quizResults}
+        totalTime={(quizSettings?.time * 60) - quizTimeLeft}
+        quizTitle={quizSettings?.title || `${selectedBook} Quiz`}
+        onRetakeQuiz={() => {
+          setShowResults(false);
+          setShowQuizSetup(true);
+          setQuizResults([]);
+        }}
+        onBackToHome={() => {
+          setShowResults(false);
+          setShowQuizSetup(true);
+          setQuizResults([]);
+        }}
+      />
     );
   }
 
