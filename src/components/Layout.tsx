@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { 
-  BookOpen, 
+  BookOpen,
   MessageCircle, 
   BrainCircuit, 
   Trophy, 
@@ -12,6 +12,7 @@ import {
   User
 } from 'lucide-react';
 import AIFloatingBot from './AIFloatingBot';
+import logoImage from '@/assets/oswaal360-logo.png';
 
 interface LayoutProps {
   children: ReactNode;
@@ -38,11 +39,12 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <div className="gradient-hero p-2 rounded-lg">
-                <BookOpen className="h-8 w-8 text-white" />
-              </div>
+              <img 
+                src={logoImage} 
+                alt="Oswaal360 Logo" 
+                className="h-10 w-auto"
+              />
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Oswaal360</h1>
                 <p className="text-sm text-muted-foreground">Smart Learning Platform</p>
               </div>
             </div>
