@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +22,13 @@ const Quiz = () => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [questionCount, setQuestionCount] = useState([10]);
   const [showQuizSetup, setShowQuizSetup] = useState(true);
+  const [quizActive, setQuizActive] = useState(false);
+  const [quizSettings, setQuizSettings] = useState<any>(null);
+  const [currentQuizQuestion, setCurrentQuizQuestion] = useState(0);
+  const [quizTimeLeft, setQuizTimeLeft] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
+  const [quizScore, setQuizScore] = useState(0);
+  const [selectedQuizAnswer, setSelectedQuizAnswer] = useState('');
 
   const books = [
     { id: 1, title: 'Mathematics Class 10', subject: 'Mathematics', board: 'CBSE' },
@@ -95,17 +102,34 @@ const Quiz = () => {
       alert('Please select a book and difficulty level');
       return;
     }
-    // Navigate to quiz page with settings
-    console.log('Starting quiz with settings:', {
+    setShowQuizSetup(false);
+    startQuiz({
+      type: 'custom',
       book: selectedBook,
-      time: selectedTime,
+      time: parseInt(selectedTime),
       level: selectedLevel,
       questions: questionCount[0]
     });
   };
 
+  const startQuiz = (settings: any) => {
+    setQuizSettings(settings);
+    setQuizActive(true);
+    setCurrentQuizQuestion(0);
+    setQuizTimeLeft(settings.time * 60); // Convert minutes to seconds
+    setQuizAnswers([]);
+    setQuizScore(0);
+  };
+
   const handleQuickQuiz = (quiz: any) => {
-    console.log('Starting quick quiz:', quiz);
+    setShowQuizSetup(false);
+    startQuiz({
+      type: 'quick',
+      title: quiz.title,
+      time: quiz.time,
+      questions: quiz.questions,
+      difficulty: quiz.difficulty
+    });
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -122,6 +146,165 @@ const Quiz = () => {
     if (score >= 70) return 'text-warning';
     return 'text-destructive';
   };
+
+  const quizQuestions = [
+    {
+      question: "What is the formula for the area of a triangle?",
+      options: ["A = πr²", "A = ½ × base × height", "A = length × width", "A = 4 × side"],
+      correct: "A = ½ × base × height"
+    },
+    {
+      question: "Which of these is a prime number?",
+      options: ["15", "21", "17", "27"],
+      correct: "17"
+    },
+    {
+      question: "What is 8 × 7?",
+      options: ["54", "56", "58", "64"],
+      correct: "56"
+    },
+    {
+      question: "What is the square root of 64?",
+      options: ["6", "7", "8", "9"],
+      correct: "8"
+    },
+    {
+      question: "Which element has the chemical symbol 'O'?",
+      options: ["Gold", "Oxygen", "Silver", "Iron"],
+      correct: "Oxygen"
+    }
+  ];
+
+  // Quiz timer effect
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (quizActive && quizTimeLeft > 0) {
+      timer = setTimeout(() => setQuizTimeLeft(quizTimeLeft - 1), 1000);
+    } else if (quizActive && quizTimeLeft === 0) {
+      endQuiz();
+    }
+    return () => clearTimeout(timer);
+  }, [quizActive, quizTimeLeft]);
+
+  const handleQuizAnswer = (answer: string) => {
+    setSelectedQuizAnswer(answer);
+    const newAnswers = [...quizAnswers];
+    newAnswers[currentQuizQuestion] = answer;
+    setQuizAnswers(newAnswers);
+    
+    if (answer === quizQuestions[currentQuizQuestion].correct) {
+      setQuizScore(quizScore + 1);
+    }
+  };
+
+  const nextQuizQuestion = () => {
+    if (currentQuizQuestion < quizQuestions.length - 1) {
+      setCurrentQuizQuestion(currentQuizQuestion + 1);
+      setSelectedQuizAnswer(quizAnswers[currentQuizQuestion + 1] || '');
+    } else {
+      endQuiz();
+    }
+  };
+
+  const endQuiz = () => {
+    setQuizActive(false);
+    const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+    alert(`Quiz Complete!\nScore: ${quizScore}/${quizQuestions.length} (${percentage}%)`);
+    setShowQuizSetup(true);
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  if (quizActive) {
+    const currentQ = quizQuestions[currentQuizQuestion];
+    return (
+      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+        {/* Quiz Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold">
+              {quizSettings?.title || 'Custom Quiz'}
+            </h1>
+            <p className="text-muted-foreground">
+              Question {currentQuizQuestion + 1} of {quizQuestions.length}
+            </p>
+          </div>
+          <div className="flex items-center space-x-6">
+            <div className="text-center">
+              <Clock className="h-5 w-5 mx-auto text-warning" />
+              <p className="text-xl font-bold text-warning">{formatTime(quizTimeLeft)}</p>
+            </div>
+            <div className="text-center">
+              <Trophy className="h-5 w-5 mx-auto text-primary" />
+              <p className="text-xl font-bold">{quizScore}/{quizQuestions.length}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress */}
+        <Card className="shadow-card">
+          <CardContent className="p-4">
+            <div className="flex justify-between mb-2">
+              <span className="text-sm font-medium">Progress</span>
+              <span className="text-sm text-muted-foreground">
+                {currentQuizQuestion + 1}/{quizQuestions.length}
+              </span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2">
+              <div 
+                className="gradient-primary h-2 rounded-full transition-all duration-300"
+                style={{ width: `${((currentQuizQuestion + 1) / quizQuestions.length) * 100}%` }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Question */}
+        <Card className="shadow-elegant">
+          <CardContent className="p-8">
+            <h2 className="text-2xl font-bold mb-6">{currentQ.question}</h2>
+            <div className="space-y-3">
+              {currentQ.options.map((option, index) => (
+                <Button
+                  key={index}
+                  onClick={() => handleQuizAnswer(option)}
+                  variant={selectedQuizAnswer === option ? "default" : "outline"}
+                  className={`w-full p-4 text-left justify-start h-auto ${
+                    selectedQuizAnswer === option ? 'gradient-primary' : 'hover:bg-accent'
+                  }`}
+                >
+                  <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
+                  {option}
+                </Button>
+              ))}
+            </div>
+            <div className="flex justify-between mt-6">
+              <Button
+                onClick={() => {
+                  setQuizActive(false);
+                  setShowQuizSetup(true);
+                }}
+                variant="outline"
+              >
+                Exit Quiz
+              </Button>
+              <Button
+                onClick={nextQuizQuestion}
+                disabled={!selectedQuizAnswer}
+                className="gradient-primary"
+              >
+                {currentQuizQuestion === quizQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (showQuizSetup) {
     return (

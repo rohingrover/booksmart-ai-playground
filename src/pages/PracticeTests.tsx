@@ -94,11 +94,89 @@ const PracticeTests = () => {
   };
 
   const handleGenerateSimilar = () => {
-    alert('Generating similar question... (AI feature)');
+    // Generate a similar question based on current topic
+    const similarQuestions = [
+      {
+        question: "What is the value of y in the equation 3y + 7 = 16?",
+        options: ["y = 2", "y = 3", "y = 4", "y = 5"],
+        correct: "y = 3",
+        explanation: "3y + 7 = 16\n3y = 16 - 7\n3y = 9\ny = 3"
+      },
+      {
+        question: "Solve for x: 4x - 2 = 14",
+        options: ["x = 3", "x = 4", "x = 5", "x = 6"],
+        correct: "x = 4",
+        explanation: "4x - 2 = 14\n4x = 14 + 2\n4x = 16\nx = 4"
+      }
+    ];
+    
+    const randomQuestion = similarQuestions[Math.floor(Math.random() * similarQuestions.length)];
+    
+    // Add to questions array and navigate to it
+    questions.push({
+      id: questions.length + 1,
+      question: randomQuestion.question,
+      options: randomQuestion.options,
+      correct: randomQuestion.correct,
+      hint: "This is a similar linear equation. Follow the same steps: isolate the variable term, then divide.",
+      explanation: randomQuestion.explanation,
+      concept: currentQ.concept,
+      difficulty: currentQ.difficulty
+    });
+    
+    setCurrentQuestion(questions.length - 1);
+    setSelectedAnswer('');
+    setShowHint(false);
+    setShowAnswer(false);
   };
 
   const handleAskAI = () => {
-    alert('Opening AI chat for this question... (AI feature)');
+    const aiDialog = document.createElement('div');
+    aiDialog.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
+    aiDialog.innerHTML = `
+      <div class="bg-background border rounded-lg p-6 max-w-md w-full mx-4">
+        <h3 class="text-lg font-semibold mb-4">Ask AI about this question</h3>
+        <div class="space-y-4">
+          <div class="p-3 bg-muted rounded">
+            <p class="text-sm"><strong>Question:</strong> ${currentQ.question}</p>
+          </div>
+          <textarea 
+            id="aiInput" 
+            placeholder="What would you like to know about this question?"
+            class="w-full p-3 border rounded resize-none"
+            rows="3"
+          ></textarea>
+          <div class="flex space-x-2">
+            <button id="askBtn" class="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90">
+              Ask AI
+            </button>
+            <button id="closeBtn" class="px-4 py-2 border rounded hover:bg-muted">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(aiDialog);
+    
+    aiDialog.querySelector('#closeBtn')?.addEventListener('click', () => {
+      document.body.removeChild(aiDialog);
+    });
+    
+    aiDialog.querySelector('#askBtn')?.addEventListener('click', () => {
+      const input = aiDialog.querySelector('#aiInput') as HTMLTextAreaElement;
+      if (input.value.trim()) {
+        alert(`AI Response: This question tests your understanding of ${currentQ.concept}. ${currentQ.explanation}`);
+        document.body.removeChild(aiDialog);
+      }
+    });
+    
+    aiDialog.addEventListener('click', (e) => {
+      if (e.target === aiDialog) {
+        document.body.removeChild(aiDialog);
+      }
+    });
   };
 
   const getAnswerStatus = (option: string) => {

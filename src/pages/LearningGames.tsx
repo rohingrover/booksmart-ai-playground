@@ -111,6 +111,22 @@ const LearningGames = () => {
     setSelectedAnswer('');
   };
 
+  const startSpeedChallenge = () => {
+    setSelectedGame('speed-challenge');
+    setGameInProgress(true);
+    setScore(0);
+    setTimeLeft(60);
+    setCurrentQuestion(0);
+    setSelectedAnswer('');
+  };
+
+  const startMemoryPalace = () => {
+    setSelectedGame('memory-palace');
+    setGameInProgress(true);
+    setScore(0);
+    setCurrentQuestion(0);
+  };
+
   const handleAnswer = (answer: string) => {
     setSelectedAnswer(answer);
     const currentQ = quizBattleQuestions[currentQuestion];
@@ -162,6 +178,157 @@ const LearningGames = () => {
       default: return 'text-muted-foreground';
     }
   };
+
+  // Speed Challenge Game
+  if (selectedGame === 'speed-challenge' && gameInProgress) {
+    const currentQ = quizBattleQuestions[currentQuestion % quizBattleQuestions.length];
+    
+    return (
+      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <div className="gradient-primary p-3 rounded-full">
+              <Zap className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Speed Challenge</h1>
+              <p className="text-muted-foreground">Answer as fast as you can!</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-6">
+            <div className="text-center">
+              <div className="flex items-center space-x-2">
+                <Clock className="h-5 w-5 text-warning" />
+                <span className="text-xl font-bold text-warning">{timeLeft}s</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Time Left</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="flex items-center space-x-2">
+                <Star className="h-5 w-5 text-primary" />
+                <span className="text-xl font-bold text-primary">{score}</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Score</p>
+            </div>
+          </div>
+        </div>
+
+        <Card className="shadow-elegant">
+          <CardContent className="p-8">
+            <h2 className="text-2xl font-bold mb-6">{currentQ.question}</h2>
+            
+            <div className="grid grid-cols-2 gap-4">
+              {currentQ.options.map((option, index) => (
+                <Button
+                  key={index}
+                  onClick={() => {
+                    if (option === currentQ.correct) {
+                      setScore(score + 50);
+                    }
+                    setCurrentQuestion(currentQuestion + 1);
+                    setSelectedAnswer('');
+                  }}
+                  variant="outline"
+                  className="p-6 text-lg h-auto hover:border-primary"
+                >
+                  {option}
+                </Button>
+              ))}
+            </div>
+            
+            <Button 
+              onClick={() => setGameInProgress(false)} 
+              variant="outline" 
+              className="mt-4"
+            >
+              End Game
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Memory Palace Game
+  if (selectedGame === 'memory-palace' && gameInProgress) {
+    const memoryPairs = [
+      { term: "Photosynthesis", definition: "Process by which plants make food using sunlight" },
+      { term: "Mitosis", definition: "Cell division that produces two identical cells" },
+      { term: "Gravity", definition: "Force that attracts objects toward each other" },
+      { term: "Democracy", definition: "Government by the people, for the people" }
+    ];
+    
+    return (
+      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <div className="bg-success p-3 rounded-full">
+              <Shield className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Memory Palace</h1>
+              <p className="text-muted-foreground">Match concepts with definitions</p>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <div className="flex items-center space-x-2">
+              <Star className="h-5 w-5 text-primary" />
+              <span className="text-xl font-bold text-primary">{score}</span>
+            </div>
+            <p className="text-sm text-muted-foreground">Matches</p>
+          </div>
+        </div>
+
+        <Card className="shadow-elegant">
+          <CardContent className="p-8">
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Terms</h3>
+                <div className="space-y-3">
+                  {memoryPairs.map((pair, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      className="w-full p-4 text-left justify-start"
+                    >
+                      {pair.term}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Definitions</h3>
+                <div className="space-y-3">
+                  {memoryPairs.sort(() => Math.random() - 0.5).map((pair, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      className="w-full p-4 text-left justify-start h-auto"
+                      onClick={() => setScore(score + 1)}
+                    >
+                      {pair.definition}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <Button 
+              onClick={() => setGameInProgress(false)} 
+              variant="outline" 
+              className="mt-6"
+            >
+              End Game
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (selectedGame === 'quiz-battle' && gameInProgress) {
     const currentQ = quizBattleQuestions[currentQuestion];
@@ -303,7 +470,15 @@ const LearningGames = () => {
                       </div>
                       
                       <Button
-                        onClick={() => game.id === 'quiz-battle' ? startQuizBattle() : alert(`${game.title} coming soon!`)}
+                        onClick={() => {
+                          if (game.id === 'quiz-battle') {
+                            startQuizBattle();
+                          } else if (game.id === 'speed-challenge') {
+                            startSpeedChallenge();
+                          } else if (game.id === 'memory-palace') {
+                            startMemoryPalace();
+                          }
+                        }}
                         className="gradient-primary"
                       >
                         <Play className="h-4 w-4 mr-2" />

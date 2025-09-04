@@ -33,18 +33,60 @@ const AIChat = () => {
     { id: 4, title: 'History Class 8', subject: 'History', board: 'CBSE' }
   ];
 
-  const suggestedQuestions = [
-    "What are quadratic equations?",
-    "Explain the Pythagorean theorem",
-    "How to solve linear equations?",
-    "What is the formula for area of circle?",
-    "Explain coordinate geometry basics",
-    "What are arithmetic progressions?",
-    "How to find HCF and LCM?",
-    "Explain trigonometric ratios",
-    "What is polynomial factorization?",
-    "How to solve word problems?"
-  ];
+  const bookQuestions = {
+    'Mathematics Class 10': [
+      "What are quadratic equations?",
+      "Explain the Pythagorean theorem",
+      "How to solve linear equations?",
+      "What is the formula for area of circle?",
+      "Explain coordinate geometry basics",
+      "What are arithmetic progressions?",
+      "How to find HCF and LCM?",
+      "Explain trigonometric ratios",
+      "What is polynomial factorization?",
+      "How to solve word problems?"
+    ],
+    'Science Class 9': [
+      "What is photosynthesis?",
+      "Explain Newton's laws of motion",
+      "What are the different types of tissues?",
+      "How do atoms combine to form molecules?",
+      "What is the structure of atom?",
+      "Explain the water cycle",
+      "What are the fundamental forces?",
+      "How does sound travel?",
+      "What is natural selection?",
+      "Explain the periodic table"
+    ],
+    'English Literature': [
+      "What is a metaphor?",
+      "Explain the structure of a sonnet",
+      "What are literary devices?",
+      "How to analyze poetry?",
+      "What is character development?",
+      "Explain narrative techniques",
+      "What is the theme of a story?",
+      "How to write a good essay?",
+      "What is dramatic irony?",
+      "Explain different poetry forms"
+    ],
+    'History Class 8': [
+      "What caused the French Revolution?",
+      "Explain the Mughal Empire",
+      "What was the Industrial Revolution?",
+      "How did colonialism affect India?",
+      "What are primary sources?",
+      "Explain the concept of nationalism",
+      "What was the Renaissance?",
+      "How did trade routes develop?",
+      "What is feudalism?",
+      "Explain ancient civilizations"
+    ]
+  };
+
+  const getBookQuestions = (bookTitle: string) => {
+    return bookQuestions[bookTitle as keyof typeof bookQuestions] || bookQuestions['Mathematics Class 10'];
+  };
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
@@ -93,7 +135,7 @@ const AIChat = () => {
     <div className="grid lg:grid-cols-4 gap-6 h-[calc(100vh-200px)] animate-fade-in">
       {/* Sidebar - Book Selection & Suggested Questions */}
       <div className="lg:col-span-1 space-y-6">
-        {/* Book Selection */}
+        {/* Book Selection Dropdown */}
         <Card className="shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center text-lg">
@@ -101,29 +143,18 @@ const AIChat = () => {
               Select Book
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
-            {books.map((book) => (
-              <div
-                key={book.id}
-                onClick={() => setSelectedBook(book.title)}
-                className={`p-3 rounded-lg cursor-pointer transition-smooth ${
-                  selectedBook === book.title
-                    ? 'gradient-primary text-white'
-                    : 'bg-muted hover:bg-accent'
-                }`}
-              >
-                <div className="flex justify-between items-start mb-1">
-                  <h4 className="font-medium text-sm">{book.title}</h4>
-                  <Badge 
-                    variant={selectedBook === book.title ? "secondary" : "default"}
-                    className="text-xs"
-                  >
-                    {book.board}
-                  </Badge>
-                </div>
-                <p className="text-xs opacity-80">{book.subject}</p>
-              </div>
-            ))}
+          <CardContent>
+            <select
+              value={selectedBook}
+              onChange={(e) => setSelectedBook(e.target.value)}
+              className="w-full p-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              {books.map((book) => (
+                <option key={book.id} value={book.title}>
+                  {book.title} ({book.board})
+                </option>
+              ))}
+            </select>
           </CardContent>
         </Card>
 
@@ -132,22 +163,25 @@ const AIChat = () => {
           <CardHeader>
             <CardTitle className="flex items-center text-lg">
               <HelpCircle className="h-5 w-5 mr-2 text-primary" />
-              Suggested Questions
+              Quick Questions for {selectedBook.split(' ')[0]}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-80">
               <div className="space-y-2">
-                {suggestedQuestions.map((question, index) => (
-                  <Button
+                {getBookQuestions(selectedBook).map((question, index) => (
+                  <div
                     key={index}
-                    variant="ghost"
-                    className="w-full text-left justify-start h-auto p-3 text-sm hover:bg-accent"
                     onClick={() => handleQuestionClick(question)}
+                    className="p-3 text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
                   >
-                    <Lightbulb className="h-4 w-4 mr-2 text-warning flex-shrink-0" />
-                    <span className="text-wrap">{question}</span>
-                  </Button>
+                    <div className="flex items-start space-x-2">
+                      <Lightbulb className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
+                      <span className="text-wrap group-hover:text-primary transition-colors">
+                        {question}
+                      </span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </ScrollArea>
