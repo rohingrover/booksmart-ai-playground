@@ -28,7 +28,7 @@ const PracticeTests = () => {
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
 
-  const questions = [
+  const initialQuestions = [
     {
       id: 1,
       question: "What is the value of x in the equation 2x + 5 = 13?",
@@ -66,7 +66,14 @@ const PracticeTests = () => {
     }
   ];
 
+  const [questions, setQuestions] = useState(initialQuestions);
+
   const currentQ = questions[currentQuestion];
+
+  // Safety check to prevent undefined access
+  if (!currentQ) {
+    return <div>Loading...</div>;
+  }
 
   const handleAnswerSelect = (answer: string) => {
     setSelectedAnswer(answer);
@@ -112,8 +119,8 @@ const PracticeTests = () => {
     
     const randomQuestion = similarQuestions[Math.floor(Math.random() * similarQuestions.length)];
     
-    // Add to questions array and navigate to it
-    questions.push({
+    // Create new question object
+    const newQuestion = {
       id: questions.length + 1,
       question: randomQuestion.question,
       options: randomQuestion.options,
@@ -122,9 +129,11 @@ const PracticeTests = () => {
       explanation: randomQuestion.explanation,
       concept: currentQ.concept,
       difficulty: currentQ.difficulty
-    });
+    };
     
-    setCurrentQuestion(questions.length - 1);
+    // Update questions state properly
+    setQuestions(prev => [...prev, newQuestion]);
+    setCurrentQuestion(questions.length);
     setSelectedAnswer('');
     setShowHint(false);
     setShowAnswer(false);
