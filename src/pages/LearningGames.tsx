@@ -61,14 +61,14 @@ const LearningGames = () => {
       features: ['Speed Based', 'Combo System', 'Power-ups']
     },
     {
-      id: 'memory-palace',
-      title: 'Memory Palace',
-      description: 'Match concepts with their definitions in this memory game',
-      icon: Shield,
+      id: 'word-match',
+      title: 'Word Match',
+      description: 'Match words with their meanings in this simple matching game',
+      icon: Target,
       color: 'bg-success',
       difficulty: 'Easy',
       players: '642 online',
-      features: ['Memory Training', 'Visual Learning', 'Progressive Levels']
+      features: ['Simple Matching', 'Visual Learning', 'Quick Rounds']
     }
   ];
 
@@ -120,8 +120,8 @@ const LearningGames = () => {
     setSelectedAnswer('');
   };
 
-  const startMemoryPalace = () => {
-    setSelectedGame('memory-palace');
+  const startWordMatch = () => {
+    setSelectedGame('word-match');
     setGameInProgress(true);
     setScore(0);
     setCurrentQuestion(0);
@@ -251,13 +251,13 @@ const LearningGames = () => {
     );
   }
 
-  // Memory Palace Game
-  if (selectedGame === 'memory-palace' && gameInProgress) {
-    const memoryPairs = [
-      { term: "Photosynthesis", definition: "Process by which plants make food using sunlight" },
-      { term: "Mitosis", definition: "Cell division that produces two identical cells" },
-      { term: "Gravity", definition: "Force that attracts objects toward each other" },
-      { term: "Democracy", definition: "Government by the people, for the people" }
+  // Word Match Game
+  if (selectedGame === 'word-match' && gameInProgress) {
+    const wordPairs = [
+      { word: "Planet", meaning: "Large celestial body orbiting a star" },
+      { word: "Democracy", meaning: "Government by the people" },
+      { word: "Photosynthesis", meaning: "Process plants use to make food" },
+      { word: "Triangle", meaning: "Three-sided geometric shape" }
     ];
     
     return (
@@ -265,11 +265,11 @@ const LearningGames = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <div className="bg-success p-3 rounded-full">
-              <Shield className="h-8 w-8 text-white" />
+              <Target className="h-8 w-8 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Memory Palace</h1>
-              <p className="text-muted-foreground">Match concepts with definitions</p>
+              <h1 className="text-2xl font-bold">Word Match</h1>
+              <p className="text-muted-foreground">Match words with their meanings</p>
             </div>
           </div>
           
@@ -284,33 +284,33 @@ const LearningGames = () => {
 
         <Card className="shadow-elegant">
           <CardContent className="p-8">
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h3 className="text-lg font-semibold mb-4">Terms</h3>
+                <h3 className="text-lg font-semibold mb-4">Words</h3>
                 <div className="space-y-3">
-                  {memoryPairs.map((pair, index) => (
+                  {wordPairs.map((pair, index) => (
                     <Button
                       key={index}
                       variant="outline"
-                      className="w-full p-4 text-left justify-start"
+                      className="w-full p-4 text-left justify-start hover:border-primary"
                     >
-                      {pair.term}
+                      {pair.word}
                     </Button>
                   ))}
                 </div>
               </div>
               
               <div>
-                <h3 className="text-lg font-semibold mb-4">Definitions</h3>
+                <h3 className="text-lg font-semibold mb-4">Meanings</h3>
                 <div className="space-y-3">
-                  {memoryPairs.sort(() => Math.random() - 0.5).map((pair, index) => (
+                  {wordPairs.sort(() => Math.random() - 0.5).map((pair, index) => (
                     <Button
                       key={index}
                       variant="outline"
-                      className="w-full p-4 text-left justify-start h-auto"
+                      className="w-full p-4 text-left justify-start h-auto hover:border-primary"
                       onClick={() => setScore(score + 1)}
                     >
-                      {pair.definition}
+                      {pair.meaning}
                     </Button>
                   ))}
                 </div>
@@ -475,8 +475,8 @@ const LearningGames = () => {
                             startQuizBattle();
                           } else if (game.id === 'speed-challenge') {
                             startSpeedChallenge();
-                          } else if (game.id === 'memory-palace') {
-                            startMemoryPalace();
+                          } else if (game.id === 'word-match') {
+                            startWordMatch();
                           }
                         }}
                         className="gradient-primary"

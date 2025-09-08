@@ -474,11 +474,16 @@ const Quiz = () => {
                 <Slider
                   value={questionCount}
                   onValueChange={setQuestionCount}
-                  max={50}
+                  max={100}
                   min={5}
                   step={5}
                   className="w-full"
                 />
+                <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                  <span>5</span>
+                  <span>50</span>
+                  <span>100</span>
+                </div>
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>5</span>
                   <span>25</span>

@@ -274,15 +274,6 @@ const Home = () => {
                   </div>
                   
                   <div className="flex justify-between items-center pt-2">
-                    <div className="flex items-center">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star 
-                          key={star} 
-                          className={`h-3 w-3 ${star <= Math.floor(book.rating) ? 'text-warning fill-current' : 'text-muted'}`}
-                        />
-                      ))}
-                      <span className="text-xs text-muted-foreground ml-1">({book.rating})</span>
-                    </div>
                     <Badge variant="outline" className="text-xs">
                       {book.exercises} exercises
                     </Badge>

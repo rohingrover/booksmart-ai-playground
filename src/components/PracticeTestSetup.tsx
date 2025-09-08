@@ -25,8 +25,7 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
   const [questionTypes, setQuestionTypes] = useState({
     multipleChoice: true,
     trueFalse: false,
-    fillInBlank: false,
-    shortAnswer: false
+    subjective: false
   });
 
   const books = [
@@ -150,15 +149,15 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
               <Slider
                 value={questionCount}
                 onValueChange={setQuestionCount}
-                max={50}
+                max={100}
                 min={5}
                 step={5}
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>5</span>
-                <span>25</span>
                 <span>50</span>
+                <span>100</span>
               </div>
             </div>
 
@@ -188,23 +187,13 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox
-                    id="fillInBlank"
-                    checked={questionTypes.fillInBlank}
+                    id="subjective"
+                    checked={questionTypes.subjective}
                     onCheckedChange={(checked) => 
-                      handleQuestionTypeChange('fillInBlank', checked as boolean)
+                      handleQuestionTypeChange('subjective', checked as boolean)
                     }
                   />
-                  <label htmlFor="fillInBlank" className="text-sm">Fill in the Blank</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="shortAnswer"
-                    checked={questionTypes.shortAnswer}
-                    onCheckedChange={(checked) => 
-                      handleQuestionTypeChange('shortAnswer', checked as boolean)
-                    }
-                  />
-                  <label htmlFor="shortAnswer" className="text-sm">Short Answer</label>
+                  <label htmlFor="subjective" className="text-sm">Subjective</label>
                 </div>
               </div>
             </div>
