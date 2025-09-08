@@ -4,20 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  BookOpen, 
-  Search,
-  Filter,
-  MessageCircle,
-  BrainCircuit,
-  Trophy,
-  Gamepad2,
-  Sparkles,
-  Zap,
-  Target,
-  Brain,
-  TrendingUp
-} from 'lucide-react';
+import { BookOpen, Search, Filter, MessageCircle, BrainCircuit, Trophy, Gamepad2, Sparkles, Zap, Target, Brain, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Import book cover images
@@ -25,131 +12,115 @@ import mathBookCover from '@/assets/math-book-cover.jpg';
 import scienceBookCover from '@/assets/science-book-cover.jpg';
 import englishBookCover from '@/assets/english-book-cover.jpg';
 import historyBookCover from '@/assets/history-book-cover.jpg';
-
 const Books = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('all');
   const [selectedSubject, setSelectedSubject] = useState('all');
 
   // Stats moved from Dashboard
-  const stats = [
-    {
-      title: 'Books',
-      value: '12',
-      icon: BookOpen,
-      color: 'text-primary',
-      bgColor: 'bg-primary/10'
-    },
-    {
-      title: 'Quizzes Completed',
-      value: '89',
-      icon: BrainCircuit,
-      color: 'text-success',
-      bgColor: 'bg-success/10'
-    },
-    {
-      title: 'Games Won',
-      value: '156',
-      icon: Trophy,
-      color: 'text-warning',
-      bgColor: 'bg-warning/10'
-    },
-    {
-      title: 'Average Score',
-      value: '87%',
-      icon: Target,
-      color: 'text-secondary',
-      bgColor: 'bg-secondary/10'
-    }
-  ];
-
-  const books = [
-    {
-      id: 1,
-      title: 'Mathematics Class 10',
-      subject: 'Mathematics',
-      board: 'CBSE',
-      class: '10',
-      progress: 65,
-      lastAccessed: '2 hours ago',
-      image: mathBookCover,
-      chapters: 15,
-      difficulty: 'Medium',
-      aiFeatures: ['Smart Questions', 'Concept Clarification', 'Problem Solving Assistant']
-    },
-    {
-      id: 2,
-      title: 'Science Class 9',
-      subject: 'Science',
-      board: 'NCERT',
-      class: '9',
-      progress: 42,
-      lastAccessed: '1 day ago',
-      image: scienceBookCover,
-      chapters: 13,
-      difficulty: 'Easy',
-      aiFeatures: ['Experiment Simulation', 'Visual Learning', 'Interactive Quizzes']
-    },
-    {
-      id: 3,
-      title: 'English Literature',
-      subject: 'English',
-      board: 'ICSE',
-      class: '11',
-      progress: 78,
-      lastAccessed: '3 days ago',
-      image: englishBookCover,
-      chapters: 12,
-      difficulty: 'Hard',
-      aiFeatures: ['Grammar Assistant', 'Essay Writing', 'Poetry Analysis']
-    },
-    {
-      id: 4,
-      title: 'History Class 8',
-      subject: 'History',
-      board: 'CBSE',
-      class: '8',
-      progress: 23,
-      lastAccessed: '5 days ago',
-      image: historyBookCover,
-      chapters: 18,
-      difficulty: 'Medium',
-      aiFeatures: ['Timeline Explorer', 'Historical Context', 'Map Integration']
-    }
-  ];
-
+  const stats = [{
+    title: 'Books',
+    value: '12',
+    icon: BookOpen,
+    color: 'text-primary',
+    bgColor: 'bg-primary/10'
+  }, {
+    title: 'Quizzes Completed',
+    value: '89',
+    icon: BrainCircuit,
+    color: 'text-success',
+    bgColor: 'bg-success/10'
+  }, {
+    title: 'Games Won',
+    value: '156',
+    icon: Trophy,
+    color: 'text-warning',
+    bgColor: 'bg-warning/10'
+  }, {
+    title: 'Average Score',
+    value: '87%',
+    icon: Target,
+    color: 'text-secondary',
+    bgColor: 'bg-secondary/10'
+  }];
+  const books = [{
+    id: 1,
+    title: 'Mathematics Class 10',
+    subject: 'Mathematics',
+    board: 'CBSE',
+    class: '10',
+    progress: 65,
+    lastAccessed: '2 hours ago',
+    image: mathBookCover,
+    chapters: 15,
+    difficulty: 'Medium',
+    aiFeatures: ['Smart Questions', 'Concept Clarification', 'Problem Solving Assistant']
+  }, {
+    id: 2,
+    title: 'Science Class 9',
+    subject: 'Science',
+    board: 'NCERT',
+    class: '9',
+    progress: 42,
+    lastAccessed: '1 day ago',
+    image: scienceBookCover,
+    chapters: 13,
+    difficulty: 'Easy',
+    aiFeatures: ['Experiment Simulation', 'Visual Learning', 'Interactive Quizzes']
+  }, {
+    id: 3,
+    title: 'English Literature',
+    subject: 'English',
+    board: 'ICSE',
+    class: '11',
+    progress: 78,
+    lastAccessed: '3 days ago',
+    image: englishBookCover,
+    chapters: 12,
+    difficulty: 'Hard',
+    aiFeatures: ['Grammar Assistant', 'Essay Writing', 'Poetry Analysis']
+  }, {
+    id: 4,
+    title: 'History Class 8',
+    subject: 'History',
+    board: 'CBSE',
+    class: '8',
+    progress: 23,
+    lastAccessed: '5 days ago',
+    image: historyBookCover,
+    chapters: 18,
+    difficulty: 'Medium',
+    aiFeatures: ['Timeline Explorer', 'Historical Context', 'Map Integration']
+  }];
   const filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         book.subject.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.subject.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesBoard = selectedBoard === 'all' || book.board === selectedBoard;
     const matchesSubject = selectedSubject === 'all' || book.subject === selectedSubject;
-    
     return matchesSearch && matchesBoard && matchesSubject;
   });
-
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
-      case 'easy': return 'bg-success text-success-foreground';
-      case 'medium': return 'bg-warning text-warning-foreground';
-      case 'hard': return 'bg-destructive text-destructive-foreground';
-      default: return 'bg-primary text-primary-foreground';
+      case 'easy':
+        return 'bg-success text-success-foreground';
+      case 'medium':
+        return 'bg-warning text-warning-foreground';
+      case 'hard':
+        return 'bg-destructive text-destructive-foreground';
+      default:
+        return 'bg-primary text-primary-foreground';
     }
   };
-
   const getProgressColor = (progress: number) => {
     if (progress >= 80) return 'gradient-primary';
     if (progress >= 50) return 'bg-warning';
     return 'bg-muted';
   };
-
-  return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in">
+  return <div className="space-y-6 sm:space-y-8 animate-fade-in">
       {/* Stats Cards - moved from Dashboard */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {stats.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth">
+        const Icon = stat.icon;
+        return <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth">
               <CardContent className="p-3 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -165,9 +136,8 @@ const Books = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          );
-        })}
+            </Card>;
+      })}
       </div>
 
       {/* Header */}
@@ -254,12 +224,7 @@ const Books = () => {
           <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search books by title or subject..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+              <Input placeholder="Search books by title or subject..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
             </div>
             
             <Select value={selectedBoard} onValueChange={setSelectedBoard}>
@@ -294,14 +259,9 @@ const Books = () => {
 
       {/* Books Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        {filteredBooks.map((book) => (
-          <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group">
+        {filteredBooks.map(book => <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group">
             <div className="relative overflow-hidden">
-              <img 
-                src={book.image} 
-                alt={book.title}
-                className="h-32 sm:h-48 w-full object-cover group-hover:scale-105 transition-smooth"
-              />
+              <img src={book.image} alt={book.title} className="h-32 sm:h-48 w-full object-cover group-hover:scale-105 transition-smooth" />
               <Badge className={`absolute top-2 left-2 ${getDifficultyColor(book.difficulty)} text-xs`}>
                 {book.difficulty}
               </Badge>
@@ -321,18 +281,7 @@ const Books = () => {
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs sm:text-sm">
-                  <span className="text-muted-foreground">Progress</span>
-                  <span className="font-medium">{book.progress}%</span>
-                </div>
-                <div className="h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full ${getProgressColor(book.progress)} transition-smooth`}
-                    style={{ width: `${book.progress}%` }}
-                  />
-                </div>
-              </div>
+              
 
               {/* AI Features */}
               <div className="space-y-2">
@@ -341,16 +290,12 @@ const Books = () => {
                   AI Features
                 </h4>
                 <div className="flex flex-wrap gap-1">
-                  {book.aiFeatures.slice(0, 2).map((feature, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
+                  {book.aiFeatures.slice(0, 2).map((feature, index) => <Badge key={index} variant="secondary" className="text-xs">
                       {feature}
-                    </Badge>
-                  ))}
-                  {book.aiFeatures.length > 2 && (
-                    <Badge variant="secondary" className="text-xs">
+                    </Badge>)}
+                  {book.aiFeatures.length > 2 && <Badge variant="secondary" className="text-xs">
                       +{book.aiFeatures.length - 2} more
-                    </Badge>
-                  )}
+                    </Badge>}
                 </div>
               </div>
               
@@ -389,21 +334,16 @@ const Books = () => {
                 </Link>
               </div>
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
 
-      {filteredBooks.length === 0 && (
-        <div className="text-center py-12">
+      {filteredBooks.length === 0 && <div className="text-center py-12">
           <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
           <h3 className="text-xl font-semibold mb-2">No books found</h3>
           <p className="text-muted-foreground">
             Try adjusting your search criteria or filters.
           </p>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
-
 export default Books;
