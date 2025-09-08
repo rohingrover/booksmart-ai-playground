@@ -5,18 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import QuizResults from '@/components/QuizResults';
-import { 
-  Clock, 
-  BrainCircuit, 
-  Target, 
-  Trophy, 
-  BookOpen,
-  Play,
-  Settings,
-  Award,
-  TrendingUp
-} from 'lucide-react';
-
+import { Clock, BrainCircuit, Target, Trophy, BookOpen, Play, Settings, Award, TrendingUp } from 'lucide-react';
 const Quiz = () => {
   const [selectedBook, setSelectedBook] = useState('');
   const [selectedTime, setSelectedTime] = useState('15');
@@ -32,74 +21,77 @@ const Quiz = () => {
   const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
   const [quizScore, setQuizScore] = useState(0);
   const [selectedQuizAnswer, setSelectedQuizAnswer] = useState('');
-
-  const books = [
-    { id: 1, title: 'Mathematics Class 10', subject: 'Mathematics', board: 'CBSE' },
-    { id: 2, title: 'Science Class 9', subject: 'Science', board: 'NCERT' },
-    { id: 3, title: 'English Literature', subject: 'English', board: 'ICSE' },
-    { id: 4, title: 'History Class 8', subject: 'History', board: 'CBSE' }
-  ];
-
-  const recentQuizzes = [
-    {
-      id: 1,
-      title: 'Algebra Basics',
-      subject: 'Mathematics',
-      score: 85,
-      totalQuestions: 20,
-      timeSpent: '12 min',
-      date: '2 hours ago',
-      difficulty: 'Medium'
-    },
-    {
-      id: 2,
-      title: 'Photosynthesis',
-      subject: 'Science',
-      score: 92,
-      totalQuestions: 15,
-      timeSpent: '8 min',
-      date: '1 day ago',
-      difficulty: 'Easy'
-    },
-    {
-      id: 3,
-      title: 'Poetry Analysis',
-      subject: 'English',
-      score: 78,
-      totalQuestions: 25,
-      timeSpent: '18 min',
-      date: '3 days ago',
-      difficulty: 'Hard'
-    }
-  ];
-
-  const quickQuizzes = [
-    {
-      title: 'Lightning Round',
-      description: '5 questions in 3 minutes',
-      icon: '⚡',
-      time: 3,
-      questions: 5,
-      difficulty: 'Mixed'
-    },
-    {
-      title: 'Power Quiz',
-      description: '15 questions in 10 minutes',
-      icon: '💪',
-      time: 10,
-      questions: 15,
-      difficulty: 'Medium'
-    },
-    {
-      title: 'Challenge Mode',
-      description: '25 questions in 20 minutes',
-      icon: '🏆',
-      time: 20,
-      questions: 25,
-      difficulty: 'Hard'
-    }
-  ];
-
+  const books = [{
+    id: 1,
+    title: 'Mathematics Class 10',
+    subject: 'Mathematics',
+    board: 'CBSE'
+  }, {
+    id: 2,
+    title: 'Science Class 9',
+    subject: 'Science',
+    board: 'NCERT'
+  }, {
+    id: 3,
+    title: 'English Literature',
+    subject: 'English',
+    board: 'ICSE'
+  }, {
+    id: 4,
+    title: 'History Class 8',
+    subject: 'History',
+    board: 'CBSE'
+  }];
+  const recentQuizzes = [{
+    id: 1,
+    title: 'Algebra Basics',
+    subject: 'Mathematics',
+    score: 85,
+    totalQuestions: 20,
+    timeSpent: '12 min',
+    date: '2 hours ago',
+    difficulty: 'Medium'
+  }, {
+    id: 2,
+    title: 'Photosynthesis',
+    subject: 'Science',
+    score: 92,
+    totalQuestions: 15,
+    timeSpent: '8 min',
+    date: '1 day ago',
+    difficulty: 'Easy'
+  }, {
+    id: 3,
+    title: 'Poetry Analysis',
+    subject: 'English',
+    score: 78,
+    totalQuestions: 25,
+    timeSpent: '18 min',
+    date: '3 days ago',
+    difficulty: 'Hard'
+  }];
+  const quickQuizzes = [{
+    title: 'Lightning Round',
+    description: '5 questions in 3 minutes',
+    icon: '⚡',
+    time: 3,
+    questions: 5,
+    difficulty: 'Mixed'
+  }, {
+    title: 'Power Quiz',
+    description: '15 questions in 10 minutes',
+    icon: '💪',
+    time: 10,
+    questions: 15,
+    difficulty: 'Medium'
+  }, {
+    title: 'Challenge Mode',
+    description: '25 questions in 20 minutes',
+    icon: '🏆',
+    time: 20,
+    questions: 25,
+    difficulty: 'Hard'
+  }];
   const handleStartQuiz = () => {
     if (!selectedBook || !selectedLevel) {
       alert('Please select a book and difficulty level');
@@ -114,7 +106,6 @@ const Quiz = () => {
       questions: questionCount[0]
     });
   };
-
   const startQuiz = (settings: any) => {
     setQuizSettings(settings);
     setQuizActive(true);
@@ -123,7 +114,6 @@ const Quiz = () => {
     setQuizAnswers([]);
     setQuizScore(0);
   };
-
   const handleQuickQuiz = (quiz: any) => {
     setShowQuizSetup(false);
     startQuiz({
@@ -134,49 +124,44 @@ const Quiz = () => {
       difficulty: quiz.difficulty
     });
   };
-
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
-      case 'easy': return 'bg-success text-success-foreground';
-      case 'medium': return 'bg-warning text-warning-foreground';
-      case 'hard': return 'bg-destructive text-destructive-foreground';
-      default: return 'bg-primary text-primary-foreground';
+      case 'easy':
+        return 'bg-success text-success-foreground';
+      case 'medium':
+        return 'bg-warning text-warning-foreground';
+      case 'hard':
+        return 'bg-destructive text-destructive-foreground';
+      default:
+        return 'bg-primary text-primary-foreground';
     }
   };
-
   const getScoreColor = (score: number) => {
     if (score >= 90) return 'text-success';
     if (score >= 70) return 'text-warning';
     return 'text-destructive';
   };
-
-  const quizQuestions = [
-    {
-      question: "What is the formula for the area of a triangle?",
-      options: ["A = πr²", "A = ½ × base × height", "A = length × width", "A = 4 × side"],
-      correct: "A = ½ × base × height"
-    },
-    {
-      question: "Which of these is a prime number?",
-      options: ["15", "21", "17", "27"],
-      correct: "17"
-    },
-    {
-      question: "What is 8 × 7?",
-      options: ["54", "56", "58", "64"],
-      correct: "56"
-    },
-    {
-      question: "What is the square root of 64?",
-      options: ["6", "7", "8", "9"],
-      correct: "8"
-    },
-    {
-      question: "Which element has the chemical symbol 'O'?",
-      options: ["Gold", "Oxygen", "Silver", "Iron"],
-      correct: "Oxygen"
-    }
-  ];
+  const quizQuestions = [{
+    question: "What is the formula for the area of a triangle?",
+    options: ["A = πr²", "A = ½ × base × height", "A = length × width", "A = 4 × side"],
+    correct: "A = ½ × base × height"
+  }, {
+    question: "Which of these is a prime number?",
+    options: ["15", "21", "17", "27"],
+    correct: "17"
+  }, {
+    question: "What is 8 × 7?",
+    options: ["54", "56", "58", "64"],
+    correct: "56"
+  }, {
+    question: "What is the square root of 64?",
+    options: ["6", "7", "8", "9"],
+    correct: "8"
+  }, {
+    question: "Which element has the chemical symbol 'O'?",
+    options: ["Gold", "Oxygen", "Silver", "Iron"],
+    correct: "Oxygen"
+  }];
 
   // Quiz timer effect
   useEffect(() => {
@@ -188,18 +173,15 @@ const Quiz = () => {
     }
     return () => clearTimeout(timer);
   }, [quizActive, quizTimeLeft]);
-
   const handleQuizAnswer = (answer: string) => {
     setSelectedQuizAnswer(answer);
     const newAnswers = [...quizAnswers];
     newAnswers[currentQuizQuestion] = answer;
     setQuizAnswers(newAnswers);
-    
     if (answer === quizQuestions[currentQuizQuestion].correct) {
       setQuizScore(quizScore + 1);
     }
   };
-
   const nextQuizQuestion = () => {
     if (currentQuizQuestion < quizQuestions.length - 1) {
       setCurrentQuizQuestion(currentQuizQuestion + 1);
@@ -208,10 +190,9 @@ const Quiz = () => {
       endQuiz();
     }
   };
-
   const endQuiz = () => {
     setQuizActive(false);
-    
+
     // Create detailed results
     const results = quizQuestions.slice(0, quizSettings?.questions || quizQuestions.length).map((q, index) => ({
       question: q.question,
@@ -221,21 +202,17 @@ const Quiz = () => {
       isCorrect: (quizAnswers[index] || '') === q.correct,
       timeSpent: 30 // You can track actual time per question
     }));
-    
     setQuizResults(results);
     setShowResults(true);
   };
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-
   if (quizActive) {
     const currentQ = quizQuestions[currentQuizQuestion];
-    return (
-      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+    return <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
         {/* Quiz Header */}
         <div className="flex justify-between items-center">
           <div>
@@ -268,10 +245,9 @@ const Quiz = () => {
               </span>
             </div>
             <div className="w-full bg-muted rounded-full h-2">
-              <div 
-                className="gradient-primary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${((currentQuizQuestion + 1) / quizQuestions.length) * 100}%` }}
-              />
+              <div className="gradient-primary h-2 rounded-full transition-all duration-300" style={{
+              width: `${(currentQuizQuestion + 1) / quizQuestions.length * 100}%`
+            }} />
             </div>
           </CardContent>
         </Card>
@@ -281,67 +257,39 @@ const Quiz = () => {
           <CardContent className="p-8">
             <h2 className="text-2xl font-bold mb-6">{currentQ.question}</h2>
             <div className="space-y-3">
-              {currentQ.options.map((option, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleQuizAnswer(option)}
-                  variant={selectedQuizAnswer === option ? "default" : "outline"}
-                  className={`w-full p-4 text-left justify-start h-auto ${
-                    selectedQuizAnswer === option ? 'gradient-primary' : 'hover:bg-accent'
-                  }`}
-                >
+              {currentQ.options.map((option, index) => <Button key={index} onClick={() => handleQuizAnswer(option)} variant={selectedQuizAnswer === option ? "default" : "outline"} className={`w-full p-4 text-left justify-start h-auto ${selectedQuizAnswer === option ? 'gradient-primary' : 'hover:bg-accent'}`}>
                   <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
                   {option}
-                </Button>
-              ))}
+                </Button>)}
             </div>
             <div className="flex justify-between mt-6">
-              <Button
-                onClick={() => {
-                  setQuizActive(false);
-                  setShowQuizSetup(true);
-                }}
-                variant="outline"
-              >
+              <Button onClick={() => {
+              setQuizActive(false);
+              setShowQuizSetup(true);
+            }} variant="outline">
                 Exit Quiz
               </Button>
-              <Button
-                onClick={nextQuizQuestion}
-                disabled={!selectedQuizAnswer}
-                className="gradient-primary"
-              >
+              <Button onClick={nextQuizQuestion} disabled={!selectedQuizAnswer} className="gradient-primary">
                 {currentQuizQuestion === quizQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}
               </Button>
             </div>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>;
   }
-
   if (showResults) {
-    return (
-      <QuizResults
-        results={quizResults}
-        totalTime={(quizSettings?.time * 60) - quizTimeLeft}
-        quizTitle={quizSettings?.title || `${selectedBook} Quiz`}
-        onRetakeQuiz={() => {
-          setShowResults(false);
-          setShowQuizSetup(true);
-          setQuizResults([]);
-        }}
-        onBackToHome={() => {
-          setShowResults(false);
-          setShowQuizSetup(true);
-          setQuizResults([]);
-        }}
-      />
-    );
+    return <QuizResults results={quizResults} totalTime={quizSettings?.time * 60 - quizTimeLeft} quizTitle={quizSettings?.title || `${selectedBook} Quiz`} onRetakeQuiz={() => {
+      setShowResults(false);
+      setShowQuizSetup(true);
+      setQuizResults([]);
+    }} onBackToHome={() => {
+      setShowResults(false);
+      setShowQuizSetup(true);
+      setQuizResults([]);
+    }} />;
   }
-
   if (showQuizSetup) {
-    return (
-      <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+    return <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
         {/* Header */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold gradient-hero bg-clip-text text-transparent">
@@ -359,12 +307,7 @@ const Quiz = () => {
             Quick Start
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            {quickQuizzes.map((quiz, index) => (
-              <Card 
-                key={index} 
-                className="shadow-card hover:shadow-elegant transition-smooth cursor-pointer hover:scale-105"
-                onClick={() => handleQuickQuiz(quiz)}
-              >
+            {quickQuizzes.map((quiz, index) => <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth cursor-pointer hover:scale-105" onClick={() => handleQuickQuiz(quiz)}>
                 <CardContent className="p-6 text-center">
                   <div className="text-4xl mb-4">{quiz.icon}</div>
                   <h3 className="text-xl font-semibold mb-2">{quiz.title}</h3>
@@ -383,8 +326,7 @@ const Quiz = () => {
                     Start Now
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
 
@@ -409,8 +351,7 @@ const Quiz = () => {
                     <SelectValue placeholder="Choose a book" />
                   </SelectTrigger>
                   <SelectContent>
-                    {books.map((book) => (
-                      <SelectItem key={book.id} value={book.title}>
+                    {books.map(book => <SelectItem key={book.id} value={book.title}>
                         <div className="flex items-center space-x-2">
                           <BookOpen className="h-4 w-4" />
                           <span>{book.title}</span>
@@ -418,8 +359,7 @@ const Quiz = () => {
                             {book.board}
                           </Badge>
                         </div>
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
@@ -471,32 +411,17 @@ const Quiz = () => {
                 <label className="text-sm font-medium">
                   Number of Questions: {questionCount[0]}
                 </label>
-                <Slider
-                  value={questionCount}
-                  onValueChange={setQuestionCount}
-                  max={100}
-                  min={5}
-                  step={5}
-                  className="w-full"
-                />
+                <Slider value={questionCount} onValueChange={setQuestionCount} max={100} min={5} step={5} className="w-full" />
                 <div className="flex justify-between text-xs text-muted-foreground mt-2">
                   <span>5</span>
                   <span>50</span>
                   <span>100</span>
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>5</span>
-                  <span>25</span>
-                  <span>50</span>
-                </div>
+                
               </div>
             </div>
 
-            <Button 
-              onClick={handleStartQuiz}
-              className="w-full gradient-primary text-lg py-6"
-              size="lg"
-            >
+            <Button onClick={handleStartQuiz} className="w-full gradient-primary text-lg py-6" size="lg">
               <Play className="h-5 w-5 mr-2" />
               Start Custom Quiz
             </Button>
@@ -510,8 +435,7 @@ const Quiz = () => {
             Recent Performance
           </h2>
           <div className="grid gap-4">
-            {recentQuizzes.map((quiz) => (
-              <Card key={quiz.id} className="shadow-card hover:shadow-elegant transition-smooth">
+            {recentQuizzes.map(quiz => <Card key={quiz.id} className="shadow-card hover:shadow-elegant transition-smooth">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
@@ -553,15 +477,11 @@ const Quiz = () => {
                     </div>
                   </div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   return null;
 };
-
 export default Quiz;
