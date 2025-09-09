@@ -133,52 +133,118 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-subtle">
       {/* Hero Section */}
-      <section className="bg-gradient-primary text-white py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            Oswaal Books AI Learning
-          </h1>
-          <p className="text-lg sm:text-xl lg:text-2xl mb-8 max-w-4xl mx-auto opacity-90">
-            Transform your Oswaal textbooks into interactive learning experiences with AI-generated questions, 
-            instant feedback, timed quizzes, and concept clarification through AI chat.
-          </p>
-          <Button 
-            size="lg" 
-            className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-3 text-base sm:text-lg"
-            onClick={handleBookClick}
-          >
-            Start Learning Now
-          </Button>
+      <section className="relative gradient-hero text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+        <div className="relative max-w-7xl mx-auto text-center">
+          <div className="animate-slide-up">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
+              Oswaal Books <span className="text-yellow-300 animate-glow">AI Learning</span>
+            </h1>
+            <p className="text-xl sm:text-2xl lg:text-3xl mb-8 max-w-5xl mx-auto opacity-95 leading-relaxed">
+              Transform your Oswaal textbooks into <span className="font-semibold text-blue-200">interactive learning experiences</span> with 
+              AI-generated questions, instant feedback, timed quizzes, and concept clarification through AI chat.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <Button 
+                size="lg" 
+                className="bg-white text-primary hover:bg-yellow-50 hover:shadow-glow font-bold px-10 py-4 text-lg transition-all duration-300 transform hover:scale-105"
+                onClick={handleBookClick}
+              >
+                <Zap className="mr-2 h-5 w-5" />
+                Start Learning Now
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-2 border-white text-white bg-white/10 hover:bg-white hover:text-primary font-semibold px-8 py-4 text-lg backdrop-blur-sm"
+                onClick={handleBookClick}
+              >
+                <BookOpen className="mr-2 h-5 w-5" />
+                Explore Books
+              </Button>
+            </div>
+
+            {/* Stats Section */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold mb-2">50K+</div>
+                <div className="text-sm opacity-80">Active Students</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold mb-2">1M+</div>
+                <div className="text-sm opacity-80">Questions Solved</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold mb-2">95%</div>
+                <div className="text-sm opacity-80">Success Rate</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold mb-2">24/7</div>
+                <div className="text-sm opacity-80">AI Support</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 animate-float">
+          <Brain className="h-8 w-8 text-blue-200 opacity-60" />
+        </div>
+        <div className="absolute top-40 right-20 animate-float" style={{ animationDelay: '1s' }}>
+          <Target className="h-6 w-6 text-yellow-200 opacity-60" />
+        </div>
+        <div className="absolute bottom-20 left-20 animate-float" style={{ animationDelay: '2s' }}>
+          <Lightbulb className="h-7 w-7 text-green-200 opacity-60" />
         </div>
       </section>
 
       {/* AI Features Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-subtle">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-              Powered by Advanced AI Technology
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+              Powered by <span className="gradient-primary bg-clip-text text-transparent">Advanced AI Technology</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experience the future of education with our intelligent learning platform
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Experience the future of education with our intelligent learning platform that adapts to every student's unique learning journey
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {aiFeatures.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth text-center">
-                  <CardContent className="p-6">
-                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-subtle flex items-center justify-center`}>
-                      <Icon className={`h-8 w-8 ${feature.color}`} />
+                <Card key={index} className="shadow-card hover:shadow-elegant transition-all duration-500 text-center group hover:scale-105 bg-card/80 backdrop-blur-sm border-0">
+                  <CardContent className="p-8">
+                    <div className={`w-20 h-20 mx-auto mb-6 rounded-full gradient-primary flex items-center justify-center shadow-glow group-hover:animate-bounce-subtle`}>
+                      <Icon className={`h-10 w-10 text-white`} />
                     </div>
-                    <h3 className="text-lg font-semibold mb-3">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                    <h3 className="text-xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors">{feature.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
                   </CardContent>
                 </Card>
               );
             })}
+          </div>
+          
+          {/* Additional Features Grid */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
+              <Award className="h-12 w-12 text-warning mx-auto mb-4" />
+              <h4 className="text-lg font-semibold mb-2">Achievement System</h4>
+              <p className="text-muted-foreground text-sm">Earn badges, unlock levels, and track milestones as you progress through your learning journey.</p>
+            </div>
+            <div className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
+              <Users className="h-12 w-12 text-success mx-auto mb-4" />
+              <h4 className="text-lg font-semibold mb-2">Peer Learning</h4>
+              <p className="text-muted-foreground text-sm">Connect with classmates, join study groups, and learn together in collaborative environments.</p>
+            </div>
+            <div className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
+              <Clock className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h4 className="text-lg font-semibold mb-2">Adaptive Scheduling</h4>
+              <p className="text-muted-foreground text-sm">Smart study schedules that adapt to your availability and optimize learning retention.</p>
+            </div>
           </div>
         </div>
       </section>

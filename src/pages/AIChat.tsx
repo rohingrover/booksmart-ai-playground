@@ -147,7 +147,7 @@ const AIChat = () => {
             <select
               value={selectedBook}
               onChange={(e) => setSelectedBook(e.target.value)}
-              className="w-full p-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full p-3 border-2 border-border rounded-xl bg-background text-foreground font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-smooth hover:border-primary/30 shadow-sm"
             >
               {books.map((book) => (
                 <option key={book.id} value={book.title}>

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import SpaceShooterGame from '@/components/SpaceShooterGame';
 import { 
   Gamepad2, 
   Trophy, 
@@ -61,14 +62,14 @@ const LearningGames = () => {
       features: ['Speed Based', 'Combo System', 'Power-ups']
     },
     {
-      id: 'word-match',
-      title: 'Word Match',
-      description: 'Match words with their meanings in this simple matching game',
+      id: 'space-shooter',
+      title: 'Space Shooter Quiz',
+      description: 'Defend Earth by shooting correct answers! Test your knowledge in an action-packed space adventure.',
       icon: Target,
       color: 'bg-success',
-      difficulty: 'Easy',
+      difficulty: 'Medium',
       players: '642 online',
-      features: ['Simple Matching', 'Visual Learning', 'Quick Rounds']
+      features: ['Action Game', 'Multiple Choice', 'Real-time Combat']
     }
   ];
 
@@ -120,11 +121,9 @@ const LearningGames = () => {
     setSelectedAnswer('');
   };
 
-  const startWordMatch = () => {
-    setSelectedGame('word-match');
+  const startSpaceShooter = () => {
+    setSelectedGame('space-shooter');
     setGameInProgress(true);
-    setScore(0);
-    setCurrentQuestion(0);
   };
 
   const handleAnswer = (answer: string) => {
@@ -251,81 +250,26 @@ const LearningGames = () => {
     );
   }
 
-  // Word Match Game
-  if (selectedGame === 'word-match' && gameInProgress) {
-    const wordPairs = [
-      { word: "Planet", meaning: "Large celestial body orbiting a star" },
-      { word: "Democracy", meaning: "Government by the people" },
-      { word: "Photosynthesis", meaning: "Process plants use to make food" },
-      { word: "Triangle", meaning: "Three-sided geometric shape" }
-    ];
-    
+  // Space Shooter Game
+  if (selectedGame === 'space-shooter' && gameInProgress) {
     return (
-      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="bg-success p-3 rounded-full">
-              <Target className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Word Match</h1>
-              <p className="text-muted-foreground">Match words with their meanings</p>
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <div className="flex items-center space-x-2">
-              <Star className="h-5 w-5 text-primary" />
-              <span className="text-xl font-bold text-primary">{score}</span>
-            </div>
-            <p className="text-sm text-muted-foreground">Matches</p>
+      <div className="max-w-4xl mx-auto animate-fade-in">
+        <div className="mb-6 flex items-center space-x-4">
+          <Button
+            onClick={() => {
+              setGameInProgress(false);
+              setSelectedGame(null);
+            }}
+            variant="outline"
+          >
+            ← Back to Games
+          </Button>
+          <div className="flex items-center space-x-2">
+            <Target className="h-6 w-6 text-success" />
+            <h1 className="text-2xl font-bold">Space Shooter Quiz</h1>
           </div>
         </div>
-
-        <Card className="shadow-elegant">
-          <CardContent className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Words</h3>
-                <div className="space-y-3">
-                  {wordPairs.map((pair, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      className="w-full p-4 text-left justify-start hover:border-primary"
-                    >
-                      {pair.word}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Meanings</h3>
-                <div className="space-y-3">
-                  {wordPairs.sort(() => Math.random() - 0.5).map((pair, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      className="w-full p-4 text-left justify-start h-auto hover:border-primary"
-                      onClick={() => setScore(score + 1)}
-                    >
-                      {pair.meaning}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            <Button 
-              onClick={() => setGameInProgress(false)} 
-              variant="outline" 
-              className="mt-6"
-            >
-              End Game
-            </Button>
-          </CardContent>
-        </Card>
+        <SpaceShooterGame />
       </div>
     );
   }
@@ -475,8 +419,8 @@ const LearningGames = () => {
                             startQuizBattle();
                           } else if (game.id === 'speed-challenge') {
                             startSpeedChallenge();
-                          } else if (game.id === 'word-match') {
-                            startWordMatch();
+                          } else if (game.id === 'space-shooter') {
+                            startSpaceShooter();
                           }
                         }}
                         className="gradient-primary"
