@@ -12,6 +12,7 @@ import mathBookCover from '@/assets/math-book-cover.jpg';
 import scienceBookCover from '@/assets/science-book-cover.jpg';
 import englishBookCover from '@/assets/english-book-cover.jpg';
 import historyBookCover from '@/assets/history-book-cover.jpg';
+
 const Books = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('all');
@@ -43,6 +44,7 @@ const Books = () => {
     color: 'text-secondary',
     bgColor: 'bg-secondary/10'
   }];
+
   const books = [{
     id: 1,
     title: 'Mathematics Class 10',
@@ -92,12 +94,14 @@ const Books = () => {
     difficulty: 'Medium',
     aiFeatures: ['Timeline Explorer', 'Historical Context', 'Map Integration']
   }];
+
   const filteredBooks = books.filter(book => {
     const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.subject.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesBoard = selectedBoard === 'all' || book.board === selectedBoard;
     const matchesSubject = selectedSubject === 'all' || book.subject === selectedSubject;
     return matchesSearch && matchesBoard && matchesSubject;
   });
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
       case 'easy':
@@ -110,17 +114,21 @@ const Books = () => {
         return 'bg-primary text-primary-foreground';
     }
   };
+
   const getProgressColor = (progress: number) => {
     if (progress >= 80) return 'gradient-primary';
     if (progress >= 50) return 'bg-warning';
     return 'bg-muted';
   };
-  return <div className="space-y-6 sm:space-y-8 animate-fade-in">
+
+  return (
+    <div className="space-y-6 sm:space-y-8 animate-fade-in">
       {/* Stats Cards - moved from Dashboard */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {stats.map((stat, index) => {
-        const Icon = stat.icon;
-        return <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth">
+          const Icon = stat.icon;
+          return (
+            <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth">
               <CardContent className="p-3 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -136,8 +144,9 @@ const Books = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>;
-      })}
+            </Card>
+          );
+        })}
       </div>
 
       {/* Header */}
@@ -224,7 +233,12 @@ const Books = () => {
           <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input placeholder="Search books by title or subject..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
+              <Input 
+                placeholder="Search books by title or subject..." 
+                value={searchTerm} 
+                onChange={e => setSearchTerm(e.target.value)} 
+                className="pl-10" 
+              />
             </div>
             
             <Select value={selectedBoard} onValueChange={setSelectedBoard}>
@@ -259,91 +273,121 @@ const Books = () => {
 
       {/* Books Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        {filteredBooks.map(book => <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group">
-            <div className="relative overflow-hidden">
-              <img src={book.image} alt={book.title} className="h-32 sm:h-48 w-full object-cover group-hover:scale-105 transition-smooth" />
-              <Badge className={`absolute top-2 left-2 ${getDifficultyColor(book.difficulty)} text-xs`}>
-                {book.difficulty}
-              </Badge>
-              <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs">
-                {book.board}
-              </Badge>
-            </div>
-            
-            <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
-              <div>
-                <h3 className="text-sm sm:text-lg font-bold group-hover:text-primary transition-smooth line-clamp-2">
-                  {book.title}
-                </h3>
-                <div className="flex justify-between items-center mt-1">
-                  <p className="text-xs sm:text-sm text-muted-foreground">Class {book.class} • {book.subject}</p>
-                  <Badge variant="outline" className="text-xs">{book.chapters} Chapters</Badge>
+        {filteredBooks.map((book, index) => {
+          const gradients = [
+            'from-blue-600 to-blue-700',
+            'from-emerald-500 to-emerald-600', 
+            'from-orange-500 to-red-500',
+            'from-amber-500 to-orange-600'
+          ];
+          
+          return (
+            <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group">
+              <div className="relative overflow-hidden">
+                {/* Colorful Header with Class Number */}
+                <div className={`h-32 bg-gradient-to-br ${gradients[index % gradients.length]} relative flex items-center justify-center text-white`}>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold mb-1">
+                      {book.class}
+                    </div>
+                    <div className="text-xs opacity-90 uppercase tracking-wider">
+                      CLASS {book.class}
+                    </div>
+                  </div>
+                  <Badge className="absolute top-3 right-3 bg-white/20 text-white border-white/30">
+                    {book.board}
+                  </Badge>
+                  <Badge className={`absolute top-3 left-3 ${getDifficultyColor(book.difficulty)} text-xs`}>
+                    {book.difficulty}
+                  </Badge>
+                  {/* Decorative elements */}
+                  <div className="absolute top-4 left-1/2 w-8 h-8 border-2 border-white/30 rounded rotate-45"></div>
+                  <div className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full"></div>
                 </div>
               </div>
               
-              
+              <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
+                <div>
+                  <h3 className="text-sm sm:text-lg font-bold group-hover:text-primary transition-smooth line-clamp-2">
+                    {book.title}
+                  </h3>
+                  <div className="flex justify-between items-center mt-1">
+                    <p className="text-xs sm:text-sm text-muted-foreground">Class {book.class} • {book.subject}</p>
+                    <Badge variant="outline" className="text-xs">{book.chapters} Chapters</Badge>
+                  </div>
+                </div>
 
-              {/* AI Features */}
-              <div className="space-y-2">
-                <h4 className="text-xs sm:text-sm font-semibold flex items-center">
-                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-primary" />
-                  AI Features
-                </h4>
-                <div className="flex flex-wrap gap-1">
-                  {book.aiFeatures.slice(0, 2).map((feature, index) => <Badge key={index} variant="secondary" className="text-xs">
-                      {feature}
-                    </Badge>)}
-                  {book.aiFeatures.length > 2 && <Badge variant="secondary" className="text-xs">
-                      +{book.aiFeatures.length - 2} more
-                    </Badge>}
+                {/* AI Features */}
+                <div className="space-y-2">
+                  <h4 className="text-xs sm:text-sm font-semibold flex items-center">
+                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-primary" />
+                    AI Features
+                  </h4>
+                  <div className="flex flex-wrap gap-1">
+                    {book.aiFeatures.slice(0, 2).map((feature, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {feature}
+                      </Badge>
+                    ))}
+                    {book.aiFeatures.length > 2 && (
+                      <Badge variant="secondary" className="text-xs">
+                        +{book.aiFeatures.length - 2} more
+                      </Badge>
+                    )}
+                  </div>
                 </div>
-              </div>
-              
-              <div className="text-xs text-muted-foreground">
-                Last accessed: {book.lastAccessed}
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-2">
-                <Link to={`/chat/${book.id}`}>
-                  <Button className="w-full gradient-primary text-xs py-2">
-                    <MessageCircle className="h-3 w-3 mr-1" />
-                    AI Chat
-                  </Button>
-                </Link>
-                <Link to={`/practice?book=${book.id}`}>
-                  <Button variant="outline" className="w-full text-xs py-2">
-                    <BrainCircuit className="h-3 w-3 mr-1" />
-                    Practice
-                  </Button>
-                </Link>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-2">
-                <Link to={`/quiz?book=${book.id}`}>
-                  <Button variant="outline" className="w-full text-xs py-2">
-                    <Trophy className="h-3 w-3 mr-1" />
-                    Quiz
-                  </Button>
-                </Link>
-                <Link to={`/games?book=${book.id}`}>
-                  <Button variant="outline" className="w-full text-xs py-2">
-                    <Gamepad2 className="h-3 w-3 mr-1" />
-                    Games
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>)}
+                
+                <div className="text-xs text-muted-foreground">
+                  Last accessed: {book.lastAccessed}
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-2">
+                  <Link to={`/chat/${book.id}`}>
+                    <Button className="w-full gradient-primary text-xs py-2">
+                      <MessageCircle className="h-3 w-3 mr-1" />
+                      AI Chat
+                    </Button>
+                  </Link>
+                  <Link to={`/practice?book=${book.id}`}>
+                    <Button variant="outline" className="w-full text-xs py-2">
+                      <BrainCircuit className="h-3 w-3 mr-1" />
+                      Practice
+                    </Button>
+                  </Link>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2">
+                  <Link to={`/quiz?book=${book.id}`}>
+                    <Button variant="outline" className="w-full text-xs py-2">
+                      <Trophy className="h-3 w-3 mr-1" />
+                      Quiz
+                    </Button>
+                  </Link>
+                  <Link to={`/games?book=${book.id}`}>
+                    <Button variant="outline" className="w-full text-xs py-2">
+                      <Gamepad2 className="h-3 w-3 mr-1" />
+                      Games
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
-      {filteredBooks.length === 0 && <div className="text-center py-12">
+      {filteredBooks.length === 0 && (
+        <div className="text-center py-12">
           <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
           <h3 className="text-xl font-semibold mb-2">No books found</h3>
           <p className="text-muted-foreground">
             Try adjusting your search criteria or filters.
           </p>
-        </div>}
-    </div>;
+        </div>
+      )}
+    </div>
+  );
 };
+
 export default Books;

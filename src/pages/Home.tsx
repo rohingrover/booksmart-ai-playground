@@ -265,38 +265,27 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {aiFeatures.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <Card key={index} className="shadow-card hover:shadow-elegant transition-all duration-500 text-center group hover:scale-105 bg-card/80 backdrop-blur-sm border-0 overflow-hidden">
-                  <CardContent className="p-8 relative">
-                    <div className={`w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-lg group-hover:animate-bounce-subtle`}>
-                      <Icon className="h-10 w-10 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors">{feature.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* Platform Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {platformFeatures.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <div key={index} className="group p-8 rounded-2xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300 hover:scale-105 border border-border/50">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:shadow-lg transition-all duration-300">
-                    <Icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-3 text-foreground">{feature.title}</h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
+          {/* Main AI Features - Simplified */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 max-w-4xl mx-auto">
+            <Card className="shadow-card hover:shadow-elegant transition-all duration-500 text-center group hover:scale-105 bg-card/80 backdrop-blur-sm border-0 overflow-hidden">
+              <CardContent className="p-8 relative">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg group-hover:animate-bounce-subtle">
+                  <Brain className="h-10 w-10 text-white" />
                 </div>
-              );
-            })}
+                <h3 className="text-xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors">Smart AI Tutor</h3>
+                <p className="text-muted-foreground leading-relaxed">Get personalized explanations and step-by-step solutions tailored to your learning style with 24/7 AI support.</p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-card hover:shadow-elegant transition-all duration-500 text-center group hover:scale-105 bg-card/80 backdrop-blur-sm border-0 overflow-hidden">
+              <CardContent className="p-8 relative">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:animate-bounce-subtle">
+                  <Target className="h-10 w-10 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors">Personalized Learning</h3>
+                <p className="text-muted-foreground leading-relaxed">Our AI analyzes your learning patterns and creates customized study plans with progress tracking and analytics.</p>
+              </CardContent>
+            </Card>
           </div>
           
           {/* Stats Section */}

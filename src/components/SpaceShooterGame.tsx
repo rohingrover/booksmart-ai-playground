@@ -9,16 +9,16 @@ import {
   PlayCircle,
   PauseCircle,
   RotateCcw,
-  Trophy
+  Trophy,
+  Brain
 } from 'lucide-react';
 
 interface Enemy {
   id: number;
   x: number;
   y: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
+  answer: string;
+  isCorrect: boolean;
   speed: number;
 }
 
@@ -26,7 +26,6 @@ interface Bullet {
   id: number;
   x: number;
   y: number;
-  answer: number;
 }
 
 const SpaceShooterGame = () => {
@@ -39,6 +38,7 @@ const SpaceShooterGame = () => {
   const [bullets, setBullets] = useState<Bullet[]>([]);
   const [gameOver, setGameOver] = useState(false);
   const [level, setLevel] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState<any>(null);
 
   const questions = [
     {
@@ -68,31 +68,35 @@ const SpaceShooterGame = () => {
     }
   ];
 
-  const spawnEnemy = useCallback(() => {
-    if (!gameRunning) return;
+  const spawnQuestion = useCallback(() => {
+    if (!gameRunning || currentQuestion) return;
     
     const questionData = questions[Math.floor(Math.random() * questions.length)];
-    const newEnemy: Enemy = {
-      id: Date.now(),
-      x: Math.random() * 80 + 10,
-      y: 0,
-      question: questionData.question,
-      options: questionData.options,
-      correctAnswer: questionData.correct,
-      speed: 0.5 + (level * 0.1)
-    };
+    setCurrentQuestion(questionData);
     
-    setEnemies(prev => [...prev, newEnemy]);
-  }, [gameRunning, level]);
+    // Spawn 4 answer options as enemies
+    questionData.options.forEach((option, index) => {
+      setTimeout(() => {
+        const newEnemy: Enemy = {
+          id: Date.now() + index,
+          x: 20 + (index * 20), // Spread across the screen
+          y: 0,
+          answer: option,
+          isCorrect: index === questionData.correct,
+          speed: 0.8 + (level * 0.1)
+        };
+        setEnemies(prev => [...prev, newEnemy]);
+      }, index * 500); // Stagger the spawning
+    });
+  }, [gameRunning, level, currentQuestion]);
 
-  const shootBullet = (answerIndex: number) => {
+  const shootBullet = () => {
     if (!gameRunning) return;
     
     const newBullet: Bullet = {
       id: Date.now(),
       x: playerX,
-      y: 85,
-      answer: answerIndex
+      y: 85
     };
     
     setBullets(prev => [...prev, newBullet]);
@@ -147,14 +151,18 @@ const SpaceShooterGame = () => {
                 const bulletIndex = remainingBullets.findIndex(b => b.id === bullet.id);
                 if (bulletIndex > -1) remainingBullets.splice(bulletIndex, 1);
                 
-                if (bullet.answer === enemy.correctAnswer) {
+                if (enemy.isCorrect) {
                   // Correct answer
                   setScore(s => s + 10 * level);
-                  remainingEnemies.splice(enemyIndex, 1);
+                  // Clear all enemies and current question
+                  remainingEnemies.length = 0;
+                  setCurrentQuestion(null);
                 } else {
                   // Wrong answer
                   setLives(l => l - 1);
-                  remainingEnemies.splice(enemyIndex, 1);
+                  // Clear all enemies and current question
+                  remainingEnemies.length = 0;
+                  setCurrentQuestion(null);
                 }
               }
             });
@@ -167,18 +175,16 @@ const SpaceShooterGame = () => {
       });
     }, 50);
 
-    // Spawn enemies
+    // Spawn questions
     const spawnInterval = setInterval(() => {
-      if (Math.random() < 0.3) {
-        spawnEnemy();
-      }
-    }, 2000);
+      spawnQuestion();
+    }, 3000);
 
     return () => {
       clearInterval(gameLoop);
       clearInterval(spawnInterval);
     };
-  }, [gameRunning, level, spawnEnemy]);
+  }, [gameRunning, level, spawnQuestion]);
 
   useEffect(() => {
     if (lives <= 0) {
@@ -197,8 +203,9 @@ const SpaceShooterGame = () => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') movePlayer('left');
       if (e.key === 'ArrowRight') movePlayer('right');
-      if (e.key >= '1' && e.key <= '4') {
-        shootBullet(parseInt(e.key) - 1);
+      if (e.key === ' ') {
+        e.preventDefault();
+        shootBullet();
       }
     };
 
@@ -216,6 +223,7 @@ const SpaceShooterGame = () => {
     setBullets([]);
     setGameOver(false);
     setLevel(1);
+    setCurrentQuestion(null);
   };
 
   const togglePause = () => {
@@ -232,6 +240,7 @@ const SpaceShooterGame = () => {
     setEnemies([]);
     setBullets([]);
     setLevel(1);
+    setCurrentQuestion(null);
   };
 
   if (!gameStarted) {
@@ -248,23 +257,23 @@ const SpaceShooterGame = () => {
             <Target className="h-16 w-16 text-primary mx-auto mb-4 animate-bounce-subtle" />
             <h3 className="text-xl font-bold mb-3">Defend Earth with Knowledge!</h3>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Enemy ships approach with questions! Shoot them down with the correct answers. 
-              Use arrow keys to move and number keys (1-4) to shoot answers.
+              Answer options fall from space! Read the question at the top, then shoot the correct answer. 
+              Use arrow keys to move and spacebar to shoot.
             </p>
           </div>
           
-          <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-            <div className="p-3 bg-accent/50 rounded-lg">
-              <strong>Controls:</strong><br />
-              ← → Arrow keys to move<br />
-              1-4 Number keys to shoot
+            <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+              <div className="p-3 bg-accent/50 rounded-lg">
+                <strong>Controls:</strong><br />
+                ← → Arrow keys to move<br />
+                Spacebar to shoot
+              </div>
+              <div className="p-3 bg-accent/50 rounded-lg">
+                <strong>Scoring:</strong><br />
+                +10 points per correct answer<br />
+                Lose life for wrong answers
+              </div>
             </div>
-            <div className="p-3 bg-accent/50 rounded-lg">
-              <strong>Scoring:</strong><br />
-              +10 points per correct answer<br />
-              Lose life for wrong answers
-            </div>
-          </div>
           
           <Button onClick={startGame} className="gradient-primary text-lg px-8 py-3">
             <PlayCircle className="mr-2 h-5 w-5" />
@@ -298,6 +307,14 @@ const SpaceShooterGame = () => {
       </CardHeader>
       
       <CardContent className="p-0">
+        {/* Current Question Display */}
+        {currentQuestion && (
+          <div className="p-4 bg-primary text-primary-foreground text-center">
+            <h3 className="text-lg font-bold">{currentQuestion.question}</h3>
+            <p className="text-sm opacity-90 mt-1">Shoot the correct answer!</p>
+          </div>
+        )}
+
         {/* Game Area */}
         <div className="relative h-96 bg-gradient-to-b from-blue-900 to-black overflow-hidden">
           {/* Stars */}
@@ -323,15 +340,15 @@ const SpaceShooterGame = () => {
             <div className="absolute inset-1 bg-green-600 rounded-full"></div>
           </div>
           
-          {/* Enemies */}
+          {/* Answer Options as Enemies */}
           {enemies.map(enemy => (
             <div 
               key={enemy.id}
-              className="absolute w-16 h-20 bg-red-500 rounded-lg shadow-lg transition-all"
+              className={`absolute w-20 h-16 ${enemy.isCorrect ? 'bg-green-500' : 'bg-red-500'} rounded-lg shadow-lg transition-all flex items-center justify-center`}
               style={{ left: `${enemy.x}%`, top: `${enemy.y}%`, transform: 'translateX(-50%)' }}
             >
-              <div className="p-1 text-xs text-white text-center font-bold">
-                {enemy.question.slice(0, 15)}...
+              <div className="text-xs text-white text-center font-bold px-1">
+                {enemy.answer}
               </div>
             </div>
           ))}
@@ -355,29 +372,28 @@ const SpaceShooterGame = () => {
               </div>
             </div>
           )}
+
+          {!currentQuestion && !gameOver && enemies.length === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center text-white">
+                <Brain className="h-12 w-12 mx-auto mb-4 animate-pulse" />
+                <p className="text-lg">Get ready for the next question...</p>
+              </div>
+            </div>
+          )}
         </div>
         
-        {/* Current Question */}
-        {enemies.length > 0 && (
-          <div className="p-4 bg-accent/20 border-t">
-            <h4 className="font-semibold mb-2">Incoming Question:</h4>
-            <p className="mb-3 text-sm">{enemies[0]?.question}</p>
-            <div className="grid grid-cols-2 gap-2">
-              {enemies[0]?.options.map((option, index) => (
-                <Button
-                  key={index}
-                  size="sm"
-                  variant="outline"
-                  onClick={() => shootBullet(index)}
-                  disabled={!gameRunning}
-                  className="text-xs"
-                >
-                  {index + 1}. {option}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Shoot Button */}
+        <div className="p-4 border-t bg-muted/20 text-center">
+          <Button
+            onClick={shootBullet}
+            disabled={!gameRunning}
+            className="gradient-primary px-8 py-2 mb-2"
+          >
+            <Zap className="h-4 w-4 mr-2" />
+            Shoot (Spacebar)
+          </Button>
+        </div>
         
         {/* Controls */}
         <div className="p-4 border-t bg-muted/20">
@@ -408,7 +424,7 @@ const SpaceShooterGame = () => {
             </Button>
           </div>
           <p className="text-xs text-center mt-2 text-muted-foreground">
-            Use keyboard: Arrow keys to move, 1-4 to shoot answers
+            Use keyboard: Arrow keys to move, Spacebar to shoot
           </p>
         </div>
       </CardContent>
