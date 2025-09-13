@@ -20,6 +20,7 @@ interface PracticeTestSetupProps {
 
 const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
   const [selectedBook, setSelectedBook] = useState('');
+  const [selectedChapter, setSelectedChapter] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [questionCount, setQuestionCount] = useState([10]);
   const [questionTypes, setQuestionTypes] = useState({
@@ -29,10 +30,10 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
   });
 
   const books = [
-    { id: 1, title: 'Mathematics Class 10', subject: 'Mathematics', board: 'CBSE' },
-    { id: 2, title: 'Science Class 9', subject: 'Science', board: 'NCERT' },
-    { id: 3, title: 'English Literature', subject: 'English', board: 'ICSE' },
-    { id: 4, title: 'History Class 8', subject: 'History', board: 'CBSE' }
+    { id: 1, title: 'Mathematics Class 10', subject: 'Mathematics', board: 'CBSE', chapters: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics', 'Probability'] },
+    { id: 2, title: 'Science Class 9', subject: 'Science', board: 'NCERT', chapters: ['Physics', 'Chemistry', 'Biology', 'Environmental Science'] },
+    { id: 3, title: 'English Literature', subject: 'English', board: 'ICSE', chapters: ['Poetry', 'Prose', 'Grammar', 'Writing Skills', 'Literature Analysis'] },
+    { id: 4, title: 'History Class 8', subject: 'History', board: 'CBSE', chapters: ['Ancient India', 'Medieval Period', 'British Rule', 'Independence Movement'] }
   ];
 
   const handleStart = () => {
@@ -43,6 +44,7 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
 
     const settings = {
       book: selectedBook,
+      chapter: selectedChapter,
       difficulty: selectedDifficulty,
       questionCount: questionCount[0],
       questionTypes
@@ -95,7 +97,7 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
                 <SelectTrigger>
                   <SelectValue placeholder="Choose a book" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background z-50 border shadow-lg">
                   {books.map((book) => (
                     <SelectItem key={book.id} value={book.title}>
                       <div className="flex items-center space-x-2">
@@ -118,7 +120,7 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
                 <SelectTrigger>
                   <SelectValue placeholder="Choose difficulty" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background z-50 border shadow-lg">
                   <SelectItem value="easy">
                     <div className="flex items-center space-x-2">
                       <Badge className="bg-success text-success-foreground">Easy</Badge>

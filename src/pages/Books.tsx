@@ -246,7 +246,7 @@ const Books = () => {
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Board" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-background z-50 border shadow-lg">
                 <SelectItem value="all">All Boards</SelectItem>
                 <SelectItem value="CBSE">CBSE</SelectItem>
                 <SelectItem value="NCERT">NCERT</SelectItem>
@@ -259,7 +259,7 @@ const Books = () => {
                 <BookOpen className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Subject" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-background z-50 border shadow-lg">
                 <SelectItem value="all">All Subjects</SelectItem>
                 <SelectItem value="Mathematics">Mathematics</SelectItem>
                 <SelectItem value="Science">Science</SelectItem>

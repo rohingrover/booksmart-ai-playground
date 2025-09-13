@@ -8,6 +8,7 @@ import QuizResults from '@/components/QuizResults';
 import { Clock, BrainCircuit, Target, Trophy, BookOpen, Play, Settings, Award, TrendingUp } from 'lucide-react';
 const Quiz = () => {
   const [selectedBook, setSelectedBook] = useState('');
+  const [selectedChapter, setSelectedChapter] = useState('');
   const [selectedTime, setSelectedTime] = useState('15');
   const [selectedLevel, setSelectedLevel] = useState('');
   const [questionCount, setQuestionCount] = useState([10]);
@@ -25,22 +26,26 @@ const Quiz = () => {
     id: 1,
     title: 'Mathematics Class 10',
     subject: 'Mathematics',
-    board: 'CBSE'
+    board: 'CBSE',
+    chapters: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics', 'Probability']
   }, {
     id: 2,
     title: 'Science Class 9',
     subject: 'Science',
-    board: 'NCERT'
+    board: 'NCERT',
+    chapters: ['Physics', 'Chemistry', 'Biology', 'Environmental Science']
   }, {
     id: 3,
     title: 'English Literature',
     subject: 'English',
-    board: 'ICSE'
+    board: 'ICSE',
+    chapters: ['Poetry', 'Prose', 'Grammar', 'Writing Skills', 'Literature Analysis']
   }, {
     id: 4,
     title: 'History Class 8',
     subject: 'History',
-    board: 'CBSE'
+    board: 'CBSE',
+    chapters: ['Ancient India', 'Medieval Period', 'British Rule', 'Independence Movement']
   }];
   const recentQuizzes = [{
     id: 1,
@@ -346,12 +351,16 @@ const Quiz = () => {
               {/* Book Selection */}
               <div className="space-y-3">
                 <label className="text-sm font-medium">Select Book</label>
-                <Select value={selectedBook} onValueChange={setSelectedBook}>
+                <Select value={selectedBook} onValueChange={(value) => {
+                  setSelectedBook(value);
+                  setSelectedChapter(''); // Reset chapter when book changes
+                }}>
                   <SelectTrigger>
                     <SelectValue placeholder="Choose a book" />
                   </SelectTrigger>
-                  <SelectContent>
-                    {books.map(book => <SelectItem key={book.id} value={book.title}>
+                  <SelectContent className="bg-background z-50 border shadow-lg">
+                    {books.map(book => (
+                      <SelectItem key={book.id} value={book.title}>
                         <div className="flex items-center space-x-2">
                           <BookOpen className="h-4 w-4" />
                           <span>{book.title}</span>
@@ -359,7 +368,25 @@ const Quiz = () => {
                             {book.board}
                           </Badge>
                         </div>
-                      </SelectItem>)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Chapter Selection */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium">Select Chapter</label>
+                <Select value={selectedChapter} onValueChange={setSelectedChapter} disabled={!selectedBook}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={selectedBook ? "Choose a chapter" : "Select book first"} />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background z-50 border shadow-lg">
+                    {selectedBook && books.find(book => book.title === selectedBook)?.chapters.map((chapter, index) => (
+                      <SelectItem key={index} value={chapter}>
+                        {chapter}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -371,7 +398,7 @@ const Quiz = () => {
                   <SelectTrigger>
                     <SelectValue placeholder="Choose difficulty" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background z-50 border shadow-lg">
                     <SelectItem value="easy">
                       <Badge className="bg-success text-success-foreground mr-2">Easy</Badge>
                       Beginner friendly
@@ -395,7 +422,7 @@ const Quiz = () => {
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background z-50 border shadow-lg">
                     <SelectItem value="5">5 minutes</SelectItem>
                     <SelectItem value="10">10 minutes</SelectItem>
                     <SelectItem value="15">15 minutes</SelectItem>

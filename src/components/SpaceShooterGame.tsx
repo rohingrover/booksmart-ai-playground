@@ -344,7 +344,7 @@ const SpaceShooterGame = () => {
           {enemies.map(enemy => (
             <div 
               key={enemy.id}
-              className={`absolute w-20 h-16 ${enemy.isCorrect ? 'bg-green-500' : 'bg-red-500'} rounded-lg shadow-lg transition-all flex items-center justify-center`}
+              className="absolute w-20 h-16 bg-blue-500 rounded-lg shadow-lg transition-all flex items-center justify-center"
               style={{ left: `${enemy.x}%`, top: `${enemy.y}%`, transform: 'translateX(-50%)' }}
             >
               <div className="text-xs text-white text-center font-bold px-1">
