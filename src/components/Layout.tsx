@@ -10,10 +10,14 @@ import {
   Home,
   Settings,
   User,
-  Library
+  Library,
+  LogOut,
+  ChevronDown
 } from 'lucide-react';
 import AIFloatingBot from './AIFloatingBot';
 import logoImage from '@/assets/oswaal360-logo-new.png';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
   children: ReactNode;
@@ -21,8 +25,21 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   
   const isActive = (path: string) => location.pathname === path;
+  
+  // Mock user data - in real app this would come from auth context
+  const user = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    avatar: "JD"
+  };
+
+  const handleLogout = () => {
+    // In real app, clear auth tokens/session here
+    navigate('/');
+  };
   
   const navItems = [
     { icon: Home, label: 'Dashboard', path: '/dashboard' },
@@ -51,10 +68,41 @@ const Layout = ({ children }: LayoutProps) => {
               <div className="text-xs sm:text-sm text-muted-foreground">
                 <span className="font-medium">Daily Limit:</span> 850/1000 tokens left
               </div>
-              <Button variant="outline" size="sm">
-                <User className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Profile</span>
-              </Button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex items-center space-x-2">
+                    <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
+                      {user.avatar}
+                    </div>
+                    <span className="hidden sm:inline text-sm font-medium">{user.name}</span>
+                    <ChevronDown className="h-3 w-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-background border shadow-lg">
+                  <div className="px-3 py-2">
+                    <p className="text-sm font-medium">{user.name}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer">
+                    <User className="h-4 w-4 mr-2" />
+                    View Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

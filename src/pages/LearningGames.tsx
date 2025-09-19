@@ -371,11 +371,11 @@ const LearningGames = () => {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Games List */}
-        <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-2xl font-semibold flex items-center">
-            <Gamepad2 className="h-6 w-6 mr-2 text-primary" />
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+          <h2 className="text-xl sm:text-2xl font-semibold flex items-center">
+            <Gamepad2 className="h-5 w-5 sm:h-6 sm:w-6 mr-2 text-primary" />
             Available Games
           </h2>
           
@@ -384,16 +384,16 @@ const LearningGames = () => {
               const Icon = game.icon;
               return (
                 <Card key={game.id} className="shadow-card hover:shadow-elegant transition-smooth">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start space-x-4">
-                        <div className={`p-4 rounded-lg ${game.color}`}>
-                          <Icon className="h-8 w-8 text-white" />
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between space-y-4 sm:space-y-0">
+                      <div className="flex items-start space-x-3 sm:space-x-4">
+                        <div className={`p-3 sm:p-4 rounded-lg ${game.color}`}>
+                          <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                         </div>
                         
                         <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            <h3 className="text-xl font-bold">{game.title}</h3>
+                          <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2">
+                            <h3 className="text-lg sm:text-xl font-bold">{game.title}</h3>
                             <Badge variant="outline">{game.difficulty}</Badge>
                             <div className="flex items-center text-sm text-muted-foreground">
                               <Users className="h-4 w-4 mr-1" />
@@ -401,7 +401,7 @@ const LearningGames = () => {
                             </div>
                           </div>
                           
-                          <p className="text-muted-foreground mb-3">{game.description}</p>
+                          <p className="text-sm sm:text-base text-muted-foreground mb-3">{game.description}</p>
                           
                           <div className="flex flex-wrap gap-2">
                             {game.features.map((feature, index) => (
@@ -423,7 +423,7 @@ const LearningGames = () => {
                             startSpaceShooter();
                           }
                         }}
-                        className="gradient-primary"
+                        className="gradient-primary w-full sm:w-auto"
                       >
                         <Play className="h-4 w-4 mr-2" />
                         Play Now

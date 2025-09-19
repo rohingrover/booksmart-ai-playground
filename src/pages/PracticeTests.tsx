@@ -220,21 +220,21 @@ const PracticeTests = () => {
         </CardContent>
       </Card>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Main Question Area */}
         <div className="lg:col-span-2 space-y-4">
           {/* Question Card */}
           <Card className="shadow-elegant">
             <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-xl mb-2">{currentQ.question}</CardTitle>
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
+                <div className="flex-1">
+                  <CardTitle className="text-lg sm:text-xl mb-2">{currentQ.question}</CardTitle>
                   <CardDescription className="flex items-center">
                     <BookOpen className="h-4 w-4 mr-1" />
                     {currentQ.concept}
                   </CardDescription>
                 </div>
-                <Badge variant="outline" className="ml-4">
+                <Badge variant="outline" className="self-start sm:ml-4">
                   Mathematics
                 </Badge>
               </div>
@@ -247,7 +247,7 @@ const PracticeTests = () => {
                   <div
                     key={index}
                     onClick={() => handleAnswerSelect(option)}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-smooth ${
+                    className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-smooth ${
                       selectedAnswer === option
                         ? 'border-primary bg-primary/10'
                         : 'border-border hover:border-primary/50'
@@ -260,7 +260,7 @@ const PracticeTests = () => {
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-medium">{option}</span>
+                      <span className="font-medium text-sm sm:text-base">{option}</span>
                       {getAnswerStatus(option) === 'correct' && (
                         <CheckCircle className="h-5 w-5 text-success" />
                       )}
@@ -323,11 +323,12 @@ const PracticeTests = () => {
           </Card>
 
           {/* Navigation */}
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
             <Button
               onClick={handlePrevious}
               variant="outline"
               disabled={currentQuestion === 0}
+              className="w-full sm:w-auto"
             >
               <ChevronLeft className="h-4 w-4 mr-2" />
               Previous
@@ -337,7 +338,7 @@ const PracticeTests = () => {
               <Button
                 onClick={handleNext}
                 disabled={currentQuestion === questions.length - 1}
-                className="gradient-primary"
+                className="gradient-primary w-full sm:w-auto"
               >
                 Next
                 <ChevronRight className="h-4 w-4 ml-2" />
