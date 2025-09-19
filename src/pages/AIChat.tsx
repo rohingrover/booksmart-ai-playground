@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   Send, 
   BookOpen, 
@@ -132,9 +133,9 @@ const AIChat = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-4 gap-6 h-[calc(100vh-200px)] animate-fade-in">
+    <div className="grid lg:grid-cols-4 gap-4 sm:gap-6 h-[calc(100vh-200px)] animate-fade-in">
       {/* Sidebar - Book Selection & Suggested Questions */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-4 sm:space-y-6">
         {/* Book Selection Dropdown */}
         <Card className="shadow-card">
           <CardHeader>
@@ -144,17 +145,24 @@ const AIChat = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <select
-              value={selectedBook}
-              onChange={(e) => setSelectedBook(e.target.value)}
-              className="w-full p-3 border-2 border-border rounded-xl bg-background text-foreground font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-smooth hover:border-primary/30 shadow-sm"
-            >
-              {books.map((book) => (
-                <option key={book.id} value={book.title}>
-                  {book.title} ({book.board})
-                </option>
-              ))}
-            </select>
+            <Select value={selectedBook} onValueChange={setSelectedBook}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose a book" />
+              </SelectTrigger>
+              <SelectContent className="bg-background z-50 border shadow-lg">
+                {books.map((book) => (
+                  <SelectItem key={book.id} value={book.title}>
+                    <div className="flex items-center space-x-2">
+                      <BookOpen className="h-4 w-4" />
+                      <span>{book.title}</span>
+                      <Badge variant="secondary" className="ml-2">
+                        {book.board}
+                      </Badge>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </CardContent>
         </Card>
 
@@ -167,16 +175,16 @@ const AIChat = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-80">
+            <ScrollArea className="h-60 sm:h-80">
               <div className="space-y-2">
                 {getBookQuestions(selectedBook).map((question, index) => (
                   <div
                     key={index}
                     onClick={() => handleQuestionClick(question)}
-                    className="p-3 text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
+                    className="p-2 sm:p-3 text-xs sm:text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
                   >
                     <div className="flex items-start space-x-2">
-                      <Lightbulb className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
+                      <Lightbulb className="h-3 w-3 sm:h-4 sm:w-4 text-warning flex-shrink-0 mt-0.5" />
                       <span className="text-wrap group-hover:text-primary transition-colors">
                         {question}
                       </span>
@@ -235,8 +243,8 @@ const AIChat = () => {
             </ScrollArea>
 
             {/* Input Area */}
-            <div className="p-6 border-t bg-muted/30">
-              <div className="flex space-x-3">
+            <div className="p-4 sm:p-6 border-t bg-muted/30">
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                 <Input
                   placeholder="Ask me anything about your book..."
                   value={message}
@@ -246,25 +254,25 @@ const AIChat = () => {
                 />
                 <Button
                   onClick={handleSendMessage}
-                  className="gradient-primary px-6"
+                  className="gradient-primary px-4 sm:px-6"
                   disabled={!message.trim()}
                 >
                   <Send className="h-4 w-4 mr-2" />
-                  Send
+                  <span className="hidden sm:inline">Send</span>
                 </Button>
               </div>
               
-              <div className="flex flex-wrap gap-2 mt-3">
+              <div className="flex flex-wrap gap-1 sm:gap-2 mt-3">
                 <Badge variant="outline" className="text-xs">
                   💡 Ask for examples
                 </Badge>
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-xs hidden sm:inline-flex">
                   🔍 Request explanations
                 </Badge>
                 <Badge variant="outline" className="text-xs">
                   📝 Get practice problems
                 </Badge>
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-xs hidden sm:inline-flex">
                   🎯 Check solutions
                 </Badge>
               </div>
