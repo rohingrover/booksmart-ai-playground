@@ -13,7 +13,7 @@ import {
   Library
 } from 'lucide-react';
 import AIFloatingBot from './AIFloatingBot';
-import logoImage from '@/assets/oswaal360-logo.png';
+import logoImage from '@/assets/oswaal360-logo-new.png';
 
 interface LayoutProps {
   children: ReactNode;
@@ -39,22 +39,18 @@ const Layout = ({ children }: LayoutProps) => {
       <header className="bg-card shadow-card border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex items-center">
               <img 
                 src={logoImage} 
                 alt="Oswaal360 Logo" 
                 className="h-8 sm:h-10 w-auto"
               />
-              <div className="hidden sm:block">
-                <p className="text-xs sm:text-sm text-muted-foreground">Smart Learning Platform</p>
-              </div>
             </div>
             
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <Button variant="ghost" size="sm" className="hidden sm:flex">
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
-              </Button>
+              <div className="text-xs sm:text-sm text-muted-foreground">
+                <span className="font-medium">Daily Limit:</span> 850/1000 tokens left
+              </div>
               <Button variant="outline" size="sm">
                 <User className="h-4 w-4 sm:mr-2" />
                 <span className="hidden sm:inline">Profile</span>
