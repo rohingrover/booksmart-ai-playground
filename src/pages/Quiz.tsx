@@ -463,45 +463,51 @@ const Quiz = () => {
           </h2>
           <div className="grid gap-4">
             {recentQuizzes.map(quiz => <Card key={quiz.id} className="shadow-card hover:shadow-elegant transition-smooth">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="gradient-primary p-3 rounded-full">
-                        <Trophy className="h-6 w-6 text-white" />
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+                    <div className="flex items-center space-x-3 sm:space-x-4">
+                      <div className="gradient-primary p-2 sm:p-3 rounded-full">
+                        <Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg">{quiz.title}</h3>
-                        <p className="text-muted-foreground">{quiz.subject}</p>
+                        <h3 className="font-semibold text-base sm:text-lg">{quiz.title}</h3>
+                        <p className="text-muted-foreground text-sm">{quiz.subject}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-6">
+                    <div className="flex items-center justify-between sm:justify-end sm:space-x-6">
                       <div className="text-center">
-                        <p className={`text-2xl font-bold ${getScoreColor(quiz.score)}`}>
+                        <p className={`text-xl sm:text-2xl font-bold ${getScoreColor(quiz.score)}`}>
                           {quiz.score}%
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           {quiz.score * quiz.totalQuestions / 100}/{quiz.totalQuestions}
                         </p>
                       </div>
                       
                       <div className="text-center">
-                        <p className="text-lg font-medium">{quiz.timeSpent}</p>
-                        <p className="text-sm text-muted-foreground">Time</p>
+                        <p className="text-base sm:text-lg font-medium">{quiz.timeSpent}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Time</p>
                       </div>
                       
-                      <Badge className={getDifficultyColor(quiz.difficulty)}>
-                        {quiz.difficulty}
-                      </Badge>
-                      
-                      <div className="text-right">
-                        <p className="text-sm text-muted-foreground">{quiz.date}</p>
-                        <Button variant="outline" size="sm">
-                          <Award className="h-4 w-4 mr-1" />
-                          Review
-                        </Button>
+                      <div className="flex flex-col items-center space-y-2 sm:space-y-0 sm:items-end">
+                        <Badge className={getDifficultyColor(quiz.difficulty)} variant="secondary">
+                          {quiz.difficulty}
+                        </Badge>
+                        <p className="text-xs text-muted-foreground">{quiz.date}</p>
                       </div>
+                      
+                      <Button variant="outline" size="sm" className="hidden sm:flex">
+                        <Award className="h-4 w-4 mr-1" />
+                        Review
+                      </Button>
                     </div>
+                    
+                    {/* Mobile Review Button */}
+                    <Button variant="outline" size="sm" className="w-full sm:hidden">
+                      <Award className="h-4 w-4 mr-1" />
+                      Review
+                    </Button>
                   </div>
                 </CardContent>
               </Card>)}

@@ -202,6 +202,16 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
   .animate-fade-in {
     animation: fade-in 0.8s ease-out;
   }
+
+  /* Hide scrollbars but keep scrolling functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
 }
 
 @keyframes float {

@@ -228,7 +228,7 @@ const AIChat = () => {
       </div>
 
       {/* Main Chat Area - Second on mobile, spanning 3 cols on desktop */}
-      <div className="lg:col-span-3 flex-1 min-h-[400px]">
+      <div className="lg:col-span-3 flex-1 min-h-[400px] lg:min-h-[600px]">
         <Card className="h-full shadow-elegant flex flex-col">
           <CardHeader className="gradient-primary text-white">
             <CardTitle className="flex items-center">
@@ -240,7 +240,7 @@ const AIChat = () => {
           
           <CardContent className="flex-1 flex flex-col p-0">
             {/* Messages */}
-            <ScrollArea className="flex-1 p-6">
+            <ScrollArea className="flex-1 p-3 sm:p-6 min-h-[300px] lg:min-h-[400px]">
               <div className="space-y-4">
                 {messages.map((msg) => (
                   <div
@@ -248,7 +248,7 @@ const AIChat = () => {
                     className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}
                   >
                     <div
-                      className={`max-w-[80%] p-4 rounded-lg ${
+                      className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-lg ${
                         msg.isBot
                           ? 'bg-accent text-accent-foreground'
                           : 'gradient-primary text-white'
@@ -272,46 +272,48 @@ const AIChat = () => {
               </div>
             </ScrollArea>
 
-            {/* Input Area */}
-            <div className="p-4 sm:p-6 border-t bg-muted/30">
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                <Input
-                  placeholder="Ask me anything about your book..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="flex-1 bg-background"
-                />
-                <Button
-                  onClick={handleSendMessage}
-                  className="gradient-primary px-4 sm:px-6"
-                  disabled={!message.trim()}
-                >
-                  <Send className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Send</span>
-                </Button>
-              </div>
-              
-              <div className="flex flex-wrap gap-1 sm:gap-2 mt-3">
-                <Badge variant="outline" className="text-xs">
-                  💡 Ask for examples
-                </Badge>
-                <Badge variant="outline" className="text-xs hidden sm:inline-flex">
-                  🔍 Request explanations
-                </Badge>
-                <Badge variant="outline" className="text-xs">
-                  📝 Get practice problems
-                </Badge>
-                <Badge variant="outline" className="text-xs hidden sm:inline-flex">
-                  🎯 Check solutions
-                </Badge>
+            {/* Input Area - Fixed at bottom */}
+            <div className="p-3 sm:p-4 lg:p-6 border-t bg-muted/30 mt-auto">
+              <div className="flex flex-col space-y-3">
+                <div className="flex space-x-2">
+                  <Input
+                    placeholder="Ask me anything about your book..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    className="flex-1 bg-background h-10 sm:h-11"
+                  />
+                  <Button
+                    onClick={handleSendMessage}
+                    className="gradient-primary px-3 sm:px-4 h-10 sm:h-11 shrink-0"
+                    disabled={!message.trim()}
+                  >
+                    <Send className="h-4 w-4" />
+                    <span className="sr-only">Send</span>
+                  </Button>
+                </div>
+                
+                <div className="flex flex-wrap gap-1 sm:gap-2">
+                  <Badge variant="outline" className="text-xs">
+                    💡 Ask for examples
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    📝 Get practice problems  
+                  </Badge>
+                  <Badge variant="outline" className="text-xs hidden sm:inline-flex">
+                    🔍 Request explanations
+                  </Badge>
+                  <Badge variant="outline" className="text-xs hidden sm:inline-flex">
+                    🎯 Check solutions
+                  </Badge>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Quick Questions - Third on mobile (after chat) */}
+      {/* Quick Questions - Third on mobile (after chat) - Show only 3 questions */}
       <div className="lg:hidden">
         <Card className="shadow-card">
           <CardHeader>
@@ -321,24 +323,27 @@ const AIChat = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-60">
-              <div className="space-y-2">
-                {getBookQuestions(selectedBook).map((question, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleQuestionClick(question)}
-                    className="p-2 sm:p-3 text-xs sm:text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
-                  >
-                    <div className="flex items-start space-x-2">
-                      <Lightbulb className="h-3 w-3 sm:h-4 sm:w-4 text-warning flex-shrink-0 mt-0.5" />
-                      <span className="text-wrap group-hover:text-primary transition-colors">
-                        {question}
-                      </span>
-                    </div>
+            <div className="space-y-2">
+              {getBookQuestions(selectedBook).slice(0, 3).map((question, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleQuestionClick(question)}
+                  className="p-3 text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
+                >
+                  <div className="flex items-start space-x-2">
+                    <Lightbulb className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
+                    <span className="text-wrap group-hover:text-primary transition-colors">
+                      {question}
+                    </span>
                   </div>
-                ))}
-              </div>
-            </ScrollArea>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-center">
+              <Badge variant="outline" className="text-xs text-muted-foreground">
+                {getBookQuestions(selectedBook).length - 3} more questions available
+              </Badge>
+            </div>
           </CardContent>
         </Card>
       </div>
