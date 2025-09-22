@@ -133,10 +133,41 @@ const AIChat = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-4 gap-4 sm:gap-6 h-[calc(100vh-200px)] animate-fade-in">
-      {/* Sidebar - Book Selection & Suggested Questions */}
-      <div className="lg:col-span-1 space-y-4 sm:space-y-6">
-        {/* Book Selection Dropdown */}
+    <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 sm:gap-6 h-[calc(100vh-200px)] animate-fade-in">
+      {/* Book Selection Dropdown - Always at top on mobile */}
+      <div className="lg:hidden">
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center text-lg">
+              <BookOpen className="h-5 w-5 mr-2 text-primary" />
+              Select Book
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Select value={selectedBook} onValueChange={setSelectedBook}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose a book" />
+              </SelectTrigger>
+              <SelectContent className="bg-background z-50 border shadow-lg">
+                {books.map((book) => (
+                  <SelectItem key={book.id} value={book.title}>
+                    <div className="flex items-center space-x-2">
+                      <BookOpen className="h-4 w-4" />
+                      <span>{book.title}</span>
+                      <Badge variant="secondary" className="ml-2">
+                        {book.board}
+                      </Badge>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Desktop Sidebar - Book Selection & Quick Questions */}
+      <div className="hidden lg:block lg:col-span-1 space-y-6">
         <Card className="shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center text-lg">
@@ -166,7 +197,6 @@ const AIChat = () => {
           </CardContent>
         </Card>
 
-        {/* Suggested Questions */}
         <Card className="shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center text-lg">
@@ -175,16 +205,16 @@ const AIChat = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-60 sm:h-80">
+            <ScrollArea className="h-80">
               <div className="space-y-2">
                 {getBookQuestions(selectedBook).map((question, index) => (
                   <div
                     key={index}
                     onClick={() => handleQuestionClick(question)}
-                    className="p-2 sm:p-3 text-xs sm:text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
+                    className="p-3 text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
                   >
                     <div className="flex items-start space-x-2">
-                      <Lightbulb className="h-3 w-3 sm:h-4 sm:w-4 text-warning flex-shrink-0 mt-0.5" />
+                      <Lightbulb className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
                       <span className="text-wrap group-hover:text-primary transition-colors">
                         {question}
                       </span>
@@ -197,8 +227,8 @@ const AIChat = () => {
         </Card>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="lg:col-span-3">
+      {/* Main Chat Area - Second on mobile, spanning 3 cols on desktop */}
+      <div className="lg:col-span-3 flex-1 min-h-[400px]">
         <Card className="h-full shadow-elegant flex flex-col">
           <CardHeader className="gradient-primary text-white">
             <CardTitle className="flex items-center">
@@ -277,6 +307,38 @@ const AIChat = () => {
                 </Badge>
               </div>
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Questions - Third on mobile (after chat) */}
+      <div className="lg:hidden">
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center text-lg">
+              <HelpCircle className="h-5 w-5 mr-2 text-primary" />
+              Quick Questions for {selectedBook.split(' ')[0]}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-60">
+              <div className="space-y-2">
+                {getBookQuestions(selectedBook).map((question, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleQuestionClick(question)}
+                    className="p-2 sm:p-3 text-xs sm:text-sm border border-border rounded-lg hover:bg-accent cursor-pointer transition-smooth group"
+                  >
+                    <div className="flex items-start space-x-2">
+                      <Lightbulb className="h-3 w-3 sm:h-4 sm:w-4 text-warning flex-shrink-0 mt-0.5" />
+                      <span className="text-wrap group-hover:text-primary transition-colors">
+                        {question}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
           </CardContent>
         </Card>
       </div>
