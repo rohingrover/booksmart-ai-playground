@@ -195,7 +195,7 @@ const Home = () => {
         <div className="relative max-w-7xl mx-auto text-center">
           <div className="animate-slide-up">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
-              Oswaal Books <span className="text-yellow-300 animate-glow">AI Learning</span>
+              Oswaal Books <span className="text-yellow-300 animate-glow">AI Learning Test</span>
             </h1>
             <p className="text-xl sm:text-2xl lg:text-3xl mb-8 max-w-5xl mx-auto opacity-95 leading-relaxed">
               Transform your Oswaal textbooks into <span className="font-semibold text-blue-200">interactive learning experiences</span> with 
