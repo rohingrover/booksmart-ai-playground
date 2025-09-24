@@ -14,7 +14,7 @@ import historyBookCover from '@/assets/history-book-cover.jpg';
 import defaultImageBook from '@/assets/oswaal360-logo-new.png';
 import { useToast } from '@/hooks/use-toast';
 import CourseExplorer from "./components/CourseExplorer";
-const AI_API_BASE_URL = import.meta.env.VITE_AI_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const Home = () => {
   const [books, setBooks] = useState<any[]>([]);
   const [pagination, setPagination] = useState({
@@ -39,22 +39,34 @@ const Home = () => {
   const fetchBooks = async (page = 1) => {
     try {
       setLoading(true);
-      const params = new URLSearchParams({
-        page: String(page),
-        per_page: String(pagination.per_page)
+
+      const bodyData = {
+        page: page,
+        per_page: pagination.per_page,
+        keyword: '',
+        board_id: '',
+        subject_id: ''
+      };
+
+      if (searchQuery) bodyData.keyword = searchQuery;
+      if (selectedBoard !== "all") bodyData.board_id = selectedBoard;
+      if (selectedSubject !== "all") bodyData.subject_id = selectedSubject;
+
+      const res = await fetch(`${API_BASE_URL}/api/books`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
       });
-      if (searchQuery) params.append("keyword", searchQuery);
-      if (selectedBoard !== "all") params.append("board_id", selectedBoard);
-      if (selectedSubject !== "all") params.append("subject_id", selectedSubject);
-      console.log(params.toString());
-      const res = await fetch(`${AI_API_BASE_URL}/books/?${params.toString()}`);
+
       const data = await res.json();
       setBooks(data.items || []);
       setPagination(data.pagination || {});
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to fetch books"
+        description: "Failed to fetch books",
       });
     } finally {
       setLoading(false);

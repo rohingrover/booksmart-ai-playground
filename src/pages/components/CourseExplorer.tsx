@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-const MOODLE_API_BASE_URL = import.meta.env.VITE_MOODLE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function CourseExplorer({ onBoardChange, onSubjectChange }) {
   
-  const baseURL = MOODLE_API_BASE_URL;
+  const baseURL = API_BASE_URL;
   const [dropdowns, setDropdowns] = useState([]);
 
   // Fetch first-level (Board/Exam)
   useEffect(() => {
-    fetch(`${baseURL}/explore-courses.php?parent=0`)
+    fetch(`${baseURL}/api/explore-courses?parent=0`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status && data.data?.result) {
@@ -30,7 +30,7 @@ function CourseExplorer({ onBoardChange, onSubjectChange }) {
 
     if (hasChild) {
       // Fetch next level (e.g., Class or Subject)
-      fetch(`${baseURL}/explore-courses.php?parent=${selectedId}`)
+      fetch(`${baseURL}/api/explore-courses?parent=${selectedId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status && data.data?.result?.length) {
