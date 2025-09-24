@@ -199,7 +199,7 @@ const Home = () => {
             </h1>
             <p className="text-xl sm:text-2xl lg:text-3xl mb-8 max-w-5xl mx-auto opacity-95 leading-relaxed">
               Transform your Oswaal textbooks into <span className="font-semibold text-blue-200">interactive learning experiences</span> with 
-              AI-generated questions, instant feedback, timed quizzes, and concept clarification through AI chat.
+              AI-generated questions, instant feedback, timed quizzes, and concept clarification through AI chat. Test
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
