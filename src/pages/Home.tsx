@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,73 +33,78 @@ import mathBookCover from '@/assets/math-book-cover.jpg';
 import scienceBookCover from '@/assets/science-book-cover.jpg';
 import englishBookCover from '@/assets/english-book-cover.jpg';
 import historyBookCover from '@/assets/history-book-cover.jpg';
-import defaultImageBook from '@/assets/oswaal360-logo-new.png';
 import { useToast } from '@/hooks/use-toast';
-import CourseExplorer from "./components/CourseExplorer"; 
-const AI_API_BASE_URL = import.meta.env.VITE_AI_API_BASE_URL;
 
 const Home = () => {
-
-  
-
-  const [books, setBooks] = useState<any[]>([]);
-  const [pagination, setPagination] = useState({
-    page: 1,
-    per_page: 8,
-    total: 0,
-    pages: 0,
-    has_next: false,
-    has_prev: false,
-  });
-
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedBoard, setSelectedBoard] = useState('all');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Fetch books API with search + filters
-    const fetchBooks = async (page = 1) => {
-      try {
-        setLoading(true);
-  
-        const params = new URLSearchParams({
-          page: String(page),
-          per_page: String(pagination.per_page),
-        });
-  
-        if (searchQuery) params.append("keyword", searchQuery);
-        if (selectedBoard !== "all") params.append("board_id", selectedBoard);
-        if (selectedSubject !== "all") params.append("subject_id", selectedSubject);
+  const books = [
+    {
+      id: 1,
+      title: 'Mathematics Class 10',
+      subject: 'Mathematics',
+      board: 'CBSE',
+      description: 'Comprehensive mathematics curriculum covering algebra, geometry, trigonometry, and statistics with AI-powered practice questions.',
+      image: mathBookCover,
+      chapters: 15,
+      exercises: 180,
+      rating: 4.8,
+      students: 12500
+    },
+    {
+      id: 2,
+      title: 'Science Class 9',
+      subject: 'Science',
+      board: 'NCERT',
+      description: 'Interactive science learning with physics, chemistry, and biology concepts explained through AI tutoring and virtual experiments.',
+      image: scienceBookCover,
+      chapters: 12,
+      exercises: 145,
+      rating: 4.7,
+      students: 9800
+    },
+    {
+      id: 3,
+      title: 'English Literature',
+      subject: 'English',
+      board: 'ICSE',
+      description: 'Enhance language skills with AI-assisted grammar correction, vocabulary building, and literature analysis tools.',
+      image: englishBookCover,
+      chapters: 10,
+      exercises: 95,
+      rating: 4.6,
+      students: 7200
+    },
+    {
+      id: 4,
+      title: 'History Class 8',
+      subject: 'History',
+      board: 'CBSE',
+      description: 'Explore historical events with interactive timelines, AI-generated quizzes, and immersive storytelling experiences.',
+      image: historyBookCover,
+      chapters: 8,
+      exercises: 75,
+      rating: 4.5,
+      students: 6500
+    }
+  ];
 
-        console.log(params.toString());
-  
-        const res = await fetch(
-          `${AI_API_BASE_URL}/books/?${params.toString()}`
-        );
-        const data = await res.json();
-  
-        setBooks(data.items || []);
-        setPagination(data.pagination || {});
-      } catch (error) {
-        toast({ title: "Error", description: "Failed to fetch books" });
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    // Re-fetch when pagination, search, or filters change
-    useEffect(() => {
-      fetchBooks(pagination.page);
-    }, [pagination.page, searchQuery, selectedBoard, selectedSubject]);
-  
-    const handlePageChange = (newPage: number) => {
-      if (newPage >= 1 && newPage <= pagination.pages) {
-        setPagination((prev) => ({ ...prev, page: newPage }));
-      }
-    };
+  const subjects = ['all', 'Mathematics', 'Science', 'English', 'History'];
+  const boards = ['all', 'CBSE', 'NCERT', 'ICSE'];
+
+  const filteredBooks = books.filter(book => {
+    const matchesSearch = book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         book.subject.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSubject = selectedSubject === 'all' || book.subject === selectedSubject;
+    const matchesBoard = selectedBoard === 'all' || book.board === selectedBoard;
+    
+    return matchesSearch && matchesSubject && matchesBoard;
+  });
 
   const handleStartLearning = async () => {
     setIsLoggingIn(true);
@@ -309,7 +314,7 @@ const Home = () => {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-card/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold flex items-center justify-center gap-3">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">
               <BookOpen className="h-8 w-8 text-primary" />
               Explore Our Interactive Books
             </h2>
@@ -325,57 +330,62 @@ const Home = () => {
               <Input
                 placeholder="Search books by title or subject..."
                 value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  handlePageChange(1);
-                }}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
               />
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <CourseExplorer
-                onBoardChange={(id) => {
-                  setSearchQuery('');
-                  setSelectedBoard(id);
-                  setSelectedSubject("all"); // reset subject if board changes
-                  handlePageChange(1);
-                }}
-                onSubjectChange={(id) => {
-                  setSearchQuery('');
-                  setSelectedSubject(id); 
-                  handlePageChange(1);
-                }}
-              />
+              <select
+                value={selectedSubject}
+                onChange={(e) => setSelectedSubject(e.target.value)}
+                className="px-3 py-2 border rounded-md bg-background text-foreground focus:ring-2 focus:ring-primary min-w-[120px]"
+              >
+                {subjects.map(subject => (
+                  <option key={subject} value={subject}>
+                    {subject === 'all' ? 'All Subjects' : subject}
+                  </option>
+                ))}
+              </select>
+              
+              <select
+                value={selectedBoard}
+                onChange={(e) => setSelectedBoard(e.target.value)}
+                className="px-3 py-2 border rounded-md bg-background text-foreground focus:ring-2 focus:ring-primary min-w-[120px]"
+              >
+                {boards.map(board => (
+                  <option key={board} value={board}>
+                    {board === 'all' ? 'All Boards' : board}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
           {/* Books Grid */}
-          {loading ? (
-            <p className="text-center">Loading...</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {books.map((book, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredBooks.map((book, index) => {
+              const gradients = [
+                'from-blue-600 to-blue-700',
+                'from-emerald-500 to-emerald-600', 
+                'from-orange-500 to-red-500',
+                'from-amber-500 to-orange-600'
+              ];
+              return (
                 <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group cursor-pointer overflow-hidden" onClick={handleStartLearning}>
-
                   <div className="relative overflow-hidden">
                     {/* Colorful Header with Class Number */}
-                    <div className={`h-32 relative flex items-center justify-center text-white
-                      ${
-                        index % 2 === 0
-                          ? "bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500"
-                          : "bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500"
-                      }`}>
+                    <div className={`h-32 bg-gradient-to-br ${gradients[index % gradients.length]} relative flex items-center justify-center text-white`}>
                       <div className="text-center">
                         <div className="text-4xl font-bold mb-1">
-                          {book.grade}
+                          {book.title.includes('10') ? '10' : book.title.includes('9') ? '9' : book.title.includes('8') ? '8' : '12'}
                         </div>
                         <div className="text-xs opacity-90 uppercase tracking-wider">
-                          {book.grade}
+                          CLASS {book.title.includes('10') ? '10' : book.title.includes('9') ? '9' : book.title.includes('8') ? '8' : '12'}
                         </div>
                       </div>
                       <Badge className="absolute top-3 right-3 bg-white/20 text-white border-white/30">
-                        {book.board_name}
+                        {book.board}
                       </Badge>
                       {/* Decorative elements */}
                       <div className="absolute top-4 left-4 w-8 h-8 border-2 border-white/30 rounded rotate-45"></div>
@@ -384,69 +394,67 @@ const Home = () => {
                     </div>
                     
                     {/* Book Image */}
-                    <div className="absolute top-20 left-1/2 transform -translate-x-1/2 rounded-lg overflow-hidden border-4 border-white shadow-lg">
+                    <div className="absolute top-20 left-1/2 transform -translate-x-1/2 w-20 h-28 rounded-lg overflow-hidden border-4 border-white shadow-lg">
                       <img 
-                        src={book.book_image || defaultImageBook} 
+                        src={book.image} 
                         alt={book.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder.svg';
+                        }}
                       />
                     </div>
                   </div>
-
-                  <CardContent className="p-6 space-y-4">
+                  
+                  <CardContent className="pt-16 p-6 space-y-4">
                     <div className="text-center">
                       <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-smooth mb-1">
                         {book.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground font-medium">{book.subject_name}</p>
+                      <p className="text-sm text-muted-foreground font-medium">{book.subject}</p>
                     </div>
                     
-                    <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed text-center">{book.description}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed text-center">
+                      {book.description}
+                    </p>
                     
                     <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <BookOpen className="h-4 w-4" />
-                        {book.chapters_count} chapters
+                        {book.chapters} chapters
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Users className="h-4 w-4" />
+                        {book.students.toLocaleString()}
                       </span>
                     </div>
                     
                     <div className="text-center">
                       <Badge variant="outline" className="text-xs mb-4">
-                        {book.questions_count} exercises
+                        {book.exercises} exercises
                       </Badge>
                     </div>
-                    <Button className="w-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-105" disabled={isLoggingIn}>
+                    
+                    <Button 
+                      className="w-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-105"
+                      disabled={isLoggingIn}
+                    >
                       <Play className="mr-2 h-4 w-4" />
                       {isLoggingIn ? "Logging in..." : "Start Learning"}
                     </Button>
                   </CardContent>
                 </Card>
-              ))}
+              );
+            })}
+          </div>
+
+          {filteredBooks.length === 0 && (
+            <div className="text-center py-12">
+              <BookOpen className="h-16 w-16 text-muted mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">No books found</h3>
+              <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
             </div>
           )}
-
-          {/* Pagination */}
-          <div className="flex justify-center items-center gap-4 mt-10">
-            <Button
-              variant="outline"
-              disabled={!pagination.has_prev}
-              onClick={() => handlePageChange(pagination.page - 1)}
-            >
-              Previous
-            </Button>
-
-            <span>
-              Page {pagination.page} of {pagination.pages}
-            </span>
-
-            <Button
-              variant="outline"
-              disabled={!pagination.has_next}
-              onClick={() => handlePageChange(pagination.page + 1)}
-            >
-              Next
-            </Button>
-          </div>
         </div>
       </section>
     </div>
