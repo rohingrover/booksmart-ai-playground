@@ -4,29 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { 
-  BookOpen, 
-  Search, 
-  Filter,
-  Star,
-  Users,
-  Clock,
-  Brain,
-  Target,
-  MessageSquare,
-  Lightbulb,
-  TrendingUp,
-  Award,
-  Zap,
-  Play,
-  CheckCircle,
-  Globe,
-  Smartphone,
-  Gamepad2,
-  BarChart3,
-  Shield,
-  Sparkles
-} from 'lucide-react';
+import { BookOpen, Search, Filter, Star, Users, Clock, Brain, Target, MessageSquare, Lightbulb, TrendingUp, Award, Zap, Play, CheckCircle, Globe, Smartphone, Gamepad2, BarChart3, Shield, Sparkles } from 'lucide-react';
 
 // Import book cover images
 import mathBookCover from '@/assets/math-book-cover.jpg';
@@ -35,13 +13,9 @@ import englishBookCover from '@/assets/english-book-cover.jpg';
 import historyBookCover from '@/assets/history-book-cover.jpg';
 import defaultImageBook from '@/assets/oswaal360-logo-new.png';
 import { useToast } from '@/hooks/use-toast';
-import CourseExplorer from "./components/CourseExplorer"; 
+import CourseExplorer from "./components/CourseExplorer";
 const AI_API_BASE_URL = import.meta.env.VITE_AI_API_BASE_URL;
-
 const Home = () => {
-
-  
-
   const [books, setBooks] = useState<any[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -49,66 +23,64 @@ const Home = () => {
     total: 0,
     pages: 0,
     has_next: false,
-    has_prev: false,
+    has_prev: false
   });
-
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedBoard, setSelectedBoard] = useState('all');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
 
   // Fetch books API with search + filters
-    const fetchBooks = async (page = 1) => {
-      try {
-        setLoading(true);
-  
-        const params = new URLSearchParams({
-          page: String(page),
-          per_page: String(pagination.per_page),
-        });
-  
-        if (searchQuery) params.append("keyword", searchQuery);
-        if (selectedBoard !== "all") params.append("board_id", selectedBoard);
-        if (selectedSubject !== "all") params.append("subject_id", selectedSubject);
+  const fetchBooks = async (page = 1) => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams({
+        page: String(page),
+        per_page: String(pagination.per_page)
+      });
+      if (searchQuery) params.append("keyword", searchQuery);
+      if (selectedBoard !== "all") params.append("board_id", selectedBoard);
+      if (selectedSubject !== "all") params.append("subject_id", selectedSubject);
+      console.log(params.toString());
+      const res = await fetch(`${AI_API_BASE_URL}/books/?${params.toString()}`);
+      const data = await res.json();
+      setBooks(data.items || []);
+      setPagination(data.pagination || {});
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch books"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        console.log(params.toString());
-  
-        const res = await fetch(
-          `${AI_API_BASE_URL}/books/?${params.toString()}`
-        );
-        const data = await res.json();
-  
-        setBooks(data.items || []);
-        setPagination(data.pagination || {});
-      } catch (error) {
-        toast({ title: "Error", description: "Failed to fetch books" });
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    // Re-fetch when pagination, search, or filters change
-    useEffect(() => {
-      fetchBooks(pagination.page);
-    }, [pagination.page, searchQuery, selectedBoard, selectedSubject]);
-  
-    const handlePageChange = (newPage: number) => {
-      if (newPage >= 1 && newPage <= pagination.pages) {
-        setPagination((prev) => ({ ...prev, page: newPage }));
-      }
-    };
-
+  // Re-fetch when pagination, search, or filters change
+  useEffect(() => {
+    fetchBooks(pagination.page);
+  }, [pagination.page, searchQuery, selectedBoard, selectedSubject]);
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= pagination.pages) {
+      setPagination(prev => ({
+        ...prev,
+        page: newPage
+      }));
+    }
+  };
   const handleStartLearning = async () => {
     setIsLoggingIn(true);
-    
+
     // Show logging in toast
     toast({
       title: "Logging in...",
       description: "Please wait while we authenticate you.",
-      duration: 1500,
+      duration: 1500
     });
 
     // Simulate login process
@@ -116,9 +88,9 @@ const Home = () => {
       toast({
         title: "Login Successful!",
         description: "Welcome to Oswaal360. Redirecting to books...",
-        duration: 1500,
+        duration: 1500
       });
-      
+
       // Redirect to books page after success message
       setTimeout(() => {
         setIsLoggingIn(false);
@@ -126,76 +98,60 @@ const Home = () => {
       }, 1500);
     }, 1500);
   };
-
-  const aiFeatures = [
-    {
-      icon: Brain,
-      title: "Smart AI Tutor",
-      description: "Get personalized explanations and step-by-step solutions tailored to your learning style.",
-      gradient: "from-blue-500 to-blue-600"
-    },
-    {
-      icon: Target,
-      title: "Personalized Learning Paths",
-      description: "Our AI analyzes your learning patterns and creates customized study plans that adapt to your pace.",
-      gradient: "from-emerald-500 to-emerald-600"
-    },
-    {
-      icon: MessageSquare,
-      title: "Instant Feedback & Support", 
-      description: "Get immediate explanations, hints, and encouragement. Available 24/7 to overcome learning challenges.",
-      gradient: "from-purple-500 to-purple-600"
-    },
-    {
-      icon: TrendingUp,
-      title: "Progress Tracking",
-      description: "Monitor growth with detailed analytics, identifying strengths and areas for improvement in real-time.",
-      gradient: "from-orange-500 to-orange-600"
-    }
-  ];
-
-  const platformFeatures = [
-    {
-      icon: Globe,
-      title: "Multi-Platform Access",
-      description: "Access your learning materials anywhere, anytime across all devices with seamless synchronization."
-    },
-    {
-      icon: Smartphone,
-      title: "Mobile Optimized",
-      description: "Fully responsive design ensures perfect learning experience on phones, tablets, and desktops."
-    },
-    {
-      icon: Gamepad2,
-      title: "Gamified Learning",
-      description: "Earn points, unlock achievements, and compete with friends to make studying fun and engaging."
-    },
-    {
-      icon: BarChart3,
-      title: "Detailed Analytics",
-      description: "Track your progress with comprehensive reports, performance insights, and improvement suggestions."
-    },
-    {
-      icon: Shield,
-      title: "Secure & Private",
-      description: "Your data is protected with enterprise-grade security and privacy measures you can trust."
-    },
-    {
-      icon: Sparkles,
-      title: "AI-Generated Content",
-      description: "Get unlimited practice questions, quizzes, and explanations generated by advanced AI technology."
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-subtle">
+  const aiFeatures = [{
+    icon: Brain,
+    title: "Smart AI Tutor",
+    description: "Get personalized explanations and step-by-step solutions tailored to your learning style.",
+    gradient: "from-blue-500 to-blue-600"
+  }, {
+    icon: Target,
+    title: "Personalized Learning Paths",
+    description: "Our AI analyzes your learning patterns and creates customized study plans that adapt to your pace.",
+    gradient: "from-emerald-500 to-emerald-600"
+  }, {
+    icon: MessageSquare,
+    title: "Instant Feedback & Support",
+    description: "Get immediate explanations, hints, and encouragement. Available 24/7 to overcome learning challenges.",
+    gradient: "from-purple-500 to-purple-600"
+  }, {
+    icon: TrendingUp,
+    title: "Progress Tracking",
+    description: "Monitor growth with detailed analytics, identifying strengths and areas for improvement in real-time.",
+    gradient: "from-orange-500 to-orange-600"
+  }];
+  const platformFeatures = [{
+    icon: Globe,
+    title: "Multi-Platform Access",
+    description: "Access your learning materials anywhere, anytime across all devices with seamless synchronization."
+  }, {
+    icon: Smartphone,
+    title: "Mobile Optimized",
+    description: "Fully responsive design ensures perfect learning experience on phones, tablets, and desktops."
+  }, {
+    icon: Gamepad2,
+    title: "Gamified Learning",
+    description: "Earn points, unlock achievements, and compete with friends to make studying fun and engaging."
+  }, {
+    icon: BarChart3,
+    title: "Detailed Analytics",
+    description: "Track your progress with comprehensive reports, performance insights, and improvement suggestions."
+  }, {
+    icon: Shield,
+    title: "Secure & Private",
+    description: "Your data is protected with enterprise-grade security and privacy measures you can trust."
+  }, {
+    icon: Sparkles,
+    title: "AI-Generated Content",
+    description: "Get unlimited practice questions, quizzes, and explanations generated by advanced AI technology."
+  }];
+  return <div className="min-h-screen bg-gradient-subtle">
       {/* Hero Section */}
       <section className="relative gradient-hero text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
         <div className="relative max-w-7xl mx-auto text-center">
           <div className="animate-slide-up">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
-              Oswaal Books <span className="text-yellow-300 animate-glow">AI Learning Test</span>
+              Oswaal Books <span className="text-yellow-300 animate-glow">AI Oswaal Learning Test</span>
             </h1>
             <p className="text-xl sm:text-2xl lg:text-3xl mb-8 max-w-5xl mx-auto opacity-95 leading-relaxed">
               Transform your Oswaal textbooks into <span className="font-semibold text-blue-200">interactive learning experiences</span> with 
@@ -203,12 +159,7 @@ const Home = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <Button 
-                size="lg" 
-                className="bg-white text-primary hover:bg-yellow-50 hover:shadow-glow font-bold px-10 py-4 text-lg transition-all duration-300 transform hover:scale-105"
-                onClick={handleStartLearning}
-                disabled={isLoggingIn}
-              >
+              <Button size="lg" className="bg-white text-primary hover:bg-yellow-50 hover:shadow-glow font-bold px-10 py-4 text-lg transition-all duration-300 transform hover:scale-105" onClick={handleStartLearning} disabled={isLoggingIn}>
                 <Zap className="mr-2 h-5 w-5" />
                 {isLoggingIn ? "Logging in..." : "Start Learning Now"}
               </Button>
@@ -240,10 +191,14 @@ const Home = () => {
         <div className="absolute top-20 left-10 animate-float">
           <Brain className="h-8 w-8 text-blue-200 opacity-60" />
         </div>
-        <div className="absolute top-40 right-20 animate-float" style={{ animationDelay: '1s' }}>
+        <div className="absolute top-40 right-20 animate-float" style={{
+        animationDelay: '1s'
+      }}>
           <Target className="h-6 w-6 text-yellow-200 opacity-60" />
         </div>
-        <div className="absolute bottom-20 left-20 animate-float" style={{ animationDelay: '2s' }}>
+        <div className="absolute bottom-20 left-20 animate-float" style={{
+        animationDelay: '2s'
+      }}>
           <Lightbulb className="h-7 w-7 text-green-200 opacity-60" />
         </div>
       </section>
@@ -322,50 +277,34 @@ const Home = () => {
           <div className="mb-8 space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search books by title or subject..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  handlePageChange(1);
-                }}
-                className="pl-10"
-              />
+              <Input placeholder="Search books by title or subject..." value={searchQuery} onChange={e => {
+              setSearchQuery(e.target.value);
+              handlePageChange(1);
+            }} className="pl-10" />
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <CourseExplorer
-                onBoardChange={(id) => {
-                  setSearchQuery('');
-                  setSelectedBoard(id);
-                  setSelectedSubject("all"); // reset subject if board changes
-                  handlePageChange(1);
-                }}
-                onSubjectChange={(id) => {
-                  setSearchQuery('');
-                  setSelectedSubject(id); 
-                  handlePageChange(1);
-                }}
-              />
+              <CourseExplorer onBoardChange={id => {
+              setSearchQuery('');
+              setSelectedBoard(id);
+              setSelectedSubject("all"); // reset subject if board changes
+              handlePageChange(1);
+            }} onSubjectChange={id => {
+              setSearchQuery('');
+              setSelectedSubject(id);
+              handlePageChange(1);
+            }} />
             </div>
           </div>
 
           {/* Books Grid */}
-          {loading ? (
-            <p className="text-center">Loading...</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {books.map((book, index) => (
-                <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group cursor-pointer overflow-hidden" onClick={handleStartLearning}>
+          {loading ? <p className="text-center">Loading...</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {books.map((book, index) => <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group cursor-pointer overflow-hidden" onClick={handleStartLearning}>
 
                   <div className="relative overflow-hidden">
                     {/* Colorful Header with Class Number */}
                     <div className={`h-32 relative flex items-center justify-center text-white
-                      ${
-                        index % 2 === 0
-                          ? "bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500"
-                          : "bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500"
-                      }`}>
+                      ${index % 2 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500" : "bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500"}`}>
                       <div className="text-center">
                         <div className="text-4xl font-bold mb-1">
                           {book.grade}
@@ -385,11 +324,7 @@ const Home = () => {
                     
                     {/* Book Image */}
                     <div className="absolute top-20 left-1/2 transform -translate-x-1/2 rounded-lg overflow-hidden border-4 border-white shadow-lg">
-                      <img 
-                        src={book.book_image || defaultImageBook} 
-                        alt={book.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
-                      />
+                      <img src={book.book_image || defaultImageBook} alt={book.title} className="w-full h-full object-cover group-hover:scale-105 transition-smooth" />
                     </div>
                   </div>
 
@@ -420,18 +355,12 @@ const Home = () => {
                       {isLoggingIn ? "Logging in..." : "Start Learning"}
                     </Button>
                   </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+                </Card>)}
+            </div>}
 
           {/* Pagination */}
           <div className="flex justify-center items-center gap-4 mt-10">
-            <Button
-              variant="outline"
-              disabled={!pagination.has_prev}
-              onClick={() => handlePageChange(pagination.page - 1)}
-            >
+            <Button variant="outline" disabled={!pagination.has_prev} onClick={() => handlePageChange(pagination.page - 1)}>
               Previous
             </Button>
 
@@ -439,18 +368,12 @@ const Home = () => {
               Page {pagination.page} of {pagination.pages}
             </span>
 
-            <Button
-              variant="outline"
-              disabled={!pagination.has_next}
-              onClick={() => handlePageChange(pagination.page + 1)}
-            >
+            <Button variant="outline" disabled={!pagination.has_next} onClick={() => handlePageChange(pagination.page + 1)}>
               Next
             </Button>
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
