@@ -12,6 +12,9 @@ import Quiz from "./pages/Quiz";
 import PracticeTests from "./pages/PracticeTests";
 import LearningGames from "./pages/LearningGames";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./pages/components/ProtectedRoute";
+import { AuthProvider } from "./pages/components/AuthContext";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -20,20 +23,75 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/books" element={<Layout><Books /></Layout>} />
-          <Route path="/chat" element={<Layout><AIChat /></Layout>} />
-          <Route path="/chat/:bookId" element={<Layout><AIChat /></Layout>} />
-          <Route path="/quiz" element={<Layout><Quiz /></Layout>} />
-          <Route path="/practice" element={<Layout><PracticeTests /></Layout>} />
-          <Route path="/games" element={<Layout><LearningGames /></Layout>} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Route */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            {/* Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/books"
+              element={
+                <ProtectedRoute>
+                  <Layout><Books /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/chat"
+              element={
+                <ProtectedRoute>
+                  <Layout><AIChat /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/chat/:bookId"
+              element={
+                <ProtectedRoute>
+                  <Layout><AIChat /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/quiz"
+              element={
+                <ProtectedRoute>
+                  <Layout><Quiz /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/practice"
+              element={
+                <ProtectedRoute>
+                  <Layout><PracticeTests /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/games"
+              element={
+                <ProtectedRoute>
+                  <Layout><LearningGames /></Layout>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Catch-all */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

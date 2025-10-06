@@ -17,11 +17,13 @@ const Layout = ({
   const isActive = (path: string) => location.pathname === path;
 
   // Mock user data - in real app this would come from auth context
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "JD"
-  };
+  // const user = {
+  //   name: "John Doe",
+  //   email: "john.doe@example.com",
+  //   avatar: "JD"
+  // };
+
+  const user = JSON.parse(localStorage.getItem("user"));
   const handleLogout = () => {
     // In real app, clear auth tokens/session here
     navigate('/');

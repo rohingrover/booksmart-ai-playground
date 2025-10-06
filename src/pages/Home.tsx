@@ -85,6 +85,32 @@ const Home = () => {
       }));
     }
   };
+  // const handleStartLearning = async () => {
+  //   setIsLoggingIn(true);
+
+  //   // Show logging in toast
+  //   toast({
+  //     title: "Logging in...",
+  //     description: "Please wait while we authenticate you.",
+  //     duration: 1500
+  //   });
+
+  //   // Simulate login process
+  //   setTimeout(() => {
+  //     toast({
+  //       title: "Login Successful!",
+  //       description: "Welcome to Oswaal360. Redirecting to books...",
+  //       duration: 1500
+  //     });
+
+  //     // Redirect to books page after success message
+  //     setTimeout(() => {
+  //       setIsLoggingIn(false);
+  //       navigate('/books');
+  //     }, 1500);
+  //   }, 1500);
+  // };
+
   const handleStartLearning = async () => {
     setIsLoggingIn(true);
 
@@ -110,6 +136,7 @@ const Home = () => {
       }, 1500);
     }, 1500);
   };
+
   const aiFeatures = [{
     icon: Brain,
     title: "Smart AI Tutor",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,11 +12,63 @@ import mathBookCover from '@/assets/math-book-cover.jpg';
 import scienceBookCover from '@/assets/science-book-cover.jpg';
 import englishBookCover from '@/assets/english-book-cover.jpg';
 import historyBookCover from '@/assets/history-book-cover.jpg';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// ✅ Fetch books API function
+async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Token not found");
+
+  const response = await fetch(`${API_BASE_URL}/api/my-books`, {
+    method: "POST",
+    headers: {
+      "Authorization": token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ keyword, board_id, subject_id })
+  });
+
+  const data = await response.json();
+  console.log(data);
+  if (!response.ok) throw new Error(data.message || "Failed to fetch books");
+  return data;
+}
 
 const Books = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedBoard, setSelectedBoard] = useState('all');
-  const [selectedSubject, setSelectedSubject] = useState('all');
+  const [selectedBoard, setSelectedBoard] = useState(0);
+  const [selectedSubject, setSelectedSubject] = useState(0);
+  const [books, setBooks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // ✅ Load data from Node → PHP → API
+  useEffect(() => {
+    const loadBooks = async () => {
+      try {
+        setLoading(true);
+        const result = await fetchMyBooks({
+          keyword: searchTerm,
+          board_id: selectedBoard === 0 ? 0 : selectedBoard,
+          subject_id: selectedSubject === 0 ? 0 : selectedSubject,
+        });
+        setBooks(result || []);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBooks();
+  }, [searchTerm, selectedBoard, selectedSubject]);
+
+  const gradients = [
+            'from-blue-600 to-blue-700',
+            'from-emerald-500 to-emerald-600', 
+            'from-orange-500 to-red-500',
+            'from-amber-500 to-orange-600'
+          ];
+
+  const aiFeatures = ['Smart Questions', 'Concept Clarification', 'Problem Solving Assistant'];
 
   // Stats moved from Dashboard
   const stats = [{
@@ -45,62 +97,62 @@ const Books = () => {
     bgColor: 'bg-secondary/10'
   }];
 
-  const books = [{
-    id: 1,
-    title: 'Mathematics Class 10',
-    subject: 'Mathematics',
-    board: 'CBSE',
-    class: '10',
-    progress: 65,
-    lastAccessed: '2 hours ago',
-    image: mathBookCover,
-    chapters: 15,
-    difficulty: 'Medium',
-    aiFeatures: ['Smart Questions', 'Concept Clarification', 'Problem Solving Assistant']
-  }, {
-    id: 2,
-    title: 'Science Class 9',
-    subject: 'Science',
-    board: 'NCERT',
-    class: '9',
-    progress: 42,
-    lastAccessed: '1 day ago',
-    image: scienceBookCover,
-    chapters: 13,
-    difficulty: 'Easy',
-    aiFeatures: ['Experiment Simulation', 'Visual Learning', 'Interactive Quizzes']
-  }, {
-    id: 3,
-    title: 'English Literature',
-    subject: 'English',
-    board: 'ICSE',
-    class: '11',
-    progress: 78,
-    lastAccessed: '3 days ago',
-    image: englishBookCover,
-    chapters: 12,
-    difficulty: 'Hard',
-    aiFeatures: ['Grammar Assistant', 'Essay Writing', 'Poetry Analysis']
-  }, {
-    id: 4,
-    title: 'History Class 8',
-    subject: 'History',
-    board: 'CBSE',
-    class: '8',
-    progress: 23,
-    lastAccessed: '5 days ago',
-    image: historyBookCover,
-    chapters: 18,
-    difficulty: 'Medium',
-    aiFeatures: ['Timeline Explorer', 'Historical Context', 'Map Integration']
-  }];
+  // const books = [{
+  //   id: 1,
+  //   title: 'Mathematics Class 10',
+  //   subject: 'Mathematics',
+  //   board: 'CBSE',
+  //   class: '10',
+  //   progress: 65,
+  //   lastAccessed: '2 hours ago',
+  //   image: mathBookCover,
+  //   chapters: 15,
+  //   difficulty: 'Medium',
+  //   aiFeatures: ['Smart Questions', 'Concept Clarification', 'Problem Solving Assistant']
+  // }, {
+  //   id: 2,
+  //   title: 'Science Class 9',
+  //   subject: 'Science',
+  //   board: 'NCERT',
+  //   class: '9',
+  //   progress: 42,
+  //   lastAccessed: '1 day ago',
+  //   image: scienceBookCover,
+  //   chapters: 13,
+  //   difficulty: 'Easy',
+  //   aiFeatures: ['Experiment Simulation', 'Visual Learning', 'Interactive Quizzes']
+  // }, {
+  //   id: 3,
+  //   title: 'English Literature',
+  //   subject: 'English',
+  //   board: 'ICSE',
+  //   class: '11',
+  //   progress: 78,
+  //   lastAccessed: '3 days ago',
+  //   image: englishBookCover,
+  //   chapters: 12,
+  //   difficulty: 'Hard',
+  //   aiFeatures: ['Grammar Assistant', 'Essay Writing', 'Poetry Analysis']
+  // }, {
+  //   id: 4,
+  //   title: 'History Class 8',
+  //   subject: 'History',
+  //   board: 'CBSE',
+  //   class: '8',
+  //   progress: 23,
+  //   lastAccessed: '5 days ago',
+  //   image: historyBookCover,
+  //   chapters: 18,
+  //   difficulty: 'Medium',
+  //   aiFeatures: ['Timeline Explorer', 'Historical Context', 'Map Integration']
+  // }];
 
-  const filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.subject.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesBoard = selectedBoard === 'all' || book.board === selectedBoard;
-    const matchesSubject = selectedSubject === 'all' || book.subject === selectedSubject;
-    return matchesSearch && matchesBoard && matchesSubject;
-  });
+  // const filteredBooks = books.filter(book => {
+  //   const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) || book.subject.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchesBoard = selectedBoard === 'all' || book.board === selectedBoard;
+  //   const matchesSubject = selectedSubject === 'all' || book.subject === selectedSubject;
+  //   return matchesSearch && matchesBoard && matchesSubject;
+  // });
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
@@ -228,7 +280,7 @@ const Books = () => {
       </div>
 
       {/* Filters */}
-      <Card className="shadow-card">
+      {/* <Card className="shadow-card">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
             <div className="relative flex-1">
@@ -247,10 +299,10 @@ const Books = () => {
                 <SelectValue placeholder="Board" />
               </SelectTrigger>
               <SelectContent className="bg-background z-50 border shadow-lg">
-                <SelectItem value="all">All Boards</SelectItem>
-                <SelectItem value="CBSE">CBSE</SelectItem>
-                <SelectItem value="NCERT">NCERT</SelectItem>
-                <SelectItem value="ICSE">ICSE</SelectItem>
+                <SelectItem value="0">All Boards</SelectItem>
+                <SelectItem value="1">CBSE</SelectItem>
+                <SelectItem value="2">NCERT</SelectItem>
+                <SelectItem value="3">ICSE</SelectItem>
               </SelectContent>
             </Select>
             
@@ -260,132 +312,108 @@ const Books = () => {
                 <SelectValue placeholder="Subject" />
               </SelectTrigger>
               <SelectContent className="bg-background z-50 border shadow-lg">
-                <SelectItem value="all">All Subjects</SelectItem>
-                <SelectItem value="Mathematics">Mathematics</SelectItem>
-                <SelectItem value="Science">Science</SelectItem>
-                <SelectItem value="English">English</SelectItem>
-                <SelectItem value="History">History</SelectItem>
+                <SelectItem value="0">All Subjects</SelectItem>
+                <SelectItem value="4">Mathematics</SelectItem>
+                <SelectItem value="5">Science</SelectItem>
+                <SelectItem value="6">English</SelectItem>
+                <SelectItem value="7">History</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Books Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        {filteredBooks.map((book, index) => {
-          const gradients = [
-            'from-blue-600 to-blue-700',
-            'from-emerald-500 to-emerald-600', 
-            'from-orange-500 to-red-500',
-            'from-amber-500 to-orange-600'
-          ];
-          
-          return (
-            <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group">
-              <div className="relative overflow-hidden">
-                {/* Colorful Header with Class Number */}
-                <div className={`h-32 bg-gradient-to-br ${gradients[index % gradients.length]} relative flex items-center justify-center text-white`}>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold mb-1">
-                      {book.class}
+      {/* Book List */}
+            {loading ? (
+              <p className="text-center py-12 text-muted-foreground">Loading books...</p>
+            ) : error ? (
+              <p className="text-center py-12 text-destructive">Error: {error}</p>
+            ) : books.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                {books.map((book, index) => (
+                  <Card key={book.id || index} className="shadow-card hover:shadow-elegant transition-smooth group">
+                    <div className={`h-32 bg-gradient-to-br ${gradients[index % gradients.length]} relative flex items-center justify-center text-white`}>
+                      <div className="text-center">
+                        <div className="text-4xl font-bold mb-1">{book.grade}</div>
+                        <div className="text-xs opacity-90 uppercase tracking-wider">CLASS {book.grade}</div>
+                      </div>
+                      <Badge className="absolute top-3 right-3 bg-white/20 text-white border-white/30">{book.board_name}</Badge>
+                      <Badge className={`absolute top-3 left-3 ${getDifficultyColor(book.difficulty || 'Medium')} text-xs`}>
+                        {book.difficulty || "Medium"}
+                      </Badge>
+                      <div className="absolute top-4 left-1/2 w-8 h-8 border-2 border-white/30 rounded rotate-45"></div>
+                      <div className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full"></div>
                     </div>
-                    <div className="text-xs opacity-90 uppercase tracking-wider">
-                      CLASS {book.class}
+      
+                    <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
+                      <h3 className="text-sm sm:text-lg font-bold group-hover:text-primary transition-smooth line-clamp-2">
+                        {book.title}
+                      </h3>
+                      <div className="flex justify-between items-center mt-1">
+                        <p className="text-xs sm:text-sm text-muted-foreground">Class {book.grade} • {book.subject_name}</p>
+                        <Badge variant="outline" className="text-xs">{book.chapters_count || 0} Chapters</Badge>
+                      </div>
+
+                      {/* AI Features */}
+                    <div className="space-y-2">
+                      <h4 className="text-xs sm:text-sm font-semibold flex items-center">
+                        <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-primary" />
+                        AI Features
+                      </h4>
+                      <div className="flex flex-wrap gap-1">
+                        {aiFeatures.slice(0, 2).map((feature, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {feature}
+                          </Badge>
+                        ))}
+                        {aiFeatures.length > 2 && (
+                          <Badge variant="secondary" className="text-xs">
+                            +{aiFeatures.length - 2} more
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <Badge className="absolute top-3 right-3 bg-white/20 text-white border-white/30">
-                    {book.board}
-                  </Badge>
-                  <Badge className={`absolute top-3 left-3 ${getDifficultyColor(book.difficulty)} text-xs`}>
-                    {book.difficulty}
-                  </Badge>
-                  {/* Decorative elements */}
-                  <div className="absolute top-4 left-1/2 w-8 h-8 border-2 border-white/30 rounded rotate-45"></div>
-                  <div className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full"></div>
-                </div>
+      
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link to={`/chat/${book.id}`}>
+                          <Button className="w-full gradient-primary text-xs py-2">
+                            <MessageCircle className="h-3 w-3 mr-1" /> AI Chat
+                          </Button>
+                        </Link>
+                        <Link to={`/practice?book=${book.id}`}>
+                          <Button variant="outline" className="w-full text-xs py-2">
+                            <BrainCircuit className="h-3 w-3 mr-1" /> Practice
+                          </Button>
+                        </Link>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link to={`/quiz?book=${book.id}`}>
+                          <Button variant="outline" className="w-full text-xs py-2">
+                            <Trophy className="h-3 w-3 mr-1" />
+                            Quiz
+                          </Button>
+                        </Link>
+                        <Link to={`/games?book=${book.id}`}>
+                          <Button variant="outline" className="w-full text-xs py-2">
+                            <Gamepad2 className="h-3 w-3 mr-1" />
+                            Games
+                          </Button>
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-              
-              <CardContent className="p-3 sm:p-4 space-y-3 sm:space-y-4">
-                <div>
-                  <h3 className="text-sm sm:text-lg font-bold group-hover:text-primary transition-smooth line-clamp-2">
-                    {book.title}
-                  </h3>
-                  <div className="flex justify-between items-center mt-1">
-                    <p className="text-xs sm:text-sm text-muted-foreground">Class {book.class} • {book.subject}</p>
-                    <Badge variant="outline" className="text-xs">{book.chapters} Chapters</Badge>
-                  </div>
-                </div>
+            ) : (
+              <div className="text-center py-12">
+                <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-xl font-semibold mb-2">No books found</h3>
+                <p className="text-muted-foreground">Try adjusting your search or filters.</p>
+              </div>
+            )}
 
-                {/* AI Features */}
-                <div className="space-y-2">
-                  <h4 className="text-xs sm:text-sm font-semibold flex items-center">
-                    <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-primary" />
-                    AI Features
-                  </h4>
-                  <div className="flex flex-wrap gap-1">
-                    {book.aiFeatures.slice(0, 2).map((feature, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
-                    {book.aiFeatures.length > 2 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{book.aiFeatures.length - 2} more
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="text-xs text-muted-foreground">
-                  Last accessed: {book.lastAccessed}
-                </div>
-                
-                {/* Action Buttons */}
-                <div className="grid grid-cols-2 gap-2">
-                  <Link to={`/chat/${book.id}`}>
-                    <Button className="w-full gradient-primary text-xs py-2">
-                      <MessageCircle className="h-3 w-3 mr-1" />
-                      AI Chat
-                    </Button>
-                  </Link>
-                  <Link to={`/practice?book=${book.id}`}>
-                    <Button variant="outline" className="w-full text-xs py-2">
-                      <BrainCircuit className="h-3 w-3 mr-1" />
-                      Practice
-                    </Button>
-                  </Link>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-2">
-                  <Link to={`/quiz?book=${book.id}`}>
-                    <Button variant="outline" className="w-full text-xs py-2">
-                      <Trophy className="h-3 w-3 mr-1" />
-                      Quiz
-                    </Button>
-                  </Link>
-                  <Link to={`/games?book=${book.id}`}>
-                    <Button variant="outline" className="w-full text-xs py-2">
-                      <Gamepad2 className="h-3 w-3 mr-1" />
-                      Games
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {filteredBooks.length === 0 && (
-        <div className="text-center py-12">
-          <BookOpen className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-xl font-semibold mb-2">No books found</h3>
-          <p className="text-muted-foreground">
-            Try adjusting your search criteria or filters.
-          </p>
-        </div>
-      )}
+      
     </div>
   );
 };

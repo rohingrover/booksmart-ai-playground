@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
@@ -19,9 +19,9 @@ import { useNavigate } from 'react-router-dom';
 
 interface ProfileModalProps {
   user: {
-    name: string;
+    fullname: string;
     email: string;
-    avatar: string;
+    profileimageurlsmall: string;
   };
   onLogout: () => void;
 }
@@ -70,11 +70,12 @@ const ProfileModal = ({ user, onLogout }: ProfileModalProps) => {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex items-center space-x-2">
           <Avatar className="h-6 w-6">
+            <AvatarImage src={user.profileimageurlsmall} alt={user.fullname} />
             <AvatarFallback className="bg-primary text-primary-foreground text-xs font-medium">
-              {user.avatar}
+              {user.fullname.charAt(0)}
             </AvatarFallback>
           </Avatar>
-          <span className="hidden sm:inline text-sm font-medium">{user.name}</span>
+          <span className="hidden sm:inline text-sm font-medium">{user.fullname}</span>
         </Button>
       </DialogTrigger>
       
@@ -88,8 +89,9 @@ const ProfileModal = ({ user, onLogout }: ProfileModalProps) => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               <Avatar className="h-20 w-20">
+                <AvatarImage src={user.profileimageurlsmall} alt={user.fullname} />
                 <AvatarFallback className="bg-muted text-muted-foreground text-2xl font-medium">
-                  {user.avatar}
+                  {user.fullname.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <Button
@@ -103,7 +105,7 @@ const ProfileModal = ({ user, onLogout }: ProfileModalProps) => {
             <div className="flex-1">
               <div className="space-y-1">
                 <label className="text-sm font-medium text-muted-foreground">Full Name</label>
-                <p className="font-semibold">{user.name}</p>
+                <p className="font-semibold">{user.fullname}</p>
               </div>
               <div className="space-y-1 mt-3">
                 <label className="text-sm font-medium text-muted-foreground">Email</label>
