@@ -21,7 +21,7 @@ async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
   const response = await fetch(`${API_BASE_URL}/api/my-books`, {
     method: "POST",
     headers: {
-      "Authorization": token,
+      "Authorization": `Bearer ${token}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ keyword, board_id, subject_id })
