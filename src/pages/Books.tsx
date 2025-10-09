@@ -28,7 +28,7 @@ async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
   });
 
   const data = await response.json();
-  console.log(data);
+  //console.log(data);
   if (!response.ok) throw new Error(data.message || "Failed to fetch books");
   return data;
 }
