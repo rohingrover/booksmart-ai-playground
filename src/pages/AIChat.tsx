@@ -104,104 +104,249 @@ const AIChat = () => {
     }
   };
 
+  // const handleSendMessage = async () => {
+  //   if (!message.trim() || !selectedBook) return;
+
+  //   const userMsg = {
+  //     id: messages.length + 1,
+  //     text: message,
+  //     isBot: false,
+  //     timestamp: new Date(),
+  //   };
+  //   setMessages(prev => [...prev, userMsg]);
+  //   setMessage("");
+  //   setStatusText("Thinking...");
+  //   setIsStreaming(true);
+
+  //   const botMsg = {
+  //     id: messages.length + 2,
+  //     text: "",
+  //     isBot: true,
+  //     timestamp: new Date(),
+  //   };
+  //   setMessages(prev => [...prev, botMsg]);
+  //   scrollToBottom();
+
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) throw new Error("Token not found");
+
+  //     const response = await fetch(`${API_BASE_URL}/api/chat`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         book_id: String(selectedBook),
+  //         chat_type: "ask",
+  //         message,
+  //         stream: true,
+  //       }),
+  //     });
+
+  //     const reader = response.body?.getReader();
+  //     const decoder = new TextDecoder();
+  //     let buffer = "";
+
+  //     while (true) {
+  //       const { value, done } = await reader!.read();
+  //       if (done) break;
+  //       buffer += decoder.decode(value, { stream: true });
+  //       const parts = buffer.split("\n\n");
+  //       buffer = parts.pop() || "";
+
+  //       for (let part of parts) {
+  //         part = part.trim();
+  //         if (!part.startsWith("data:")) continue;
+
+  //         const dataStr = part.replace(/^data:\s*/, "");
+  //         if (dataStr === "[DONE]") {
+  //           setStatusText(null);
+  //           setIsStreaming(false);
+  //           return;
+  //         }
+
+  //         try {
+  //           const dataObj = JSON.parse(dataStr);
+  //           if (dataObj.type === "status") {
+  //             setStatusText(dataObj.content);
+  //           } else if (dataObj.type === "content") {
+  //             const text = dataObj.content;
+  //             setMessages(prev => {
+  //               const updated = [...prev];
+  //               updated[updated.length - 1].text += text;
+  //               return updated;
+  //             });
+  //             scrollToBottom();
+  //           } else if (dataObj.type === "final_response") {
+  //             setStatusText("Done");
+  //             setTimeout(() => setStatusText(null), 500);
+  //           }
+  //         } catch (e) {
+  //           if (!dataStr.startsWith("[DONE]")) {
+  //             console.warn("Failed to parse SSE chunk:", dataStr);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Chat API error:", error);
+  //     setMessages(prev => {
+  //       const updated = [...prev];
+  //       updated[updated.length - 1].text = "❌ Failed to get response from AI.";
+  //       return updated;
+  //     });
+  //   } finally {
+  //     setIsStreaming(false);
+  //     setStatusText(null);
+  //   }
+  // };
+
   const handleSendMessage = async () => {
-    if (!message.trim() || !selectedBook) return;
+  if (!message.trim() || !selectedBook) return;
 
-    const userMsg = {
-      id: messages.length + 1,
-      text: message,
-      isBot: false,
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, userMsg]);
-    setMessage("");
-    setStatusText("Thinking...");
-    setIsStreaming(true);
+  const userMsg = {
+    id: messages.length + 1,
+    text: message,
+    isBot: false,
+    timestamp: new Date(),
+  };
+  const botMsg = {
+    id: messages.length + 2,
+    text: "",
+    isBot: true,
+    timestamp: new Date(),
+  };
 
-    const botMsg = {
-      id: messages.length + 2,
-      text: "",
-      isBot: true,
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, botMsg]);
-    scrollToBottom();
+  setMessages(prev => [...prev, userMsg, botMsg]);
+  setMessage("");
+  setStatusText("Thinking...");
+  setIsStreaming(true);
+  scrollToBottom();
 
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Token not found");
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Token not found");
 
-      const response = await fetch(`${API_BASE_URL}/api/chat`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          book_id: String(selectedBook),
-          chat_type: "ask",
-          message,
-          stream: true,
-        }),
-      });
+    // 🧩 Build conversation history from previous messages
+    const conversation_history = messages.slice(-6).map(msg => ({
+      content: msg.text,
+      role: msg.isBot ? "assistant" : "user",
+    }));
 
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
+    console.log(conversation_history);
 
-      while (true) {
-        const { value, done } = await reader!.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const parts = buffer.split("\n\n");
-        buffer = parts.pop() || "";
+    const response = await fetch(`${API_BASE_URL}/api/chat`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        book_id: String(selectedBook),
+        chat_type: "ask",
+        conversation_history, // Add previous messages if needed
+        message,
+        parameters: {},
+        stream: true,
+      }),
+    });
 
-        for (let part of parts) {
-          part = part.trim();
-          if (!part.startsWith("data:")) continue;
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+    }
 
-          const dataStr = part.replace(/^data:\s*/, "");
-          if (dataStr === "[DONE]") {
+    if (!response.body) throw new Error("No response body");
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // Split by SSE double newlines
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop() || ""; // keep leftover
+
+      for (let raw of parts) {
+        raw = raw.trim();
+        if (!raw.startsWith("data:")) continue;
+        const dataStr = raw.replace(/^data:\s*/, "");
+        if (!dataStr) continue;
+
+        let event;
+        try {
+          event = JSON.parse(dataStr);
+        } catch (e) {
+          console.warn("Invalid chunk:", dataStr);
+          continue;
+        }
+
+        
+
+        switch (event.type) {
+          case "status":
+            setStatusText(event.content || "Processing...");
+            break;
+
+          case "content":
+            setMessages(prev => {
+              const updated = [...prev];
+              updated[updated.length - 1].text += event.content || "";
+              return updated;
+            });
+            scrollToBottom();
+            break;
+
+          case "final_response":
+            setStatusText("Done");
+            break;
+
+          case "done":
             setStatusText(null);
             setIsStreaming(false);
-            return;
-          }
+            break;
 
-          try {
-            const dataObj = JSON.parse(dataStr);
-            if (dataObj.type === "status") {
-              setStatusText(dataObj.content);
-            } else if (dataObj.type === "content") {
-              const text = dataObj.content;
-              setMessages(prev => {
-                const updated = [...prev];
-                updated[updated.length - 1].text += text;
-                return updated;
-              });
-              scrollToBottom();
-            } else if (dataObj.type === "final_response") {
-              setStatusText("Done");
-              setTimeout(() => setStatusText(null), 500);
-            }
-          } catch (e) {
-            if (!dataStr.startsWith("[DONE]")) {
-              console.warn("Failed to parse SSE chunk:", dataStr);
-            }
-          }
+          case "error":
+            console.error("Stream error:", event.message);
+            setMessages(prev => {
+              const updated = [...prev];
+              updated[updated.length - 1].text =
+                "❌ Failed to get response from AI.";
+              return updated;
+            });
+            setStatusText(null);
+            setIsStreaming(false);
+            return; // stop processing further
+
+          default:
+            console.log("Unhandled event:", event);
         }
       }
-    } catch (error) {
-      console.error("Chat API error:", error);
-      setMessages(prev => {
-        const updated = [...prev];
-        updated[updated.length - 1].text = "❌ Failed to get response from AI.";
-        return updated;
-      });
-    } finally {
-      setIsStreaming(false);
-      setStatusText(null);
     }
-  };
+  } catch (err) {
+    console.error("Chat API error:", err);
+    setMessages(prev => {
+      const updated = [...prev];
+      updated[updated.length - 1].text =
+        "❌ Something went wrong. Please try again.";
+      return updated;
+    });
+  } finally {
+    setIsStreaming(false);
+    setStatusText(null);
+  }
+};
+
+
+
+
+
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleSendMessage();
