@@ -17,6 +17,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import DOMPurify from "dompurify";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -37,6 +38,50 @@ async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
   if (!response.ok) throw new Error(data.message || "Failed to fetch books");
   return data;
 }
+
+
+
+  async function fetchQuestions({
+    book_id,
+    is_active,
+    limit,
+    offset,
+  }: {
+    book_id: number | string;
+    is_active: boolean;
+    limit: number;
+    offset: number;
+  }) {
+    try {
+      const query = new URLSearchParams({
+        book_id: String(book_id),
+        is_active: String(is_active),
+        limit: String(limit),
+        offset: String(offset),
+      }).toString();
+
+      //alert('fetchQuestions');
+
+      const response = await fetch(`${API_BASE_URL}/api/questions?${query}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Return only question texts
+      return data.map((q: any) => q.question_text);
+    } catch (error) {
+      console.error("❌ fetchQuestions error:", error);
+      return [];
+    }
+  }
 
 const AIChat = () => {
   const [selectedBook, setSelectedBook] = useState<string>("");
@@ -60,22 +105,50 @@ const AIChat = () => {
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const [questions, setQuestions] = useState<string[]>([]);
+  const [loadingQs, setLoadingQs] = useState(true);
+
   useEffect(() => {
     const loadBooks = async () => {
+      //alert('loadBooks');
       try {
         setLoadingBooks(true);
         const data = await fetchMyBooks({});
         if (data.length > 0) {
           setBooks(data);
           if (bookId) {
+            
             const selected = data.find((b: any) => String(b.id) === String(bookId));
             if (selected) {
               setSelectedBook(String(selected.id));
               setSelectedBookTitle(selected.title);
+              const get_questions = await fetchQuestions({
+                book_id: String(selected.id),
+                is_active: true,
+                limit: 8,
+                offset: 0,
+              });
+              if(get_questions.length > 0)
+              {
+                setQuestions(get_questions);
+                setLoadingQs(false);
+              }
             }
           } else {
+            
             setSelectedBook(String(data[0].id));
             setSelectedBookTitle(data[0].title);
+            const get_questions = await fetchQuestions({
+                book_id: String(data[0].id),
+                is_active: true,
+                limit: 8,
+                offset: 0,
+              });
+              if(get_questions.length > 0)
+              {
+                setQuestions(get_questions);
+                setLoadingQs(false);
+              }
           }
         }
       } catch (error) {
@@ -102,106 +175,8 @@ const AIChat = () => {
       setSelectedBookTitle(book.title);
       navigate(`/chat/${book.id}`);
     }
+    //alert('handleBookChange');
   };
-
-  // const handleSendMessage = async () => {
-  //   if (!message.trim() || !selectedBook) return;
-
-  //   const userMsg = {
-  //     id: messages.length + 1,
-  //     text: message,
-  //     isBot: false,
-  //     timestamp: new Date(),
-  //   };
-  //   setMessages(prev => [...prev, userMsg]);
-  //   setMessage("");
-  //   setStatusText("Thinking...");
-  //   setIsStreaming(true);
-
-  //   const botMsg = {
-  //     id: messages.length + 2,
-  //     text: "",
-  //     isBot: true,
-  //     timestamp: new Date(),
-  //   };
-  //   setMessages(prev => [...prev, botMsg]);
-  //   scrollToBottom();
-
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) throw new Error("Token not found");
-
-  //     const response = await fetch(`${API_BASE_URL}/api/chat`, {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         book_id: String(selectedBook),
-  //         chat_type: "ask",
-  //         message,
-  //         stream: true,
-  //       }),
-  //     });
-
-  //     const reader = response.body?.getReader();
-  //     const decoder = new TextDecoder();
-  //     let buffer = "";
-
-  //     while (true) {
-  //       const { value, done } = await reader!.read();
-  //       if (done) break;
-  //       buffer += decoder.decode(value, { stream: true });
-  //       const parts = buffer.split("\n\n");
-  //       buffer = parts.pop() || "";
-
-  //       for (let part of parts) {
-  //         part = part.trim();
-  //         if (!part.startsWith("data:")) continue;
-
-  //         const dataStr = part.replace(/^data:\s*/, "");
-  //         if (dataStr === "[DONE]") {
-  //           setStatusText(null);
-  //           setIsStreaming(false);
-  //           return;
-  //         }
-
-  //         try {
-  //           const dataObj = JSON.parse(dataStr);
-  //           if (dataObj.type === "status") {
-  //             setStatusText(dataObj.content);
-  //           } else if (dataObj.type === "content") {
-  //             const text = dataObj.content;
-  //             setMessages(prev => {
-  //               const updated = [...prev];
-  //               updated[updated.length - 1].text += text;
-  //               return updated;
-  //             });
-  //             scrollToBottom();
-  //           } else if (dataObj.type === "final_response") {
-  //             setStatusText("Done");
-  //             setTimeout(() => setStatusText(null), 500);
-  //           }
-  //         } catch (e) {
-  //           if (!dataStr.startsWith("[DONE]")) {
-  //             console.warn("Failed to parse SSE chunk:", dataStr);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Chat API error:", error);
-  //     setMessages(prev => {
-  //       const updated = [...prev];
-  //       updated[updated.length - 1].text = "❌ Failed to get response from AI.";
-  //       return updated;
-  //     });
-  //   } finally {
-  //     setIsStreaming(false);
-  //     setStatusText(null);
-  //   }
-  // };
 
   const handleSendMessage = async () => {
   if (!message.trim() || !selectedBook) return;
@@ -235,7 +210,7 @@ const AIChat = () => {
       role: msg.isBot ? "assistant" : "user",
     }));
 
-    console.log(conversation_history);
+    //console.log(conversation_history);
 
     const response = await fetch(`${API_BASE_URL}/api/chat`, {
       method: "POST",
@@ -345,28 +320,13 @@ const AIChat = () => {
 
 
 
-
-
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleSendMessage();
   };
 
-  const bookQuestions = {
-    "Mathematics Class 10": [
-      "What are quadratic equations?",
-      "Explain the Pythagorean theorem",
-      "How to solve linear equations?",
-    ],
-    "Science Class 9": [
-      "What is photosynthesis?",
-      "Explain Newton's laws of motion",
-      "How does sound travel?",
-    ],
-  };
 
-  const getBookQuestions = (bookTitle: string) =>
-    bookQuestions[bookTitle as keyof typeof bookQuestions] || bookQuestions["Mathematics Class 10"];
+  
+
 
   const handleQuestionClick = (question: string) => setMessage(question);
 
@@ -475,21 +435,39 @@ const AIChat = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
+          {loadingQs ? (
+            <p className="text-sm text-muted-foreground">Loading questions...</p>
+          ) : questions.length > 0 ? (
             <ScrollArea className="h-80">
-              {getBookQuestions(selectedBookTitle).map((q, i) => (
-                <div
-                  key={i}
-                  onClick={() => handleQuestionClick(q)}
-                  className="p-3 border rounded-md mb-2 cursor-pointer hover:bg-accent transition"
-                >
-                  <div className="flex items-start space-x-2">
-                    <Lightbulb className="h-4 w-4 text-yellow-500 mt-1" />
-                    <span>{q}</span>
+              {questions.map((q, i) => {
+                // Sanitize HTML for display
+                const sanitizedHTML = DOMPurify.sanitize(q);
+
+                // Convert HTML → plain text for click handling
+                const plainText = new DOMParser().parseFromString(q, "text/html").body
+                  .textContent || "";
+
+                return (
+                  <div
+                    key={i}
+                    onClick={() => handleQuestionClick(plainText.trim())}
+                    className="p-3 border rounded-md mb-2 cursor-pointer hover:bg-accent transition"
+                  >
+                    <div className="flex items-start space-x-2">
+                      <Lightbulb className="h-4 w-4 text-yellow-500 mt-1" />
+                      <span
+                        className="text-sm leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+                      ></span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </ScrollArea>
-          </CardContent>
+          ) : (
+            <p className="text-sm text-muted-foreground">No questions found.</p>
+          )}
+        </CardContent>
         </Card>
       </div>
 

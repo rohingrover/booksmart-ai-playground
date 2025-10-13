@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,27 +14,105 @@ import {
   Play
 } from 'lucide-react';
 
+import { useParams, useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Token not found");
+
+    const response = await fetch(`${API_BASE_URL}/api/my-books`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ keyword, board_id, subject_id }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to fetch books");
+    return data;
+  }
+
 interface PracticeTestSetupProps {
   onStartPractice: (settings: any) => void;
 }
 
 const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
-  const [selectedBook, setSelectedBook] = useState('');
   const [selectedChapter, setSelectedChapter] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [questionCount, setQuestionCount] = useState([10]);
   const [questionTypes, setQuestionTypes] = useState({
-    multipleChoice: true,
-    trueFalse: false,
-    subjective: false
+    subjective_long: false,
+    subjective_short: false,
+    objective_single_choice: false,
+    objective_multiple_choice: false,
+    assertion: false,
+    reasoning: false,
   });
 
-  const books = [
-    { id: 1, title: 'Mathematics Class 10', subject: 'Mathematics', board: 'CBSE', chapters: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics', 'Probability'] },
-    { id: 2, title: 'Science Class 9', subject: 'Science', board: 'NCERT', chapters: ['Physics', 'Chemistry', 'Biology', 'Environmental Science'] },
-    { id: 3, title: 'English Literature', subject: 'English', board: 'ICSE', chapters: ['Poetry', 'Prose', 'Grammar', 'Writing Skills', 'Literature Analysis'] },
-    { id: 4, title: 'History Class 8', subject: 'History', board: 'CBSE', chapters: ['Ancient India', 'Medieval Period', 'British Rule', 'Independence Movement'] }
-  ];
+  const { bookId } = useParams();
+  const [selectedBook, setSelectedBook] = useState<string>("");
+  const [selectedBookTitle, setSelectedBookTitle] = useState<string>("");
+  const [books, setBooks] = useState<any[]>([]);
+  const [loadingBooks, setLoadingBooks] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const [chapters, setChapters] = useState<any[]>([]);
+  const [fetchedQuestions, setFetchedQuestions] = useState<any[]>([]);
+
+  useEffect(() => {
+        const loadBooks = async () => {
+          //alert('loadBooks');
+          try {
+            setLoadingBooks(true);
+            const data = await fetchMyBooks({});
+            if (data.length > 0) {
+              setBooks(data);
+              if (bookId) {
+                
+                const selected = data.find((b: any) => String(b.id) === String(bookId));
+                if (selected) {
+                  setSelectedBook(String(selected.id));
+                  setSelectedBookTitle(selected.title);
+                  
+                }
+              } else {
+                
+                setSelectedBook(String(data[0].id));
+                setSelectedBookTitle(data[0].title);
+                
+                
+              }
+            }
+          } catch (error) {
+            console.error("Error loading books:", error);
+          } finally {
+            setLoadingBooks(false);
+          }
+        };
+        loadBooks();
+      }, [bookId]);
+  
+      const handleBookChange = (bookId: string) => {
+        setSelectedBook(bookId);
+        setSelectedChapter('');
+        setChapters([]);
+        const book = books.find((b) => String(b.id) === bookId);
+        if (book) {
+          setSelectedBookTitle(book.title);
+          navigate(`/practice/${book.id}`);
+        }
+        //alert('handleBookChange');
+      };
+
+  // const books = [
+  //   { id: 1, title: 'Mathematics Class 10', subject: 'Mathematics', board: 'CBSE', chapters: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics', 'Probability'] },
+  //   { id: 2, title: 'Science Class 9', subject: 'Science', board: 'NCERT', chapters: ['Physics', 'Chemistry', 'Biology', 'Environmental Science'] },
+  //   { id: 3, title: 'English Literature', subject: 'English', board: 'ICSE', chapters: ['Poetry', 'Prose', 'Grammar', 'Writing Skills', 'Literature Analysis'] },
+  //   { id: 4, title: 'History Class 8', subject: 'History', board: 'CBSE', chapters: ['Ancient India', 'Medieval Period', 'British Rule', 'Independence Movement'] }
+  // ];
 
   const handleStart = () => {
     if (!selectedBook || !selectedDifficulty) {
@@ -53,11 +131,8 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
     onStartPractice(settings);
   };
 
-  const handleQuestionTypeChange = (type: string, checked: boolean) => {
-    setQuestionTypes(prev => ({
-      ...prev,
-      [type]: checked
-    }));
+  const handleQuestionTypeChange = (type: string, value: boolean) => {
+    setQuestionTypes((prev) => ({ ...prev, [type]: value }));
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -90,28 +165,44 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Book Selection */}
-            <div className="space-y-3">
-              <label className="text-sm font-medium">Select Book</label>
-              <Select value={selectedBook} onValueChange={setSelectedBook}>
+              {/* Book Selection */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium">Select Book</label>
+                {loadingBooks ? (
+              <p className="text-sm text-muted-foreground">Loading books...</p>
+            ) : books.length > 0 ? (
+              <Select
+                value={selectedBook}
+                onValueChange={(value) => handleBookChange(value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Choose a book" />
                 </SelectTrigger>
                 <SelectContent className="bg-background z-50 border shadow-lg">
                   {books.map((book) => (
-                    <SelectItem key={book.id} value={book.title}>
+                    <SelectItem
+                      key={book.id}
+                      value={String(book.id)}
+                    >
                       <div className="flex items-center space-x-2">
                         <BookOpen className="h-4 w-4" />
                         <span>{book.title}</span>
-                        <Badge variant="secondary" className="ml-2">
-                          {book.board}
-                        </Badge>
+                        {book.board_name && (
+                          <Badge variant="secondary" className="ml-2">
+                            {book.board_name}
+                          </Badge>
+                        )}
                       </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No books found for your account.
+              </p>
+            )}
+              </div>
 
             {/* Difficulty Level */}
             <div className="space-y-3">
@@ -165,41 +256,89 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
 
             {/* Question Types */}
             <div className="space-y-3">
-              <label className="text-sm font-medium">Question Types</label>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="multipleChoice"
-                    checked={questionTypes.multipleChoice}
-                    onCheckedChange={(checked) => 
-                      handleQuestionTypeChange('multipleChoice', checked as boolean)
-                    }
-                  />
-                  <label htmlFor="multipleChoice" className="text-sm">Multiple Choice</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="trueFalse"
-                    checked={questionTypes.trueFalse}
-                    onCheckedChange={(checked) => 
-                      handleQuestionTypeChange('trueFalse', checked as boolean)
-                    }
-                  />
-                  <label htmlFor="trueFalse" className="text-sm">True/False</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="subjective"
-                    checked={questionTypes.subjective}
-                    onCheckedChange={(checked) => 
-                      handleQuestionTypeChange('subjective', checked as boolean)
-                    }
-                  />
-                  <label htmlFor="subjective" className="text-sm">Subjective</label>
-                </div>
+            <label className="text-sm font-medium">Question Types</label>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="subjective_long"
+                  checked={questionTypes.subjective_long}
+                  onCheckedChange={(checked) =>
+                    handleQuestionTypeChange("subjective_long", checked as boolean)
+                  }
+                />
+                <label htmlFor="subjective_long" className="text-sm">
+                  Subjective (Long Answer)
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="subjective_short"
+                  checked={questionTypes.subjective_short}
+                  onCheckedChange={(checked) =>
+                    handleQuestionTypeChange("subjective_short", checked as boolean)
+                  }
+                />
+                <label htmlFor="subjective_short" className="text-sm">
+                  Subjective (Short Answer)
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="objective_single_choice"
+                  checked={questionTypes.objective_single_choice}
+                  onCheckedChange={(checked) =>
+                    handleQuestionTypeChange("objective_single_choice", checked as boolean)
+                  }
+                />
+                <label htmlFor="objective_single_choice" className="text-sm">
+                  Objective (Single Choice)
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="objective_multiple_choice"
+                  checked={questionTypes.objective_multiple_choice}
+                  onCheckedChange={(checked) =>
+                    handleQuestionTypeChange("objective_multiple_choice", checked as boolean)
+                  }
+                />
+                <label htmlFor="objective_multiple_choice" className="text-sm">
+                  Objective (Multiple Choice)
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="assertion"
+                  checked={questionTypes.assertion}
+                  onCheckedChange={(checked) =>
+                    handleQuestionTypeChange("assertion", checked as boolean)
+                  }
+                />
+                <label htmlFor="assertion" className="text-sm">
+                  Assertion Type
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="reasoning"
+                  checked={questionTypes.reasoning}
+                  onCheckedChange={(checked) =>
+                    handleQuestionTypeChange("reasoning", checked as boolean)
+                  }
+                />
+                <label htmlFor="reasoning" className="text-sm">
+                  Reasoning Type
+                </label>
               </div>
             </div>
           </div>
+          </div>
+
 
           {/* Features Preview */}
           <Card className="bg-accent/50">

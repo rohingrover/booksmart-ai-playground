@@ -24,6 +24,8 @@ import {
   ChevronLeft
 } from 'lucide-react';
 
+
+
 const PracticeTests = () => {
   const [showSetup, setShowSetup] = useState(true);
   const [practiceSettings, setPracticeSettings] = useState<any>(null);
@@ -34,6 +36,8 @@ const PracticeTests = () => {
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [showAIDialog, setShowAIDialog] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('');
+
+  
 
   const initialQuestions = [
     {

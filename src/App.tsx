@@ -71,6 +71,14 @@ const App = () => (
               }
             />
             <Route
+              path="/quiz/:bookId"
+              element={
+                <ProtectedRoute>
+                  <Layout><Quiz /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/practice"
               element={
                 <ProtectedRoute>
@@ -79,7 +87,23 @@ const App = () => (
               }
             />
             <Route
+              path="/practice/:bookId"
+              element={
+                <ProtectedRoute>
+                  <Layout><PracticeTests /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/games"
+              element={
+                <ProtectedRoute>
+                  <Layout><LearningGames /></Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/games/:bookId"
               element={
                 <ProtectedRoute>
                   <Layout><LearningGames /></Layout>

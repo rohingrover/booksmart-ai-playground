@@ -16,19 +16,21 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/pages/components/AuthContext';
+import { toast } from "sonner";
 
 interface ProfileModalProps {
   user: {
     fullname: string;
     email: string;
     profileimageurlsmall: string;
-  };
-  onLogout: () => void;
+  }
 }
 
-const ProfileModal = ({ user, onLogout }: ProfileModalProps) => {
+const ProfileModal = ({ user }: ProfileModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const credits = [
     {
@@ -62,7 +64,9 @@ const ProfileModal = ({ user, onLogout }: ProfileModalProps) => {
 
   const handleLogout = () => {
     setIsOpen(false);
-    onLogout();
+    logout(); // ✅ directly call context logout
+    toast.success("Logged out successfully!");
+    navigate('/', { replace: true });
   };
 
   return (

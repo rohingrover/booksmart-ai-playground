@@ -6,8 +6,67 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import QuizResults from '@/components/QuizResults';
 import { Clock, BrainCircuit, Target, Trophy, BookOpen, Play, Settings, Award, TrendingUp } from 'lucide-react';
+import { useParams, useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Token not found");
+
+    const response = await fetch(`${API_BASE_URL}/api/my-books`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ keyword, board_id, subject_id }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to fetch books");
+    return data;
+  }
+
+  async function getBook(bookId: number) {
+    const res = await fetch(`${API_BASE_URL}/api/book/${bookId}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to fetch books");
+    // Extract chapter_id and chapter_name from chapters array
+    const chapters = (data.chapters || []).map((ch: any) => ({
+      chapter_id: ch.chapter_id,
+      chapter_name: ch.chapter_name,
+    }));
+
+    return {
+      ...data,
+      chapters,
+    };
+  }
+
+  async function fetchQuizQuestions({ book_id, chapter_id, difficulty_level, no_of_questions }) {
+    const response = await fetch(`${API_BASE_URL}/api/quiz-questions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        book_id,
+        chapter_id,
+        difficulty_level,
+        no_of_questions,
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to fetch quiz questions");
+    return data;
+  }
+
+
 const Quiz = () => {
-  const [selectedBook, setSelectedBook] = useState('');
+  type QuizAnswer = string | string[]; // one question can have one or multiple answers
+  //const [selectedBook, setSelectedBook] = useState('');
   const [selectedChapter, setSelectedChapter] = useState('');
   const [selectedTime, setSelectedTime] = useState('15');
   const [selectedLevel, setSelectedLevel] = useState('');
@@ -19,34 +78,73 @@ const Quiz = () => {
   const [quizSettings, setQuizSettings] = useState<any>(null);
   const [currentQuizQuestion, setCurrentQuizQuestion] = useState(0);
   const [quizTimeLeft, setQuizTimeLeft] = useState(0);
-  const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
+  const [quizAnswers, setQuizAnswers] = useState<QuizAnswer[]>([]);
   const [quizScore, setQuizScore] = useState(0);
   const [selectedQuizAnswer, setSelectedQuizAnswer] = useState('');
-  const books = [{
-    id: 1,
-    title: 'Mathematics Class 10',
-    subject: 'Mathematics',
-    board: 'CBSE',
-    chapters: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics', 'Probability']
-  }, {
-    id: 2,
-    title: 'Science Class 9',
-    subject: 'Science',
-    board: 'NCERT',
-    chapters: ['Physics', 'Chemistry', 'Biology', 'Environmental Science']
-  }, {
-    id: 3,
-    title: 'English Literature',
-    subject: 'English',
-    board: 'ICSE',
-    chapters: ['Poetry', 'Prose', 'Grammar', 'Writing Skills', 'Literature Analysis']
-  }, {
-    id: 4,
-    title: 'History Class 8',
-    subject: 'History',
-    board: 'CBSE',
-    chapters: ['Ancient India', 'Medieval Period', 'British Rule', 'Independence Movement']
-  }];
+  const { bookId } = useParams();
+  const [selectedBook, setSelectedBook] = useState<string>("");
+  const [selectedBookTitle, setSelectedBookTitle] = useState<string>("");
+  const [books, setBooks] = useState<any[]>([]);
+  const [loadingBooks, setLoadingBooks] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const [chapters, setChapters] = useState<any[]>([]);
+  const [fetchedQuestions, setFetchedQuestions] = useState<any[]>([]);
+
+  
+
+  useEffect(() => {
+      const loadBooks = async () => {
+        //alert('loadBooks');
+        try {
+          setLoadingBooks(true);
+          const data = await fetchMyBooks({});
+          if (data.length > 0) {
+            setBooks(data);
+            if (bookId) {
+              
+              const selected = data.find((b: any) => String(b.id) === String(bookId));
+              if (selected) {
+                setSelectedBook(String(selected.id));
+                setSelectedBookTitle(selected.title);
+                getBook(selected.id).then(book => {
+                  //console.log(book.chapters);
+                  setChapters(book.chapters);
+                });
+              }
+            } else {
+              
+              setSelectedBook(String(data[0].id));
+              setSelectedBookTitle(data[0].title);
+              getBook(data[0].id).then(book => {
+                //console.log(book.chapters);
+                setChapters(book.chapters);
+              });
+              
+            }
+          }
+        } catch (error) {
+          console.error("Error loading books:", error);
+        } finally {
+          setLoadingBooks(false);
+        }
+      };
+      loadBooks();
+    }, [bookId]);
+
+    const handleBookChange = (bookId: string) => {
+      setSelectedBook(bookId);
+      setSelectedChapter('');
+      setChapters([]);
+      const book = books.find((b) => String(b.id) === bookId);
+      if (book) {
+        setSelectedBookTitle(book.title);
+        navigate(`/quiz/${book.id}`);
+      }
+      //alert('handleBookChange');
+    };
+
+
+  
   const recentQuizzes = [{
     id: 1,
     title: 'Algebra Basics',
@@ -97,20 +195,55 @@ const Quiz = () => {
     questions: 25,
     difficulty: 'Hard'
   }];
-  const handleStartQuiz = () => {
-    if (!selectedBook || !selectedLevel) {
-      alert('Please select a book and difficulty level');
-      return;
+
+  const handleStartQuiz = async () => {
+    if (!selectedBook) return alert("Please select a book");
+    //if (!selectedChapter) return alert("Please select a chapter");
+    if (!selectedLevel) return alert("Please select difficulty level");
+
+    try {
+      setShowQuizSetup(false);
+      setQuizActive(false);
+
+      // Fetch questions from your proxy API
+      const result = await fetchQuizQuestions({
+        book_id: Number(selectedBook),
+        chapter_id: Number(selectedChapter),
+        difficulty_level: selectedLevel,
+        no_of_questions: questionCount[0],
+      });
+
+      if (!result?.questions?.length) {
+        alert("No questions found for this selection.");
+        setShowQuizSetup(true);
+        return;
+      }
+
+      // Store questions in state
+      setQuizResults([]); // reset old results
+      setQuizScore(0);
+      setQuizAnswers([]);
+      setCurrentQuizQuestion(0);
+
+      // ✅ Use fetched questions here
+      setFetchedQuestions(result.questions);
+
+      startQuiz({
+        type: "custom",
+        book: selectedBook,
+        time: parseInt(selectedTime),
+        level: selectedLevel,
+        questions: result.questions.length,
+      });
+
+    } catch (err) {
+      console.error("Quiz start error:", err);
+      alert("Failed to start quiz. Try again later.");
+      setShowQuizSetup(true);
     }
-    setShowQuizSetup(false);
-    startQuiz({
-      type: 'custom',
-      book: selectedBook,
-      time: parseInt(selectedTime),
-      level: selectedLevel,
-      questions: questionCount[0]
-    });
   };
+
+
   const startQuiz = (settings: any) => {
     setQuizSettings(settings);
     setQuizActive(true);
@@ -146,28 +279,28 @@ const Quiz = () => {
     if (score >= 70) return 'text-warning';
     return 'text-destructive';
   };
-  const quizQuestions = [{
-    question: "What is the formula for the area of a triangle?",
-    options: ["A = πr²", "A = ½ × base × height", "A = length × width", "A = 4 × side"],
-    correct: "A = ½ × base × height"
-  }, {
-    question: "Which of these is a prime number?",
-    options: ["15", "21", "17", "27"],
-    correct: "17"
-  }, {
-    question: "What is 8 × 7?",
-    options: ["54", "56", "58", "64"],
-    correct: "56"
-  }, {
-    question: "What is the square root of 64?",
-    options: ["6", "7", "8", "9"],
-    correct: "8"
-  }, {
-    question: "Which element has the chemical symbol 'O'?",
-    options: ["Gold", "Oxygen", "Silver", "Iron"],
-    correct: "Oxygen"
-  }];
-
+  // const quizQuestions = [{
+  //   question: "What is the formula for the area of a triangle?",
+  //   options: ["A = πr²", "A = ½ × base × height", "A = length × width", "A = 4 × side"],
+  //   correct: "A = ½ × base × height"
+  // }, {
+  //   question: "Which of these is a prime number?",
+  //   options: ["15", "21", "17", "27"],
+  //   correct: "17"
+  // }, {
+  //   question: "What is 8 × 7?",
+  //   options: ["54", "56", "58", "64"],
+  //   correct: "56"
+  // }, {
+  //   question: "What is the square root of 64?",
+  //   options: ["6", "7", "8", "9"],
+  //   correct: "8"
+  // }, {
+  //   question: "Which element has the chemical symbol 'O'?",
+  //   options: ["Gold", "Oxygen", "Silver", "Iron"],
+  //   correct: "Oxygen"
+  // }];
+  const quizQuestions = fetchedQuestions.length > 0 ? fetchedQuestions : [];
   // Quiz timer effect
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -179,22 +312,71 @@ const Quiz = () => {
     return () => clearTimeout(timer);
   }, [quizActive, quizTimeLeft]);
   const handleQuizAnswer = (answer: string) => {
-    setSelectedQuizAnswer(answer);
+    const questionType = quizQuestions[currentQuizQuestion].type; // e.g., 'objective_multiple_choice'
+
     const newAnswers = [...quizAnswers];
-    newAnswers[currentQuizQuestion] = answer;
-    setQuizAnswers(newAnswers);
-    if (answer === quizQuestions[currentQuizQuestion].correct) {
-      setQuizScore(quizScore + 1);
+
+    if (questionType === 'objective_multiple_choice') {
+      const current = new Set((quizAnswers[currentQuizQuestion] as string[]) || []);
+      if (current.has(answer)) current.delete(answer);
+      else current.add(answer);
+      newAnswers[currentQuizQuestion] = Array.from(current);
+      setQuizAnswers(newAnswers);
+
+      setSelectedQuizAnswer(Array.from(current).join(', '));
+
+    } else {
+      // single-choice or subjective
+      newAnswers[currentQuizQuestion] = answer;
+      setQuizAnswers(newAnswers);
+      setSelectedQuizAnswer(answer);
+
+      if (answer === quizQuestions[currentQuizQuestion].correct) {
+        setQuizScore(quizScore + 1);
+      }
     }
   };
+
+  // const nextQuizQuestion = () => {
+  //   if (currentQuizQuestion < quizQuestions.length - 1) {
+  //     setCurrentQuizQuestion(currentQuizQuestion + 1);
+
+  //     const nextAnswer = quizAnswers[currentQuizQuestion + 1];
+  //     if (Array.isArray(nextAnswer)) {
+  //       // Join multiple-choice answers with comma, or pick first answer
+  //       setSelectedQuizAnswer(nextAnswer.join(', '));
+  //     } else {
+  //       setSelectedQuizAnswer(nextAnswer || '');
+  //     }
+
+  //   } else {
+  //     endQuiz();
+  //   }
+  // };
+
   const nextQuizQuestion = () => {
     if (currentQuizQuestion < quizQuestions.length - 1) {
-      setCurrentQuizQuestion(currentQuizQuestion + 1);
-      setSelectedQuizAnswer(quizAnswers[currentQuizQuestion + 1] || '');
+      const nextIndex = currentQuizQuestion + 1;
+
+      setCurrentQuizQuestion(nextIndex);
+
+      const nextAnswer = quizAnswers[nextIndex];
+
+      if (typeof nextAnswer === "string") {
+        // Subjective (short/long)
+        setSelectedQuizAnswer(nextAnswer);
+      } else if (Array.isArray(nextAnswer)) {
+        // Multiple choice (e.g., multiple select)
+        setSelectedQuizAnswer(nextAnswer.join(", "));
+      } else {
+        // No answer yet
+        setSelectedQuizAnswer("");
+      }
     } else {
       endQuiz();
     }
   };
+
   const endQuiz = () => {
     setQuizActive(false);
 
@@ -260,13 +442,88 @@ const Quiz = () => {
         {/* Question */}
         <Card className="shadow-elegant">
           <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6">{currentQ.question}</h2>
-            <div className="space-y-3">
-              {currentQ.options.map((option, index) => <Button key={index} onClick={() => handleQuizAnswer(option)} variant={selectedQuizAnswer === option ? "default" : "outline"} className={`w-full p-4 text-left justify-start h-auto ${selectedQuizAnswer === option ? 'gradient-primary' : 'hover:bg-accent'}`}>
-                  <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
-                  {option}
-                </Button>)}
-            </div>
+            <h2
+  className="text-2xl font-bold mb-6"
+  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentQ.question_text) }}
+></h2>
+
+{(() => {
+  switch (currentQ.question_type) {
+    case "objective_single_choice":
+    case "assertion":
+    case "reasoning":
+      return (
+        <div className="space-y-3">
+          {currentQ.options?.map((option, index) => (
+            <Button
+              key={index}
+              onClick={() => handleQuizAnswer(option.text)}
+              variant={selectedQuizAnswer === option.text ? "default" : "outline"}
+              className={`w-full p-4 text-left justify-start h-auto ${
+                selectedQuizAnswer === option.text ? 'gradient-primary' : 'hover:bg-accent'
+              }`}
+            >
+              <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
+              <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(option.text) }}></span>
+            </Button>
+          ))}
+        </div>
+      );
+
+    case "objective_multiple_choice":
+      return (
+        <div className="space-y-3">
+          {currentQ.options?.map((option, index) => (
+            <Button
+              key={index}
+              onClick={() => {
+                const newAnswers = new Set(quizAnswers[currentQuizQuestion] as string[] || []);
+                if (newAnswers.has(option.text)) newAnswers.delete(option.text);
+                else newAnswers.add(option.text);
+
+                const arr = [...quizAnswers];
+                arr[currentQuizQuestion] = Array.from(newAnswers); // ✅ no error now
+                setQuizAnswers(arr);
+              }}
+              variant={
+                (quizAnswers[currentQuizQuestion] || []).includes(option.text)
+                  ? "default"
+                  : "outline"
+              }
+              className="w-full p-4 text-left justify-start h-auto hover:bg-accent"
+            >
+              <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
+              <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(option.text) }}></span>
+            </Button>
+          ))}
+        </div>
+      );
+
+    case "subjective_short":
+    case "subjective_long":
+      return (
+        <textarea
+          className="w-full border rounded-md p-3 focus:ring-2 focus:ring-primary outline-none"
+          rows={currentQ.question_type === "subjective_long" ? 5 : 2}
+          placeholder="Type your answer here..."
+          value={quizAnswers[currentQuizQuestion] || ""}
+          onChange={(e) => {
+            const val = e.target.value;
+
+            // Update quizAnswers array
+            const updatedAnswers = [...quizAnswers];
+            updatedAnswers[currentQuizQuestion] = val;
+            setQuizAnswers(updatedAnswers);
+
+            // Update selectedQuizAnswer (important for enabling Next button)
+            setSelectedQuizAnswer(val);
+          }}
+        />
+      );
+    default:
+      return <p className="text-muted-foreground">Unsupported question type.</p>;
+  }
+})()}
             <div className="flex justify-between mt-6">
               <Button onClick={() => {
               setQuizActive(false);
@@ -351,27 +608,40 @@ const Quiz = () => {
               {/* Book Selection */}
               <div className="space-y-3">
                 <label className="text-sm font-medium">Select Book</label>
-                <Select value={selectedBook} onValueChange={(value) => {
-                  setSelectedBook(value);
-                  setSelectedChapter(''); // Reset chapter when book changes
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose a book" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-background z-50 border shadow-lg">
-                    {books.map(book => (
-                      <SelectItem key={book.id} value={book.title}>
-                        <div className="flex items-center space-x-2">
-                          <BookOpen className="h-4 w-4" />
-                          <span>{book.title}</span>
+                {loadingBooks ? (
+              <p className="text-sm text-muted-foreground">Loading books...</p>
+            ) : books.length > 0 ? (
+              <Select
+                value={selectedBook}
+                onValueChange={(value) => handleBookChange(value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose a book" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50 border shadow-lg">
+                  {books.map((book) => (
+                    <SelectItem
+                      key={book.id}
+                      value={String(book.id)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <BookOpen className="h-4 w-4" />
+                        <span>{book.title}</span>
+                        {book.board_name && (
                           <Badge variant="secondary" className="ml-2">
-                            {book.board}
+                            {book.board_name}
                           </Badge>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        )}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No books found for your account.
+              </p>
+            )}
               </div>
 
               {/* Chapter Selection */}
@@ -382,9 +652,9 @@ const Quiz = () => {
                     <SelectValue placeholder={selectedBook ? "Choose a chapter" : "Select book first"} />
                   </SelectTrigger>
                   <SelectContent className="bg-background z-50 border shadow-lg">
-                    {selectedBook && books.find(book => book.title === selectedBook)?.chapters.map((chapter, index) => (
-                      <SelectItem key={index} value={chapter}>
-                        {chapter}
+                    {selectedBook && chapters.map((chapter, index) => (
+                      <SelectItem key={index} value={chapter.chapter_id}>
+                        {chapter.chapter_name}
                       </SelectItem>
                     ))}
                   </SelectContent>

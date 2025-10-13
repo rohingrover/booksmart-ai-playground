@@ -381,20 +381,20 @@ const Books = () => {
                             <MessageCircle className="h-3 w-3 mr-1" /> AI Chat
                           </Button>
                         </Link>
-                        <Link to={`/practice?book=${book.id}`}>
+                        <Link to={`/practice/${book.id}`}>
                           <Button variant="outline" className="w-full text-xs py-2">
                             <BrainCircuit className="h-3 w-3 mr-1" /> Practice
                           </Button>
                         </Link>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
-                        <Link to={`/quiz?book=${book.id}`}>
+                        <Link to={`/quiz/${book.id}`}>
                           <Button variant="outline" className="w-full text-xs py-2">
                             <Trophy className="h-3 w-3 mr-1" />
                             Quiz
                           </Button>
                         </Link>
-                        <Link to={`/games?book=${book.id}`}>
+                        <Link to={`/games/${book.id}`}>
                           <Button variant="outline" className="w-full text-xs py-2">
                             <Gamepad2 className="h-3 w-3 mr-1" />
                             Games
