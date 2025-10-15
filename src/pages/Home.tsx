@@ -9,7 +9,7 @@ import { BookOpen, Search, Filter, Star, Users, Clock, Brain, Target, MessageSqu
 // Import images so Vite can process them
 import oswaalLogo from '@/assets/oswaal360-logo-new.png';
 import heroLearning from '@/assets/hero-learning.png';
-import professionallyCurated from '@/assets/professionally curated.png';
+import professionallyCurated from '@/assets/professionally-curated.png';
 import whyOswaal from '@/assets/why-oswaal.png';
 import howItWorks from '@/assets/how-it-works.png';
 import futureOfLearning from '@/assets/future-of-learning.png';
