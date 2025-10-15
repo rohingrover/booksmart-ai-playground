@@ -266,8 +266,8 @@ const Home = () => {
             </p>
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* CTA Button */}
+              <div className="flex justify-start">
                 <Button 
                   size="lg" 
                   className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" 
@@ -275,17 +275,8 @@ const Home = () => {
                   disabled={isLoggingIn}
                 >
                   <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
-                  {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey →"}
+                {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
                   <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"
-                >
-                  <Play className="mr-2 h-5 w-5" />
-                  Watch Demo
               </Button>
               </div>
 
@@ -618,7 +609,7 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex justify-center">
             <Button 
               size="lg" 
               className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-12 py-6 text-xl rounded-2xl shadow-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1" 
@@ -626,17 +617,8 @@ const Home = () => {
               disabled={isLoggingIn}
             >
               <Rocket className="mr-3 h-6 w-6 group-hover:animate-bounce" />
-              {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey →"}
+            {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
               <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white font-semibold px-8 py-6 text-lg rounded-2xl transition-all duration-300"
-            >
-              <BookOpen className="mr-2 h-5 w-5" />
-              Learn More
           </Button>
           </div>
         </div>
