@@ -204,18 +204,28 @@ const Home = () => {
             
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center space-x-8">
-              <button 
-                onClick={() => document.getElementById('what-is-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
-              >
-                About
-              </button>
-              <button 
-                onClick={() => document.getElementById('books-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
-              >
-                Explore our Books
-              </button>
+            <button 
+              onClick={() => {
+                const element = document.getElementById('what-is-section');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
+            >
+              About
+            </button>
+            <button 
+              onClick={() => {
+                const element = document.getElementById('books-section');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
+            >
+              Explore our Books
+            </button>
             </nav>
             
             {/* Mobile Menu Button */}
@@ -241,8 +251,14 @@ const Home = () => {
             <div className="px-4 py-4 space-y-4">
               <button 
                 onClick={() => {
-                  document.getElementById('what-is-section')?.scrollIntoView({ behavior: 'smooth' });
-                  document.getElementById('mobile-menu')?.classList.add('hidden');
+                  const element = document.getElementById('what-is-section');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                  const mobileMenu = document.getElementById('mobile-menu');
+                  if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                  }
                 }}
                 className="block w-full text-left text-gray-700 hover:text-brand-primary transition-colors font-medium py-2"
               >
@@ -250,8 +266,14 @@ const Home = () => {
               </button>
               <button 
                 onClick={() => {
-                  document.getElementById('books-section')?.scrollIntoView({ behavior: 'smooth' });
-                  document.getElementById('mobile-menu')?.classList.add('hidden');
+                  const element = document.getElementById('books-section');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                  const mobileMenu = document.getElementById('mobile-menu');
+                  if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                  }
                 }}
                 className="block w-full text-left text-gray-700 hover:text-brand-primary transition-colors font-medium py-2"
               >
@@ -411,11 +433,20 @@ const Home = () => {
         </div>
         
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-brand-primary rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-brand-primary rounded-full mt-2 animate-pulse"></div>
-        </div>
-        </div>
+        <button 
+          onClick={() => {
+            const element = document.getElementById('what-is-section');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
+          aria-label="Scroll to next section"
+        >
+          <div className="w-6 h-10 border-2 border-brand-primary rounded-full flex justify-center hover:border-brand-secondary transition-colors duration-300">
+            <div className="w-1 h-3 bg-brand-primary rounded-full mt-2 animate-pulse hover:bg-brand-secondary transition-colors duration-300"></div>
+          </div>
+        </button>
       </section>
 
       {/* What is Oswaal HybridEdge Section */}
