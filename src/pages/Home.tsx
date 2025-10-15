@@ -388,70 +388,56 @@ const Home = () => {
                 </div>
                 
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
-                  We're redefining <span className="text-brand-primary">early child care</span> education
+                  Why <span className="text-brand-primary">Oswaal HybridEdge?</span>
                 </h2>
-                
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Experience the future of learning with our revolutionary AI-powered platform that transforms traditional education.
-                </p>
               </div>
             </div>
 
-            {/* Right Side - 5 Feature Items */}
-            <div className="space-y-6">
+            {/* Right Side - 5 Feature Items in 3x2 Grid */}
+            <div className="grid grid-cols-2 gap-6">
               {/* Item 1 */}
-              <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
                   <span className="text-yellow-600 font-bold text-lg">01</span>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Active learning</h3>
-                  <p className="text-gray-600 text-sm">Childrens love this class room as it has many toys and educational games.</p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Smarter Books. Smarter Learning.</h3>
+                <p className="text-gray-600 text-sm">Every Oswaal book now comes alive with AI. Ask questions, get explanations, or practice exam-style problems - directly linked to your book content.</p>
               </div>
 
               {/* Item 2 */}
-              <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                   <span className="text-blue-600 font-bold text-lg">02</span>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Fully equiped</h3>
-                  <p className="text-gray-600 text-sm">Concept of the activity room is about Learning, through play.</p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Personalized Support, 24×7</h3>
+                <p className="text-gray-600 text-sm">Students get tailor-made help whenever they need it - doubt-solving, revision guidance, and intelligent recommendations based on their progress.</p>
               </div>
 
               {/* Item 3 */}
-              <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
                   <span className="text-pink-600 font-bold text-lg">03</span>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Expert teachers</h3>
-                  <p className="text-gray-600 text-sm">Childrens love this class room as it has many toys and educational games.</p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Instant Answers. No Waiting.</h3>
+                <p className="text-gray-600 text-sm">Powered by Oswaal's verified content and AI intelligence, HybridEdge delivers accurate, syllabus-aligned responses within seconds.</p>
               </div>
 
               {/* Item 4 */}
-              <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
                   <span className="text-red-600 font-bold text-lg">04</span>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Safe enviroment</h3>
-                  <p className="text-gray-600 text-sm">By creating a safe, consistent and welcoming environment.</p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Connected Ecosystem</h3>
+                <p className="text-gray-600 text-sm">Seamlessly integrated with Oswaal360, HybridEdge bridges books, practice papers, and assessments, ensuring your learning journey never stops.</p>
               </div>
 
               {/* Item 5 */}
-              <div className="flex items-start space-x-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                   <span className="text-green-600 font-bold text-lg">05</span>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Funny and happy</h3>
-                  <p className="text-gray-600 text-sm">Our preschool program has four dedicated classes.</p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Designed for Every Learner</h3>
+                <p className="text-gray-600 text-sm">Whether you're a student, teacher, or parent - HybridEdge adapts to your learning style, making studying faster, simpler, and more engaging.</p>
               </div>
             </div>
           </div>
