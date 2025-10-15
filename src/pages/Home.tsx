@@ -198,7 +198,7 @@ const Home = () => {
             {/* Logo */}
             <div className="flex items-center">
               <img 
-                src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                src="/src/assets/oswaal360-logo-new.png" 
                 alt="Oswaal 360 Logo" 
                 className="h-[70px] w-auto"
               />
@@ -306,7 +306,7 @@ const Home = () => {
               <div className="relative w-full max-w-md lg:max-w-lg">
                 {/* Oswaal HybridEdge Hero Image */}
                 <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop&crop=face" 
+                  src="/src/assets/hero-learning.png" 
                   alt="Oswaal HybridEdge Hero - Successful Student" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -738,7 +738,7 @@ const Home = () => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <img 
-                  src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                  src="/src/assets/oswaal360-logo-new.png" 
                   alt="Oswaal 360 Logo" 
                   className="h-16 w-auto"
                 />
