@@ -421,7 +421,7 @@ const Home = () => {
       </section>
 
       {/* What is Oswaal HybridEdge Section */}
-      <section id="what-is-section" className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+      <section id="what-is-section" className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* Background shapes - positioned in empty areas */}
@@ -492,8 +492,8 @@ const Home = () => {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left Side - 4 Feature Items in 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-6 order-2 lg:order-1">
+            {/* Left Side - 4 Feature Items in 1x4 Grid on mobile, 2x2 on desktop */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 order-2 lg:order-1">
               {/* Item 1 */}
               <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
@@ -533,7 +533,7 @@ const Home = () => {
 
             {/* Right Side - Heading and Image */}
             <div className="space-y-8 order-1 lg:order-2">
-              <div className="space-y-6">
+              <div className="space-y-6 text-center lg:text-left">
                 <div className="inline-flex items-center px-4 py-2 bg-yellow-100 rounded-full">
                   <span className="text-yellow-600 font-medium text-sm">Our core value</span>
                 </div>
@@ -565,7 +565,7 @@ const Home = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* Background shapes - positioned in empty areas */}
@@ -900,7 +900,7 @@ const Home = () => {
       </section>
 
       {/* Experience the Future Section */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
+      <section className="py-24 px-6 sm:px-8 lg:px-12 bg-gray-50 relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* Background shapes - positioned in empty areas */}
