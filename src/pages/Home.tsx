@@ -198,7 +198,7 @@ const Home = () => {
             {/* Logo */}
             <div className="flex items-center">
               <img 
-                src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                src="https://oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
                 alt="Oswaal 360 Logo" 
                 className="h-[70px] w-auto"
               />
@@ -738,7 +738,7 @@ const Home = () => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <img 
-                  src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                  src="https://oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
                   alt="Oswaal 360 Logo" 
                   className="h-16 w-auto"
                 />
