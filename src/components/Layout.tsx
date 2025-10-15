@@ -63,9 +63,7 @@ const Layout = ({
             </div>
             
             <div className="flex items-center space-x-2 sm:space-x-4">
-              
-              
-              <ProfileModal user={user} onLogout={handleLogout} />
+              <ProfileModal user={user} />
             </div>
           </div>
         </div>
