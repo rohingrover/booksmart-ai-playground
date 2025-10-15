@@ -851,7 +851,7 @@ const Home = () => {
                   </div>
 
                   {/* Enhanced Content Section */}
-                  <CardContent className="px-6 pb-6 space-y-4">
+                  <CardContent className="px-6 pb-6 pt-8 space-y-4">
                     {/* Title and Subject */}
                     <div className="text-center space-y-2">
                       <h3 className="font-bold text-lg text-gray-900 group-hover:text-brand-primary transition-colors duration-300 leading-tight">
