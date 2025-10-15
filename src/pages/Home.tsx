@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { BookOpen, Search, Filter, Star, Users, Clock, Brain, Target, MessageSquare, Lightbulb, TrendingUp, Award, Zap, Play, CheckCircle, Globe, Smartphone, Gamepad2, BarChart3, Shield, Sparkles, ArrowRight, BookMarked, GraduationCap, Rocket, Star as StarIcon, ChevronRight, Sparkle, BookCheck, Users2, Timer, Trophy, Crown, Infinity } from 'lucide-react';
 
-// Import images so Vite can process them
+// Import images so Vite can process them - Updated
 import oswaalLogo from '@/assets/oswaal360-logo-new.png';
 import heroLearning from '@/assets/hero-learning.png';
 import professionallyCurated from '@/assets/professionally-curated.png';
