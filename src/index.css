@@ -139,7 +139,11 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Montserrat VariableFont', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  * {
+    font-family: 'Montserrat', sans-serif;
   }
 
   /* Custom utility classes */
@@ -292,6 +296,22 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
     border-color: #ee3539;
   }
 
+  .hover\:bg-brand-primary:hover {
+    background-color: #206399;
+  }
+
+  .hover\:text-brand-primary:hover {
+    color: #206399;
+  }
+
+  .hover\:bg-brand-secondary:hover {
+    background-color: #ee3539;
+  }
+
+  .hover\:text-brand-secondary:hover {
+    color: #ee3539;
+  }
+
   /* Animated Vector Elements */
   .animate-float-slow {
     animation: float-slow 4s ease-in-out infinite;
@@ -308,7 +328,6 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
   .animate-bounce-gentle {
     animation: bounce-gentle 2s ease-in-out infinite;
   }
-}
 
 @keyframes float-slow {
   0%, 100% { transform: translateY(0px) rotate(0deg); }

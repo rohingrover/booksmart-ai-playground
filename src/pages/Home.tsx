@@ -216,17 +216,13 @@ const Home = () => {
             {/* Left Content */}
             <div className="space-y-8">
               <div className="space-y-6">
-                <div className="inline-flex items-center px-4 py-2 bg-yellow-100 rounded-full">
-                  <span className="text-yellow-600 font-medium text-sm">Who we are</span>
-                </div>
-                
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 leading-tight">
-                  The best <span className="text-brand-primary">learning</span> platform for your child
+                  Oswaal <span className="text-brand-primary">HybridEdge</span>
                 </h1>
                 
-                <p className="text-xl text-gray-600 leading-relaxed max-w-2xl">
-                  Transform your Oswaal books into intelligent learning companions with AI-powered insights, instant answers, and personalized guidance.
-                </p>
+                <p className="text-2xl text-brand-secondary font-semibold leading-relaxed max-w-2xl">
+              Where Print Meets Power.
+            </p>
               </div>
 
               {/* CTA Buttons */}
@@ -238,7 +234,7 @@ const Home = () => {
                   disabled={isLoggingIn}
                 >
                   <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
-                  {isLoggingIn ? "Logging in..." : "Start Learning"}
+                  {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey →"}
                   <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 
@@ -249,7 +245,7 @@ const Home = () => {
                 >
                   <Play className="mr-2 h-5 w-5" />
                   Watch Demo
-                </Button>
+              </Button>
               </div>
 
               {/* Stats */}
@@ -292,12 +288,12 @@ const Home = () => {
             </div>
           </div>
         </div>
-
+        
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-brand-primary rounded-full flex justify-center">
             <div className="w-1 h-3 bg-brand-primary rounded-full mt-2 animate-pulse"></div>
-          </div>
+        </div>
         </div>
       </section>
 
@@ -325,22 +321,14 @@ const Home = () => {
             
             <div className="max-w-5xl mx-auto space-y-8 text-xl text-gray-600 leading-relaxed">
               <p className="text-2xl font-semibold text-gray-800">
-                The next big leap in learning innovation
+                Oswaal HybridEdge is the next big leap in learning innovation — an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
               </p>
               <p>
-                Oswaal HybridEdge is an intelligent layer that seamlessly connects the trusted world of Oswaal Books with the revolutionary power of AI, creating a unified learning ecosystem.
+                It transforms every Oswaal book into a smart, interactive learning companion — giving students instant answers, personalized insights, and guided practice anytime, anywhere.
               </p>
               <p>
-                It transforms every Oswaal book into a smart, interactive learning companion that provides students with instant answers, personalized insights, and guided practice anytime, anywhere.
+                With HybridEdge, Oswaal introduces a new era of Hybrid Learning, where print and technology work together to deliver one seamless, smarter learning experience.
               </p>
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100">
-                <p className="text-2xl font-bold text-gray-800 mb-4">
-                  🚀 Introducing Hybrid Learning
-                </p>
-                <p className="text-lg">
-                  With HybridEdge, Oswaal introduces a new era where print and technology work together to deliver one seamless, smarter learning experience that adapts to every student's needs.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -367,18 +355,19 @@ const Home = () => {
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
               Why <span className="text-brand-secondary">Oswaal HybridEdge?</span>
             </h2>
-            
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Experience the future of learning with our revolutionary AI-powered platform
-            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {/* Feature Card 1 */}
             <Card className="group relative overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <BookOpen className="w-8 h-8 text-white" />
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-brand-primary rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <span className="text-white font-bold text-lg">1</span>
+                  </div>
+                  <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <BookOpen className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">Smarter Books. Smarter Learning.</h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -390,12 +379,17 @@ const Home = () => {
             {/* Feature Card 2 */}
             <Card className="group relative overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Brain className="w-8 h-8 text-white" />
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-brand-secondary rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <span className="text-white font-bold text-lg">2</span>
+                  </div>
+                  <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Brain className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Personalized Support, 24/7</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Personalized Support, 24×7</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Students get tailor-made help whenever they need it - doubt-solving, revision guidance, and intelligent recommendations based on their progress.
+                  Students get tailor-made help whenever they need it — doubt-solving, revision guidance, and intelligent recommendations based on their progress.
                 </p>
               </CardContent>
             </Card>
@@ -403,8 +397,13 @@ const Home = () => {
             {/* Feature Card 3 */}
             <Card className="group relative overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="w-8 h-8 text-white" />
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-brand-primary rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <span className="text-white font-bold text-lg">3</span>
+                  </div>
+                  <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <MessageSquare className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">Instant Answers. No Waiting.</h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -416,8 +415,13 @@ const Home = () => {
             {/* Feature Card 4 */}
             <Card className="group relative overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Globe className="w-8 h-8 text-white" />
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-brand-secondary rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <span className="text-white font-bold text-lg">4</span>
+                  </div>
+                  <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Globe className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">Connected Ecosystem</h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -429,25 +433,17 @@ const Home = () => {
             {/* Feature Card 5 */}
             <Card className="group relative overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Zap className="w-8 h-8 text-white" />
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-brand-primary rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <span className="text-white font-bold text-lg">5</span>
+                  </div>
+                  <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Zap className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">Designed for Every Learner</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Whether you're a student, teacher, or parent - HybridEdge adapts to your learning style, making studying faster, simpler, and more engaging.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Feature Card 6 */}
-            <Card className="group relative overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <BarChart3 className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Smart Progress Analytics</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Track your performance with detailed insights and recommendations. HybridEdge identifies weak areas and suggests targeted practice to help you improve.
+                  Whether you're a student, teacher, or parent — HybridEdge adapts to your learning style, making studying faster, simpler, and more engaging.
                 </p>
               </CardContent>
             </Card>
@@ -476,10 +472,6 @@ const Home = () => {
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
               How <span className="text-brand-primary">It Works</span>
             </h2>
-            
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get started with HybridEdge in just 4 simple steps
-            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -491,10 +483,7 @@ const Home = () => {
                 </div>
                 <div className="absolute -inset-2 bg-brand-primary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Scan QR Code</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Scan the QR code inside your Oswaal Book to unlock AI-powered features
-              </p>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Scan the QR code inside your Oswaal Book.</h3>
             </div>
             
             {/* Step 2 */}
@@ -505,10 +494,7 @@ const Home = () => {
                 </div>
                 <div className="absolute -inset-2 bg-brand-secondary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Ask Questions</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Ask your question - concept, formula, or topic - and get instant help
-              </p>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Ask your question — concept, formula, or topic.</h3>
             </div>
             
             {/* Step 3 */}
@@ -519,10 +505,7 @@ const Home = () => {
                 </div>
                 <div className="absolute -inset-2 bg-brand-primary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Get AI Answers</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Receive instant AI-powered answers, examples, and practice problems
-              </p>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Get instant AI-powered answers, examples, and practice.</h3>
             </div>
             
             {/* Step 4 */}
@@ -533,22 +516,15 @@ const Home = () => {
                 </div>
                 <div className="absolute -inset-2 bg-brand-secondary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Track Progress</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Monitor your learning journey through your personalized Oswaal360 dashboard
-              </p>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Track your learning through your Oswaal360 dashboard.</h3>
             </div>
           </div>
           
           <div className="text-center mt-16">
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 max-w-4xl mx-auto">
-              <p className="text-2xl font-bold text-gray-800 mb-4">
-                🎯 Every Page Becomes a Gateway
-              </p>
               <p className="text-lg text-gray-600">
-                HybridEdge ensures that every page of your book becomes a gateway to smarter learning, 
-                connecting traditional education with cutting-edge AI technology.
-              </p>
+            HybridEdge ensures that every page of your book becomes a gateway to smarter learning.
+          </p>
             </div>
           </div>
         </div>
@@ -580,15 +556,12 @@ const Home = () => {
               For over 40 years, Oswaal Books has been synonymous with trust, quality, and excellence in education.
             </p>
             <p>
-              Now, with Oswaal HybridEdge, we're taking that legacy into the future - giving learners the power of print and the intelligence of AI in one unified ecosystem.
+              Now, with Oswaal HybridEdge, we're taking that legacy into the future — giving learners the power of print and the intelligence of AI in one ecosystem.
             </p>
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100">
-              <p className="text-3xl font-bold text-gray-800 mb-4">
-                🚀 HybridEdge Formula
-              </p>
               <p className="text-2xl font-bold text-brand-primary">
-                Print + Practice + AI Intelligence = Smarter Learning
-              </p>
+              HybridEdge = Print + Practice + AI Intelligence
+            </p>
             </div>
           </div>
         </div>
@@ -616,19 +589,16 @@ const Home = () => {
           </h2>
           
           <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-            Join millions of learners stepping into a smarter world of education
+            Join millions of learners stepping into a smarter world of education.
           </p>
           
           <p className="text-xl text-gray-500 mb-12 max-w-3xl mx-auto">
-            With Oswaal HybridEdge, your books don't just teach - they think with you, adapt to your needs, and guide you towards success.
+            With Oswaal HybridEdge, your books don't just teach — they think with you.
           </p>
           
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 mb-12 max-w-4xl mx-auto">
-            <p className="text-3xl font-bold text-gray-800 mb-4">
-              🎯 Explore. Learn. Evolve.
-            </p>
             <p className="text-xl text-gray-600">
-              With Oswaal HybridEdge
+              Explore. Learn. Evolve. With Oswaal HybridEdge.
             </p>
           </div>
           
@@ -640,7 +610,7 @@ const Home = () => {
               disabled={isLoggingIn}
             >
               <Rocket className="mr-3 h-6 w-6 group-hover:animate-bounce" />
-              {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+              {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey →"}
               <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
             </Button>
             
@@ -651,7 +621,7 @@ const Home = () => {
             >
               <BookOpen className="mr-2 h-5 w-5" />
               Learn More
-            </Button>
+          </Button>
           </div>
         </div>
       </section>
