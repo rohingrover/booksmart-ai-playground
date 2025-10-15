@@ -17,6 +17,38 @@ import futureOfLearning from '@/assets/future-of-learning.png';
 // Default image
 const defaultImageBook = oswaalLogo;
 
+// Custom smooth scrolling function with Apple-like easing
+const smoothScrollTo = (elementId: string) => {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+
+  const startPosition = window.pageYOffset;
+  const targetPosition = element.offsetTop - 80; // Account for header height
+  const distance = targetPosition - startPosition;
+  const duration = 1200; // Slower duration for more elegant feel
+  let startTime: number | null = null;
+
+  // Apple-like easing function (ease-in-out with slight overshoot)
+  const easeInOutCubic = (t: number): number => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  const animation = (currentTime: number) => {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    
+    const easedProgress = easeInOutCubic(progress);
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (progress < 1) {
+      requestAnimationFrame(animation);
+    }
+  };
+
+  requestAnimationFrame(animation);
+};
+
 import { useToast } from '@/hooks/use-toast';
 import CourseExplorer from "./components/CourseExplorer";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -205,23 +237,13 @@ const Home = () => {
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center space-x-8">
             <button 
-              onClick={() => {
-                const element = document.getElementById('what-is-section');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }}
+              onClick={() => smoothScrollTo('what-is-section')}
               className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
             >
               About
             </button>
             <button 
-              onClick={() => {
-                const element = document.getElementById('books-section');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }}
+              onClick={() => smoothScrollTo('books-section')}
               className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
             >
               Explore our Books
@@ -251,10 +273,7 @@ const Home = () => {
             <div className="px-4 py-4 space-y-4">
               <button 
                 onClick={() => {
-                  const element = document.getElementById('what-is-section');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
+                  smoothScrollTo('what-is-section');
                   const mobileMenu = document.getElementById('mobile-menu');
                   if (mobileMenu) {
                     mobileMenu.classList.add('hidden');
@@ -266,10 +285,7 @@ const Home = () => {
               </button>
               <button 
                 onClick={() => {
-                  const element = document.getElementById('books-section');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
+                  smoothScrollTo('books-section');
                   const mobileMenu = document.getElementById('mobile-menu');
                   if (mobileMenu) {
                     mobileMenu.classList.add('hidden');
@@ -429,17 +445,12 @@ const Home = () => {
                 <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
         </div>
         </div>
-          </div>
+        </div>
         </div>
         
         {/* Scroll indicator */}
         <button 
-          onClick={() => {
-            const element = document.getElementById('what-is-section');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }}
+          onClick={() => smoothScrollTo('what-is-section')}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
           aria-label="Scroll to next section"
         >

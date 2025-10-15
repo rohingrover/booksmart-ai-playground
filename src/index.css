@@ -7,6 +7,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Custom smooth scrolling with slower, more elegant transitions */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Override default scroll behavior for more control */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  transition: scroll-behavior 0.3s ease-in-out;
+}
+
 /* Oswaal360 Design System - Modern Educational Platform
 All colors MUST be HSL. Montserrat font family.
 Primary: rgb(31, 135, 200) = hsl(207, 73%, 45%)
