@@ -1,163 +1,137 @@
 import { useState } from 'react';
+import DOMPurify from 'dompurify';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
 import PracticeTestSetup from '@/components/PracticeTestSetup';
 import { 
-  Clock, 
-  BrainCircuit, 
-  Target, 
-  Trophy, 
-  BookOpen,
-  Play,
-  Lightbulb,
-  HelpCircle,
-  CheckCircle,
-  XCircle,
-  RefreshCw,
-  MessageCircle,
-  Eye,
-  ChevronRight,
-  ChevronLeft
+  Clock, BrainCircuit, Target, Trophy, BookOpen,
+  Play, Lightbulb, HelpCircle, CheckCircle, XCircle,
+  RefreshCw, MessageCircle, Eye, ChevronRight, ChevronLeft
 } from 'lucide-react';
 
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const PracticeTests = () => {
   const [showSetup, setShowSetup] = useState(true);
   const [practiceSettings, setPracticeSettings] = useState<any>(null);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuizQuestion, setCurrentQuizQuestion] = useState(0);
+  const [selectedQuizAnswer, setSelectedQuizAnswer] = useState('');
+  const [quizAnswers, setQuizAnswers] = useState<any[]>([]);
   const [showHint, setShowHint] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState('');
-  const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [showAIDialog, setShowAIDialog] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('');
+  const [questions, setQuestions] = useState<any[]>([]);
 
-  
+  const startPractice = async (settings: any) => {
+    try {
+      const payload = {
+        book_id: Number(settings.book),
+        difficulty_level: settings.difficulty,
+        question_type: Object.keys(settings.questionTypes).filter((t) => settings.questionTypes[t]),
+        page: 1,
+        per_page: settings.questionCount || 10,
+      };
 
-  const initialQuestions = [
-    {
-      id: 1,
-      question: "What is the value of x in the equation 2x + 5 = 13?",
-      options: ["x = 3", "x = 4", "x = 5", "x = 6"],
-      correct: "x = 4",
-      hint: "Subtract 5 from both sides first, then divide by 2",
-      explanation: "2x + 5 = 13\n2x = 13 - 5\n2x = 8\nx = 4",
-      concept: "Linear Equations",
-      difficulty: "Easy"
-    },
-    {
-      id: 2,
-      question: "Which of the following is the correct formula for the area of a circle?",
-      options: ["A = πr", "A = πr²", "A = 2πr", "A = πd"],
-      correct: "A = πr²",
-      hint: "Remember that area involves squaring the radius",
-      explanation: "The area of a circle is calculated using A = πr², where r is the radius. This formula comes from integration of the circumference.",
-      concept: "Geometry - Circles",
-      difficulty: "Easy"
-    },
-    {
-      id: 3,
-      question: "What is the quadratic formula?",
-      options: [
-        "x = (-b ± √(b² - 4ac)) / 2a",
-        "x = (-b ± √(b² + 4ac)) / 2a", 
-        "x = (b ± √(b² - 4ac)) / 2a",
-        "x = (-b ± √(b² - 4ac)) / a"
-      ],
-      correct: "x = (-b ± √(b² - 4ac)) / 2a",
-      hint: "Remember: negative b, plus or minus, square root of discriminant, all over 2a",
-      explanation: "The quadratic formula x = (-b ± √(b² - 4ac)) / 2a is used to find the roots of any quadratic equation ax² + bx + c = 0",
-      concept: "Quadratic Equations",
-      difficulty: "Medium"
+      const response = await fetch(`${API_BASE_URL}/api/practice-questions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      const apiQuestions = data?.questions || [];
+
+      // Map API structure to component format
+      const mappedQuestions = apiQuestions.map((q: any) => ({
+        id: q.id,
+        question_text: q.question_text,
+        question_type: q.question_type,
+        options: q.options?.map((o: any) => ({ text: o.text || o.option_text || '' })) || [],
+        correct: q.correct_answer,
+        hint: q.question_metadata?.hint || '',
+        explanation: q.question_metadata?.explanation || '',
+        concept: q.book?.subject_name || 'General',
+        difficulty: q.difficulty_level,
+        difficulty_level: q.difficulty_level,
+      }));
+
+      setQuestions(mappedQuestions);
+    } catch (err) {
+      console.error("Error fetching questions:", err);
     }
-  ];
+  };
 
-  const [questions, setQuestions] = useState(initialQuestions);
-
-  const currentQ = questions[currentQuestion];
-
-  // Safety check to prevent undefined access
-  if (!currentQ) {
-    return <div>Loading...</div>;
-  }
-
-  const handleAnswerSelect = (answer: string) => {
-    setSelectedAnswer(answer);
-    const newAnswers = [...userAnswers];
-    newAnswers[currentQuestion] = answer;
-    setUserAnswers(newAnswers);
+  const handleQuizAnswer = (answer: string) => {
+    setSelectedQuizAnswer(answer);
+    const updatedAnswers = [...quizAnswers];
+    updatedAnswers[currentQuizQuestion] = answer;
+    setQuizAnswers(updatedAnswers);
   };
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer(userAnswers[currentQuestion + 1] || '');
+    if (currentQuizQuestion < questions.length - 1) {
+      setCurrentQuizQuestion(currentQuizQuestion + 1);
+      setSelectedQuizAnswer(quizAnswers[currentQuizQuestion + 1] || '');
       setShowHint(false);
       setShowAnswer(false);
     }
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-      setSelectedAnswer(userAnswers[currentQuestion - 1] || '');
+    if (currentQuizQuestion > 0) {
+      setCurrentQuizQuestion(currentQuizQuestion - 1);
+      setSelectedQuizAnswer(quizAnswers[currentQuizQuestion - 1] || '');
       setShowHint(false);
       setShowAnswer(false);
     }
   };
 
   const handleGenerateSimilar = () => {
-    // Generate a similar question based on current topic
     const similarQuestions = [
       {
-        question: "What is the value of y in the equation 3y + 7 = 16?",
+        question_text: "What is the value of y in 3y + 7 = 16?",
         options: ["y = 2", "y = 3", "y = 4", "y = 5"],
         correct: "y = 3",
-        explanation: "3y + 7 = 16\n3y = 16 - 7\n3y = 9\ny = 3"
+        explanation: "3y + 7 = 16 → 3y = 9 → y = 3"
       },
       {
-        question: "Solve for x: 4x - 2 = 14",
+        question_text: "Solve 4x - 2 = 14",
         options: ["x = 3", "x = 4", "x = 5", "x = 6"],
         correct: "x = 4",
-        explanation: "4x - 2 = 14\n4x = 14 + 2\n4x = 16\nx = 4"
+        explanation: "4x - 2 = 14 → 4x = 16 → x = 4"
       }
     ];
     
     const randomQuestion = similarQuestions[Math.floor(Math.random() * similarQuestions.length)];
     
-    // Create new question object
     const newQuestion = {
       id: questions.length + 1,
-      question: randomQuestion.question,
-      options: randomQuestion.options,
+      question_text: randomQuestion.question_text,
+      options: randomQuestion.options.map((o: string) => ({ text: o })),
       correct: randomQuestion.correct,
-      hint: "This is a similar linear equation. Follow the same steps: isolate the variable term, then divide.",
+      hint: "Solve by isolating the variable.",
       explanation: randomQuestion.explanation,
-      concept: currentQ.concept,
-      difficulty: currentQ.difficulty
+      concept: questions[currentQuizQuestion]?.concept || 'General',
+      difficulty: questions[currentQuizQuestion]?.difficulty || 'Medium',
+      question_type: 'objective_single_choice'
     };
     
-    // Update questions state properly
     setQuestions(prev => [...prev, newQuestion]);
-    setCurrentQuestion(questions.length);
-    setSelectedAnswer('');
+    setCurrentQuizQuestion(questions.length);
+    setSelectedQuizAnswer('');
     setShowHint(false);
     setShowAnswer(false);
   };
 
-  const handleAskAI = () => {
-    setShowAIDialog(true);
-  };
+  const handleAskAI = () => setShowAIDialog(true);
 
   const handleAISubmit = () => {
     if (aiQuestion.trim()) {
-      // Simulate AI response
-      alert(`AI Response: This question tests your understanding of ${currentQ.concept}. ${currentQ.explanation}`);
+      alert(`AI Response: This question tests your understanding of ${questions[currentQuizQuestion].concept}. ${questions[currentQuizQuestion].explanation}`);
       setShowAIDialog(false);
       setAiQuestion('');
     }
@@ -165,8 +139,8 @@ const PracticeTests = () => {
 
   const getAnswerStatus = (option: string) => {
     if (!showAnswer) return '';
-    if (option === currentQ.correct) return 'correct';
-    if (option === selectedAnswer && option !== currentQ.correct) return 'incorrect';
+    if (option === questions[currentQuizQuestion].correct) return 'correct';
+    if (option === selectedQuizAnswer && option !== questions[currentQuizQuestion].correct) return 'incorrect';
     return '';
   };
 
@@ -182,17 +156,20 @@ const PracticeTests = () => {
   const handleStartPractice = (settings: any) => {
     setPracticeSettings(settings);
     setShowSetup(false);
-    // Initialize practice test with settings
-    setCurrentQuestion(0);
-    setSelectedAnswer('');
-    setUserAnswers([]);
+    setCurrentQuizQuestion(0);
+    setSelectedQuizAnswer('');
+    setQuizAnswers([]);
     setShowHint(false);
     setShowAnswer(false);
+    startPractice(settings);
   };
 
   if (showSetup) {
     return <PracticeTestSetup onStartPractice={handleStartPractice} />;
   }
+
+  const currentQ = questions[currentQuizQuestion];
+  if (!currentQ) return <div className="text-center mt-20 text-lg text-muted-foreground">Loading questions...</div>;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
@@ -211,14 +188,14 @@ const PracticeTests = () => {
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">
-              Question {currentQuestion + 1} of {questions.length}
+              Question {currentQuizQuestion + 1} of {questions.length}
             </h3>
-            <Badge className={getDifficultyColor(currentQ.difficulty)}>
-              {currentQ.difficulty}
+            <Badge className={getDifficultyColor(currentQ.difficulty_level)}>
+              {currentQ.difficulty_level}
             </Badge>
           </div>
           <Progress 
-            value={((currentQuestion + 1) / questions.length) * 100} 
+            value={((currentQuizQuestion + 1) / questions.length) * 100} 
             className="h-2"
           />
         </CardContent>
@@ -229,57 +206,86 @@ const PracticeTests = () => {
         <div className="lg:col-span-2 space-y-4">
           {/* Question Card */}
           <Card className="shadow-elegant">
-            <CardHeader>
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
-                <div className="flex-1">
-                  <CardTitle className="text-lg sm:text-xl mb-2">{currentQ.question}</CardTitle>
-                  <CardDescription className="flex items-center">
-                    <BookOpen className="h-4 w-4 mr-1" />
-                    {currentQ.concept}
-                  </CardDescription>
-                </div>
-                <Badge variant="outline" className="self-start sm:ml-4">
-                  Mathematics
-                </Badge>
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              {/* Answer Options */}
-              <div className="space-y-3">
-                {currentQ.options.map((option, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleAnswerSelect(option)}
-                    className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-smooth ${
-                      selectedAnswer === option
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border hover:border-primary/50'
-                    } ${
-                      getAnswerStatus(option) === 'correct'
-                        ? 'border-success bg-success/10'
-                        : getAnswerStatus(option) === 'incorrect'
-                        ? 'border-destructive bg-destructive/10'
-                        : ''
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium text-sm sm:text-base">{option}</span>
-                      {getAnswerStatus(option) === 'correct' && (
-                        <CheckCircle className="h-5 w-5 text-success" />
-                      )}
-                      {getAnswerStatus(option) === 'incorrect' && (
-                        <XCircle className="h-5 w-5 text-destructive" />
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <CardContent className="p-8">
+              <h2
+                className="text-2xl font-bold mb-6"
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentQ.question_text) }}
+              />
 
-              {/* Hint Section */}
-              {showHint && (
-                <Card className="bg-warning/10 border-warning/20">
-                  <CardContent className="p-4">
+              {(() => {
+                switch (currentQ.question_type) {
+                  case "objective_single_choice":
+                  case "assertion":
+                  case "reasoning":
+                    return (
+                      <div className="space-y-3">
+                        {currentQ.options?.map((option, index) => (
+                          <Button
+                            key={index}
+                            onClick={() => handleQuizAnswer(option.text)}
+                            variant={selectedQuizAnswer === option.text ? "default" : "outline"}
+                            className={`w-full p-4 text-left justify-start h-auto ${
+                              selectedQuizAnswer === option.text ? 'gradient-primary' : 'hover:bg-accent'
+                            }`}
+                          >
+                            <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
+                            <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(option.text) }}></span>
+                          </Button>
+                        ))}
+                      </div>
+                    );
+
+                  case "objective_multiple_choice":
+                    return (
+                      <div className="space-y-3">
+                        {currentQ.options?.map((option, index) => (
+                          <Button
+                            key={index}
+                            onClick={() => {
+                              const newAnswers = new Set(quizAnswers[currentQuizQuestion] as string[] || []);
+                              if (newAnswers.has(option.text)) newAnswers.delete(option.text);
+                              else newAnswers.add(option.text);
+
+                              const arr = [...quizAnswers];
+                              arr[currentQuizQuestion] = Array.from(newAnswers);
+                              setQuizAnswers(arr);
+                            }}
+                            variant={(quizAnswers[currentQuizQuestion] || []).includes(option.text) ? "default" : "outline"}
+                            className="w-full p-4 text-left justify-start h-auto hover:bg-accent"
+                          >
+                            <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
+                            <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(option.text) }}></span>
+                          </Button>
+                        ))}
+                      </div>
+                    );
+
+                  case "subjective_short":
+                  case "subjective_long":
+                    return (
+                      <textarea
+                        className="w-full border rounded-md p-3 focus:ring-2 focus:ring-primary outline-none"
+                        rows={currentQ.question_type === "subjective_long" ? 5 : 2}
+                        placeholder="Type your answer here..."
+                        value={quizAnswers[currentQuizQuestion] || ""}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          const updatedAnswers = [...quizAnswers];
+                          updatedAnswers[currentQuizQuestion] = val;
+                          setQuizAnswers(updatedAnswers);
+                          setSelectedQuizAnswer(val);
+                        }}
+                      />
+                    );
+                  default:
+                    return <p className="text-muted-foreground">Unsupported question type.</p>;
+                }
+              })()}
+
+              {/* Hint */}
+              {showHint && currentQ.hint && (
+                <Card className="bg-warning/10 border-warning/20 mt-4">
+                  <CardContent>
                     <div className="flex items-start space-x-2">
                       <Lightbulb className="h-5 w-5 text-warning flex-shrink-0 mt-1" />
                       <div>
@@ -291,34 +297,17 @@ const PracticeTests = () => {
                 </Card>
               )}
 
-              {/* Answer Explanation */}
-              {showAnswer && (
-                <Card className="bg-accent/50">
-                  <CardContent className="p-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-2">
-                        <Target className="h-5 w-5 text-primary" />
-                        <h4 className="font-medium">Correct Answer: {currentQ.correct}</h4>
-                      </div>
-                      <div className="bg-background p-3 rounded border">
-                        <h5 className="font-medium mb-2">Explanation:</h5>
-                        <pre className="text-sm whitespace-pre-wrap font-mono">
-                          {currentQ.explanation}
-                        </pre>
-                      </div>
-                      {selectedAnswer === currentQ.correct ? (
-                        <div className="flex items-center space-x-2 text-success">
-                          <CheckCircle className="h-4 w-4" />
-                          <span className="text-sm font-medium">Correct! Well done!</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center space-x-2 text-destructive">
-                          <XCircle className="h-4 w-4" />
-                          <span className="text-sm font-medium">
-                            Incorrect. Your answer: {selectedAnswer}
-                          </span>
-                        </div>
-                      )}
+              {/* Explanation */}
+              {showAnswer && currentQ.explanation && (
+                <Card className="bg-accent/50 mt-4">
+                  <CardContent className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Target className="h-5 w-5 text-primary" />
+                      <h4 className="font-medium">Correct Answer: {currentQ.correct}</h4>
+                    </div>
+                    <div className="bg-background p-3 rounded border">
+                      <h5 className="font-medium mb-2">Explanation:</h5>
+                      <pre className="text-sm whitespace-pre-wrap font-mono">{currentQ.explanation}</pre>
                     </div>
                   </CardContent>
                 </Card>
@@ -328,107 +317,59 @@ const PracticeTests = () => {
 
           {/* Navigation */}
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
-            <Button
-              onClick={handlePrevious}
-              variant="outline"
-              disabled={currentQuestion === 0}
-              className="w-full sm:w-auto"
-            >
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              Previous
+            <Button onClick={handlePrevious} variant="outline" disabled={currentQuizQuestion === 0} className="w-full sm:w-auto">
+              <ChevronLeft className="h-4 w-4 mr-2" /> Previous
             </Button>
-            
-            <div className="flex space-x-2">
-              <Button
-                onClick={handleNext}
-                disabled={currentQuestion === questions.length - 1}
-                className="gradient-primary w-full sm:w-auto"
-              >
-                Next
-                <ChevronRight className="h-4 w-4 ml-2" />
-              </Button>
-            </div>
+            <Button onClick={handleNext} disabled={currentQuizQuestion === questions.length - 1} className="gradient-primary w-full sm:w-auto">
+              Next <ChevronRight className="h-4 w-4 ml-2" />
+            </Button>
           </div>
         </div>
 
-        {/* AI Tools Sidebar */}
+        {/* Sidebar AI Tools & Progress */}
         <div className="space-y-4">
-          {/* AI Actions */}
+          {/* AI Tools */}
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center">
-                <BrainCircuit className="h-5 w-5 mr-2 text-primary" />
-                AI Assistance
-              </CardTitle>
+              <CardTitle className="text-lg flex items-center"><BrainCircuit className="h-5 w-5 mr-2 text-primary" /> AI Assistance</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button
-                onClick={() => setShowHint(!showHint)}
-                variant="outline"
-                className="w-full justify-start"
-              >
-                <Lightbulb className="h-4 w-4 mr-2" />
-                {showHint ? 'Hide Hint' : 'Get Hint'}
+              <Button onClick={() => setShowHint(!showHint)} variant="outline" className="w-full justify-start">
+                <Lightbulb className="h-4 w-4 mr-2" /> {showHint ? 'Hide Hint' : 'Get Hint'}
               </Button>
-              
-              <Button
-                onClick={() => setShowAnswer(!showAnswer)}
-                variant="outline"
-                className="w-full justify-start"
-                disabled={!selectedAnswer}
-              >
-                <Eye className="h-4 w-4 mr-2" />
-                {showAnswer ? 'Hide Answer' : 'Show Answer'}
+              <Button onClick={() => setShowAnswer(!showAnswer)} variant="outline" className="w-full justify-start" disabled={!selectedQuizAnswer}>
+                <Eye className="h-4 w-4 mr-2" /> {showAnswer ? 'Hide Answer' : 'Show Answer'}
               </Button>
-              
-              <Button
-                onClick={handleGenerateSimilar}
-                variant="outline"
-                className="w-full justify-start"
-              >
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Similar Question
+              <Button onClick={handleGenerateSimilar} variant="outline" className="w-full justify-start">
+                <RefreshCw className="h-4 w-4 mr-2" /> Similar Question
               </Button>
-              
-              <Button
-                onClick={handleAskAI}
-                className="w-full justify-start gradient-secondary"
-              >
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Ask AI
+              <Button onClick={handleAskAI} className="w-full justify-start gradient-secondary">
+                <MessageCircle className="h-4 w-4 mr-2" /> Ask AI
               </Button>
             </CardContent>
           </Card>
 
-          {/* Progress Summary */}
+          {/* Progress */}
           <Card className="shadow-card">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center">
-                <Trophy className="h-5 w-5 mr-2 text-primary" />
-                Your Progress
-              </CardTitle>
+              <CardTitle className="text-lg flex items-center"><Trophy className="h-5 w-5 mr-2 text-primary" /> Your Progress</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm">Answered</span>
-                <span className="font-medium">
-                  {userAnswers.filter(a => a).length}/{questions.length}
-                </span>
+                <span className="font-medium">{quizAnswers.filter(a => a).length}/{questions.length}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Correct</span>
                 <span className="font-medium text-success">
-                  {userAnswers.filter((a, i) => a === questions[i]?.correct).length}
+                  {quizAnswers.filter((a, i) => a === questions[i]?.correct).length}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Accuracy</span>
                 <span className="font-medium">
-                  {userAnswers.filter(a => a).length > 0
-                    ? Math.round(
-                        (userAnswers.filter((a, i) => a === questions[i]?.correct).length /
-                          userAnswers.filter(a => a).length) * 100
-                      )
+                  {quizAnswers.filter(a => a).length > 0
+                    ? Math.round((quizAnswers.filter((a, i) => a === questions[i]?.correct).length / quizAnswers.filter(a => a).length) * 100)
                     : 0}%
                 </span>
               </div>
@@ -445,21 +386,18 @@ const PracticeTests = () => {
           </DialogHeader>
           <div className="space-y-4">
             <div className="p-3 bg-muted rounded">
-              <p className="text-sm"><strong>Question:</strong> {currentQ.question}</p>
+              <p className="text-sm"><strong>Question:</strong> {currentQ.question_text}</p>
             </div>
-            <Textarea
-              placeholder="What would you like to know about this question?"
+            <textarea
+              className="w-full border rounded-md p-3 focus:ring-2 focus:ring-primary outline-none"
+              rows={3}
+              placeholder="What would you like to know?"
               value={aiQuestion}
               onChange={(e) => setAiQuestion(e.target.value)}
-              rows={3}
             />
             <div className="flex space-x-2">
-              <Button onClick={handleAISubmit} className="gradient-primary">
-                Ask AI
-              </Button>
-              <Button variant="outline" onClick={() => setShowAIDialog(false)}>
-                Close
-              </Button>
+              <Button onClick={handleAISubmit} className="gradient-primary">Ask AI</Button>
+              <Button variant="outline" onClick={() => setShowAIDialog(false)}>Close</Button>
             </div>
           </div>
         </DialogContent>

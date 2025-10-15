@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import SpaceShooterGame from '@/components/SpaceShooterGame';
+import GamePlayer from './components/GamePlayer';
+import GamePlayerInline from './components/GamePlayerInline';
+
 import { 
   Gamepad2, 
   Trophy, 
@@ -18,12 +21,63 @@ import {
   Award,
   TrendingUp,
   Users,
-  Play
+  Play,
+  BookOpen
 } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useParams, useNavigate } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Token not found");
+
+    const response = await fetch(`${API_BASE_URL}/api/my-books`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ keyword, board_id, subject_id }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to fetch books");
+    return data;
+  }
+
+  async function fetchGamesByBookId(bookId: string | number, skip = 0, limit = 100) {
+    const response = await fetch(
+      `${API_BASE_URL}/api/games/book/${bookId}?skip=${skip}&limit=${limit}`
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch games");
+    const data = await response.json();
+    return data;
+  }
 
 const LearningGames = () => {
+  const [activeGameUrl, setActiveGameUrl] = useState<string | null>(null);
+  // const [gameResult, setGameResult] = useState<{ score: number; timeSpent: number; maxScore?: number } | null>(null);
+  const [gameResult, setGameResult] = useState<any>(null);
+
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [selectedBook, setSelectedBook] = useState<string>('');
   const [gameInProgress, setGameInProgress] = useState(false);
+
+  // Dummy book list (replace this with API data)
+  // const [books, setBooks] = useState([
+  //   { id: 44, title: "Mathematics - Class 10" },
+  //   { id: 45, title: "Science - Class 10" },
+  //   { id: 46, title: "English Grammar" },
+  //   { id: 49, title: "Physics - Class 12" }
+  // ]);
+
+  const { bookId } = useParams();
+  const [books, setBooks] = useState<any[]>([]);
+  const [loadingBooks, setLoadingBooks] = useState<boolean>(true);
+  const navigate = useNavigate();
   
   // Quiz Battle Game State
   const [hp, setHp] = useState(100);
@@ -31,6 +85,80 @@ const LearningGames = () => {
   const [timeLeft, setTimeLeft] = useState(30);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState('');
+
+  const [games, setGames] = useState<any[]>([]);
+  const [loadingGames, setLoadingGames] = useState<boolean>(false);
+  const [page, setPage] = useState(0);
+  const limit = 100;
+
+  useEffect(() => {
+    const loadBooksAndGames = async () => {
+      try {
+        setLoadingBooks(true);
+        const booksData = await fetchMyBooks({});
+        if (booksData.length > 0) {
+          setBooks(booksData);
+
+          let selectedBookId = bookId
+            ? String(bookId)
+            : String(booksData[0].id);
+
+          setSelectedBook(selectedBookId);
+
+          // Load first page (skip = 0)
+          await loadGames(selectedBookId, 0, limit);
+        }
+      } catch (error) {
+        console.error("Error loading books/games:", error);
+      } finally {
+        setLoadingBooks(false);
+      }
+    };
+
+    loadBooksAndGames();
+  }, [bookId]);
+
+  const loadGames = async (bookId: string, skip = 0, limit = 100) => {
+    try {
+      setLoadingGames(true);
+      const res = await fetch(`${API_BASE_URL}/api/games/book/${bookId}?skip=${skip}&limit=${limit}`);
+      const data = await res.json();
+      console.log(data);
+      setGames(data || []);
+    } catch (error) {
+      console.error("Error fetching games:", error);
+    } finally {
+      setLoadingGames(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (bookId) loadGames(bookId, 0, limit);
+  // }, [bookId]);
+
+  // Pagination handlers
+  const handleNext = () => {
+    const newPage = page + 1;
+    setPage(newPage);
+    loadGames(bookId, newPage * limit, limit);
+  };
+
+  const handlePrev = () => {
+    if (page === 0) return;
+    const newPage = page - 1;
+    setPage(newPage);
+    loadGames(bookId, newPage * limit, limit);
+  };
+
+  const handleBookChange = (bookId: string) => {
+    setSelectedBook(bookId);
+    
+    const book = books.find((b) => String(b.id) === bookId);
+    if (book) {
+      navigate(`/games/${book.id}`);
+    }
+    //alert('handleBookChange');
+  };
 
   const leaderboard = [
     { rank: 1, name: 'Alex Kumar', score: 2450, avatar: '👨‍🎓' },
@@ -40,38 +168,38 @@ const LearningGames = () => {
     { rank: 5, name: 'You', score: 1950, avatar: '🎯', isPlayer: true }
   ];
 
-  const games = [
-    {
-      id: 'quiz-battle',
-      title: 'Quiz Battle',
-      description: 'Battle with questions! Lose HP for wrong answers, gain for correct ones',
-      icon: Sword,
-      color: 'gradient-secondary',
-      difficulty: 'Medium',
-      players: '1,234 online',
-      features: ['HP System', 'Time Pressure', 'Leaderboard']
-    },
-    {
-      id: 'speed-challenge',
-      title: 'Speed Challenge',
-      description: 'Answer as many questions as possible in 60 seconds',
-      icon: Zap,
-      color: 'gradient-primary',
-      difficulty: 'Hard',
-      players: '856 online',
-      features: ['Speed Based', 'Combo System', 'Power-ups']
-    },
-    {
-      id: 'space-shooter',
-      title: 'Space Shooter Quiz',
-      description: 'Defend Earth by shooting correct answers! Test your knowledge in an action-packed space adventure.',
-      icon: Target,
-      color: 'bg-success',
-      difficulty: 'Medium',
-      players: '642 online',
-      features: ['Action Game', 'Multiple Choice', 'Real-time Combat']
-    }
-  ];
+  // const games = [
+  //   {
+  //     id: 'quiz-battle',
+  //     title: 'Quiz Battle',
+  //     description: 'Battle with questions! Lose HP for wrong answers, gain for correct ones',
+  //     icon: Sword,
+  //     color: 'gradient-secondary',
+  //     difficulty: 'Medium',
+  //     players: '1,234 online',
+  //     features: ['HP System', 'Time Pressure', 'Leaderboard']
+  //   },
+  //   {
+  //     id: 'speed-challenge',
+  //     title: 'Speed Challenge',
+  //     description: 'Answer as many questions as possible in 60 seconds',
+  //     icon: Zap,
+  //     color: 'gradient-primary',
+  //     difficulty: 'Hard',
+  //     players: '856 online',
+  //     features: ['Speed Based', 'Combo System', 'Power-ups']
+  //   },
+  //   {
+  //     id: 'space-shooter',
+  //     title: 'Space Shooter Quiz',
+  //     description: 'Defend Earth by shooting correct answers! Test your knowledge in an action-packed space adventure.',
+  //     icon: Target,
+  //     color: 'bg-success',
+  //     difficulty: 'Medium',
+  //     players: '642 online',
+  //     features: ['Action Game', 'Multiple Choice', 'Real-time Combat']
+  //   }
+  // ];
 
   const quizBattleQuestions = [
     {
@@ -178,187 +306,6 @@ const LearningGames = () => {
     }
   };
 
-  // Speed Challenge Game
-  if (selectedGame === 'speed-challenge' && gameInProgress) {
-    const currentQ = quizBattleQuestions[currentQuestion % quizBattleQuestions.length];
-    
-    return (
-      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="gradient-primary p-3 rounded-full">
-              <Zap className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Speed Challenge</h1>
-              <p className="text-muted-foreground">Answer as fast as you can!</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-6">
-            <div className="text-center">
-              <div className="flex items-center space-x-2">
-                <Clock className="h-5 w-5 text-warning" />
-                <span className="text-xl font-bold text-warning">{timeLeft}s</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Time Left</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-primary" />
-                <span className="text-xl font-bold text-primary">{score}</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Score</p>
-            </div>
-          </div>
-        </div>
-
-        <Card className="shadow-elegant">
-          <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6">{currentQ.question}</h2>
-            
-            <div className="grid grid-cols-2 gap-4">
-              {currentQ.options.map((option, index) => (
-                <Button
-                  key={index}
-                  onClick={() => {
-                    if (option === currentQ.correct) {
-                      setScore(score + 50);
-                    }
-                    setCurrentQuestion(currentQuestion + 1);
-                    setSelectedAnswer('');
-                  }}
-                  variant="outline"
-                  className="p-6 text-lg h-auto hover:border-primary"
-                >
-                  {option}
-                </Button>
-              ))}
-            </div>
-            
-            <Button 
-              onClick={() => setGameInProgress(false)} 
-              variant="outline" 
-              className="mt-4"
-            >
-              End Game
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  // Space Shooter Game
-  if (selectedGame === 'space-shooter' && gameInProgress) {
-    return (
-      <div className="max-w-4xl mx-auto animate-fade-in">
-        <div className="mb-6 flex items-center space-x-4">
-          <Button
-            onClick={() => {
-              setGameInProgress(false);
-              setSelectedGame(null);
-            }}
-            variant="outline"
-          >
-            ← Back to Games
-          </Button>
-          <div className="flex items-center space-x-2">
-            <Target className="h-6 w-6 text-success" />
-            <h1 className="text-2xl font-bold">Space Shooter Quiz</h1>
-          </div>
-        </div>
-        <SpaceShooterGame />
-      </div>
-    );
-  }
-
-  if (selectedGame === 'quiz-battle' && gameInProgress) {
-    const currentQ = quizBattleQuestions[currentQuestion];
-    
-    return (
-      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-        {/* Game Header */}
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="gradient-secondary p-3 rounded-full">
-              <Sword className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Quiz Battle</h1>
-              <p className="text-muted-foreground">Question {currentQuestion + 1} of {quizBattleQuestions.length}</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-6">
-            <div className="text-center">
-              <div className="flex items-center space-x-2">
-                <Heart className={`h-5 w-5 ${getHpColor()}`} />
-                <span className={`text-xl font-bold ${getHpColor()}`}>{hp}</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Health</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-primary" />
-                <span className="text-xl font-bold text-primary">{score}</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Score</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="flex items-center space-x-2">
-                <Clock className="h-5 w-5 text-warning" />
-                <span className="text-xl font-bold text-warning">{timeLeft}s</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Time</p>
-            </div>
-          </div>
-        </div>
-
-        {/* HP Bar */}
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex justify-between mb-2">
-              <span className="text-sm font-medium">Health Points</span>
-              <span className={`text-sm font-bold ${getHpColor()}`}>{hp}/100</span>
-            </div>
-            <Progress value={hp} className="h-3" />
-          </CardContent>
-        </Card>
-
-        {/* Question */}
-        <Card className="shadow-elegant">
-          <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-6">{currentQ.question}</h2>
-            
-            <div className="grid grid-cols-2 gap-4">
-              {currentQ.options.map((option, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleAnswer(option)}
-                  variant="outline"
-                  className={`p-6 text-lg h-auto ${
-                    selectedAnswer === option
-                      ? selectedAnswer === currentQ.correct
-                        ? 'border-success bg-success/10 text-success'
-                        : 'border-destructive bg-destructive/10 text-destructive'
-                      : 'hover:border-primary'
-                  }`}
-                  disabled={!!selectedAnswer}
-                >
-                  {option}
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
       {/* Header */}
@@ -371,174 +318,234 @@ const LearningGames = () => {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
-        {/* Games List */}
-        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-          <h2 className="text-xl sm:text-2xl font-semibold flex items-center">
-            <Gamepad2 className="h-5 w-5 sm:h-6 sm:w-6 mr-2 text-primary" />
-            Available Games
-          </h2>
-          
-          <div className="space-y-4">
-            {games.map((game) => {
-              const Icon = game.icon;
-              return (
-                <Card key={game.id} className="shadow-card hover:shadow-elegant transition-smooth">
-                  <CardContent className="p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between space-y-4 sm:space-y-0">
-                      <div className="flex items-start space-x-3 sm:space-x-4">
-                        <div className={`p-3 sm:p-4 rounded-lg ${game.color}`}>
-                          <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-                        </div>
-                        
-                        <div className="flex-1">
-                          <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2">
-                            <h3 className="text-lg sm:text-xl font-bold">{game.title}</h3>
-                            <Badge variant="outline">{game.difficulty}</Badge>
-                            <div className="flex items-center text-sm text-muted-foreground">
-                              <Users className="h-4 w-4 mr-1" />
-                              {game.players}
-                            </div>
-                          </div>
-                          
-                          <p className="text-sm sm:text-base text-muted-foreground mb-3">{game.description}</p>
-                          
-                          <div className="flex flex-wrap gap-2">
-                            {game.features.map((feature, index) => (
-                              <Badge key={index} variant="secondary" className="text-xs">
-                                {feature}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Button
-                        onClick={() => {
-                          if (game.id === 'quiz-battle') {
-                            startQuizBattle();
-                          } else if (game.id === 'speed-challenge') {
-                            startSpeedChallenge();
-                          } else if (game.id === 'space-shooter') {
-                            startSpaceShooter();
-                          }
-                        }}
-                        className="gradient-primary w-full sm:w-auto"
-                      >
-                        <Play className="h-4 w-4 mr-2" />
-                        Play Now
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+      {/* 📚 Book Selection Dropdown */}
+      <Card className="shadow-card">
+        <CardContent className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6">
+          <div className="flex items-center space-x-3">
+            <BookOpen className="h-6 w-6 text-primary" />
+            <div>
+              <h3 className="text-lg font-semibold">Select Book</h3>
+              <p className="text-sm text-muted-foreground">Choose a book to play with</p>
+            </div>
           </div>
-        </div>
+          <div className="space-y-3">
+                <label className="text-sm font-medium">Select Book</label>
+                {loadingBooks ? (
+              <p className="text-sm text-muted-foreground">Loading books...</p>
+            ) : books.length > 0 ? (
+              <Select
+                value={selectedBook}
+                onValueChange={(value) => handleBookChange(value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose a book" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50 border shadow-lg">
+                  {books.map((book) => (
+                    <SelectItem
+                      key={book.id}
+                      value={String(book.id)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <BookOpen className="h-4 w-4" />
+                        <span>{book.title}</span>
+                        {book.board_name && (
+                          <Badge variant="secondary" className="ml-2">
+                            {book.board_name}
+                          </Badge>
+                        )}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No books found for your account.
+              </p>
+            )}
+              </div>
+        </CardContent>
+      </Card>
 
-        {/* Leaderboard */}
-        <div className="space-y-6">
-          <Card className="shadow-elegant">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Trophy className="h-5 w-5 mr-2 text-primary" />
-                Leaderboard
-              </CardTitle>
-              <CardDescription>Top players this week</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {leaderboard.map((player) => (
-                <div
-                  key={player.rank}
-                  className={`flex items-center justify-between p-3 rounded-lg ${
-                    player.isPlayer ? 'bg-primary/10 border border-primary/20' : 'bg-muted/50'
-                  }`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="flex items-center space-x-2">
-                      {player.rank <= 3 && <Crown className={`h-4 w-4 ${getRankColor(player.rank)}`} />}
-                      <span className={`font-bold ${getRankColor(player.rank)}`}>
-                        #{player.rank}
-                      </span>
+      {/* Games Section */}
+      <div className="space-y-6">
+        <h2 className="text-xl sm:text-2xl font-semibold flex items-center">
+          <Gamepad2 className="h-5 w-5 sm:h-6 sm:w-6 mr-2 text-primary" />
+          Available Games
+        </h2>
+
+        <Card className="mt-4">
+          <CardContent className="p-4">
+            <h2 className="text-lg font-semibold mb-3">Available Games</h2>
+
+            {activeGameUrl ? (
+              <>
+                {/* Back to list button */}
+                <div className="flex justify-between items-center mb-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setActiveGameUrl(null);
+                      setGameResult(null);
+                    }}
+                  >
+                    ← Back to Game List
+                  </Button>
+
+                  {gameResult && (
+                    <div className="text-sm text-gray-600">
+                      <span className="font-medium">🏆 Score:</span>{" "}
+                      {gameResult.score} / {gameResult.maxScore} |{" "}
+                      <span className="font-medium">⏱ Time:</span>{" "}
+                      {Math.floor(gameResult.timeSpent / 60)}m{" "}
+                      {gameResult.timeSpent % 60}s
                     </div>
-                    <span className="text-2xl">{player.avatar}</span>
-                    <div>
-                      <p className={`font-medium ${player.isPlayer ? 'text-primary' : ''}`}>
-                        {player.name}
-                      </p>
-                    </div>
+                  )}
+                </div>
+
+                {/* Game player */}
+                <GamePlayer
+                  gameUrl={activeGameUrl}
+                  onGameComplete={({ score, timeSpent, maxScore }) => {
+                    const result = { score, timeSpent, maxScore };
+                    console.log("🎮 Game finished:", result);
+                    setGameResult(result);
+                  }}
+                />
+              </>
+            ) : loadingGames ? (
+              <p className="text-sm text-muted-foreground">Loading games...</p>
+            ) : games.length > 0 ? (
+              <div className="space-y-3">
+                {games.map((game) => (
+                  <div
+                    key={game.id}
+                    className="p-3 border rounded-md hover:bg-accent transition flex items-center justify-between"
+                  >
+                    <span className="text-sm font-medium">{game.game_name}</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center space-x-1"
+                      onClick={() => {
+                        setActiveGameUrl(game.s3_url);
+                        setGameResult(null);
+                      }}
+                    >
+                      <Play className="w-4 h-4 text-green-600" />
+                      <span>Play</span>
+                    </Button>
                   </div>
-                  <Badge variant={player.isPlayer ? "default" : "secondary"}>
-                    {player.score.toLocaleString()}
-                  </Badge>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">No games found.</p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
-          {/* Your Stats */}
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <TrendingUp className="h-5 w-5 mr-2 text-primary" />
-                Your Gaming Stats
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between">
-                <span className="text-sm">Games Played</span>
-                <span className="font-bold">47</span>
+      {/* 📊 Leaderboard, Stats, Achievements Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        {/* Leaderboard */}
+        <Card className="shadow-elegant">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Trophy className="h-5 w-5 mr-2 text-primary" />
+              Leaderboard
+            </CardTitle>
+            <CardDescription>Top players this week</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {leaderboard.map((player) => (
+              <div
+                key={player.rank}
+                className={`flex items-center justify-between p-3 rounded-lg ${
+                  player.isPlayer ? 'bg-primary/10 border border-primary/20' : 'bg-muted/50'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
+                    {player.rank <= 3 && <Crown className={`h-4 w-4 ${getRankColor(player.rank)}`} />}
+                    <span className={`font-bold ${getRankColor(player.rank)}`}>#{player.rank}</span>
+                  </div>
+                  <span className="text-2xl">{player.avatar}</span>
+                  <div>
+                    <p className={`font-medium ${player.isPlayer ? 'text-primary' : ''}`}>{player.name}</p>
+                  </div>
+                </div>
+                <Badge variant={player.isPlayer ? "default" : "secondary"}>
+                  {player.score.toLocaleString()}
+                </Badge>
               </div>
-              <div className="flex justify-between">
-                <span className="text-sm">Win Rate</span>
-                <span className="font-bold text-success">78%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm">Best Score</span>
-                <span className="font-bold text-primary">2,450</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm">Streak</span>
-                <span className="font-bold text-warning">12 days</span>
-              </div>
-            </CardContent>
-          </Card>
+            ))}
+          </CardContent>
+        </Card>
 
-          {/* Achievements */}
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Award className="h-5 w-5 mr-2 text-primary" />
-                Recent Achievements
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center space-x-3 p-2 rounded-lg bg-success/10">
-                <Trophy className="h-6 w-6 text-success" />
-                <div>
-                  <p className="font-medium text-success">Quiz Master</p>
-                  <p className="text-xs text-muted-foreground">Win 10 quiz battles</p>
-                </div>
+        {/* Your Stats */}
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <TrendingUp className="h-5 w-5 mr-2 text-primary" />
+              Your Gaming Stats
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex justify-between">
+              <span className="text-sm">Games Played</span>
+              <span className="font-bold">47</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm">Win Rate</span>
+              <span className="font-bold text-success">78%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm">Best Score</span>
+              <span className="font-bold text-primary">2,450</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm">Streak</span>
+              <span className="font-bold text-warning">12 days</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Achievements */}
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Award className="h-5 w-5 mr-2 text-primary" />
+              Recent Achievements
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-center space-x-3 p-2 rounded-lg bg-success/10">
+              <Trophy className="h-6 w-6 text-success" />
+              <div>
+                <p className="font-medium text-success">Quiz Master</p>
+                <p className="text-xs text-muted-foreground">Win 10 quiz battles</p>
               </div>
-              
-              <div className="flex items-center space-x-3 p-2 rounded-lg bg-warning/10">
-                <Zap className="h-6 w-6 text-warning" />
-                <div>
-                  <p className="font-medium text-warning">Speed Demon</p>
-                  <p className="text-xs text-muted-foreground">Answer 50 questions in 60s</p>
-                </div>
+            </div>
+
+            <div className="flex items-center space-x-3 p-2 rounded-lg bg-warning/10">
+              <Zap className="h-6 w-6 text-warning" />
+              <div>
+                <p className="font-medium text-warning">Speed Demon</p>
+                <p className="text-xs text-muted-foreground">Answer 50 questions in 60s</p>
               </div>
-              
-              <div className="flex items-center space-x-3 p-2 rounded-lg bg-primary/10">
-                <Target className="h-6 w-6 text-primary" />
-                <div>
-                  <p className="font-medium text-primary">Perfect Score</p>
-                  <p className="text-xs text-muted-foreground">Score 100% in any game</p>
-                </div>
+            </div>
+
+            <div className="flex items-center space-x-3 p-2 rounded-lg bg-primary/10">
+              <Target className="h-6 w-6 text-primary" />
+              <div>
+                <p className="font-medium text-primary">Perfect Score</p>
+                <p className="text-xs text-muted-foreground">Score 100% in any game</p>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

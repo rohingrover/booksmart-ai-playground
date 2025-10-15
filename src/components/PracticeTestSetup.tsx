@@ -116,16 +116,15 @@ const PracticeTestSetup = ({ onStartPractice }: PracticeTestSetupProps) => {
 
   const handleStart = () => {
     if (!selectedBook || !selectedDifficulty) {
-      alert('Please select a book and difficulty level');
+      alert("Please select a book and difficulty level");
       return;
     }
 
     const settings = {
       book: selectedBook,
-      chapter: selectedChapter,
       difficulty: selectedDifficulty,
       questionCount: questionCount[0],
-      questionTypes
+      questionTypes,
     };
 
     onStartPractice(settings);
