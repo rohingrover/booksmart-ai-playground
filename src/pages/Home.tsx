@@ -246,10 +246,10 @@ const Home = () => {
           <div className="absolute bottom-40 left-32 w-20 h-20 border-4 border-brand-secondary rounded-full animate-bounce-gentle"></div>
           <div className="absolute bottom-32 right-20 w-14 h-14 bg-brand-primary transform rotate-12 animate-pulse-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating circles */}
-          <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
-          <div className="absolute top-1/3 right-1/3 w-6 h-6 bg-green-200 rounded-full animate-float-slow"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-10 h-10 bg-purple-200 rounded-full animate-pulse-slow"></div>
+          {/* Floating circles - repositioned to avoid overlap with stats */}
+          <div className="absolute top-1/6 left-1/6 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+          <div className="absolute top-1/5 right-1/4 w-6 h-6 bg-green-200 rounded-full animate-float-slow"></div>
+          <div className="absolute bottom-1/4 left-1/4 w-10 h-10 bg-purple-200 rounded-full animate-pulse-slow"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -281,41 +281,41 @@ const Home = () => {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
-                <div className="text-center">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 relative z-20">
+                <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
                   <div className="text-3xl font-bold text-brand-primary mb-1">40+</div>
                   <div className="text-gray-600 text-sm">Years of Excellence</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
                   <div className="text-3xl font-bold text-brand-secondary mb-1">10M+</div>
                   <div className="text-gray-600 text-sm">Students Served</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
                   <div className="text-3xl font-bold text-brand-primary mb-1">500+</div>
                   <div className="text-gray-600 text-sm">Books Available</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
                   <div className="text-3xl font-bold text-brand-secondary mb-1">24/7</div>
                   <div className="text-gray-600 text-sm">AI Support</div>
                 </div>
               </div>
             </div>
 
-            {/* Right Content - Visual Elements */}
-            <div className="relative">
-              <div className="relative w-full h-96 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl overflow-hidden">
-                {/* Main visual content */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-32 h-32 bg-brand-primary rounded-2xl flex items-center justify-center shadow-2xl animate-bounce-gentle">
-                    <BookOpen className="w-16 h-16 text-white" />
-                  </div>
-                </div>
+            {/* Right Content - Hero Image */}
+            <div className="relative flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-md lg:max-w-lg">
+                {/* Oswaal HybridEdge Hero Image */}
+                <img 
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop&crop=face" 
+                  alt="Oswaal HybridEdge Hero - Successful Student" 
+                  className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
+                />
                 
-                {/* Floating elements around the main visual */}
-                <div className="absolute top-8 left-8 w-12 h-12 bg-yellow-200 rounded-full animate-float-slow"></div>
-                <div className="absolute top-12 right-12 w-8 h-8 bg-brand-secondary rounded-full animate-pulse-slow"></div>
-                <div className="absolute bottom-8 left-12 w-10 h-10 bg-green-200 rounded-full animate-bounce-gentle"></div>
-                <div className="absolute bottom-12 right-8 w-6 h-6 bg-purple-200 rounded-full animate-float-slow"></div>
+                {/* Floating decorative elements around the hero image */}
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
               </div>
             </div>
           </div>
