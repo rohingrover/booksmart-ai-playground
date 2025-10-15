@@ -432,7 +432,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - 4 Feature Items in 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6 order-2 lg:order-1">
               {/* Item 1 */}
               <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
@@ -471,7 +471,7 @@ const Home = () => {
             </div>
 
             {/* Right Side - Heading and Image */}
-            <div className="space-y-8">
+            <div className="space-y-8 order-1 lg:order-2">
               <div className="space-y-6">
                 <div className="inline-flex items-center px-4 py-2 bg-yellow-100 rounded-full">
                   <span className="text-yellow-600 font-medium text-sm">Our core value</span>
