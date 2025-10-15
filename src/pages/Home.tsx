@@ -198,7 +198,7 @@ const Home = () => {
             {/* Logo */}
             <div className="flex items-center">
               <img 
-                src="https://oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
                 alt="Oswaal 360 Logo" 
                 className="h-[70px] w-auto"
               />
@@ -738,7 +738,7 @@ const Home = () => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <img 
-                  src="https://oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                  src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
                   alt="Oswaal 360 Logo" 
                   className="h-16 w-auto"
                 />
@@ -801,14 +801,14 @@ const Home = () => {
             <div className="space-y-6">
               <h3 className="text-xl font-bold text-white">COMPANY</h3>
               <ul className="space-y-3">
-                <li><a href="https://oswaal360.com/pages/oswaal-books-about-us" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">About Us</a></li>
-                <li><a href="https://oswaal360.com/blog/post" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Blog</a></li>
-                <li><a href="https://oswaal360.com/pages/oswaal360-terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Terms and Conditions</a></li>
-                <li><a href="https://oswaal360.com/pages/oswaal-360-privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Privacy Policy</a></li>
-                <li><a href="https://oswaal360.com/pages/oswaal-360-refund-policy" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Refund Policy</a></li>
-                <li><a href="https://oswaal360.com/pages/faqs" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">FAQs</a></li>
-                <li><a href="https://oswaal360.com/pages/contact-us" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Contact Us</a></li>
-                <li><a href="https://oswaal360.com/mod/feedback/view.php?id=6058" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Feedback</a></li>
+                <li><a href="https://www.oswaal360.com/pages/oswaal-books-about-us" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">About Us</a></li>
+                <li><a href="https://www.oswaal360.com/blog/post" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Blog</a></li>
+                <li><a href="https://www.oswaal360.com/pages/oswaal360-terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Terms and Conditions</a></li>
+                <li><a href="https://www.oswaal360.com/pages/oswaal-360-privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Privacy Policy</a></li>
+                <li><a href="https://www.oswaal360.com/pages/oswaal-360-refund-policy" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Refund Policy</a></li>
+                <li><a href="https://www.oswaal360.com/pages/faqs" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">FAQs</a></li>
+                <li><a href="https://www.oswaal360.com/pages/contact-us" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Contact Us</a></li>
+                <li><a href="https://www.oswaal360.com/mod/feedback/view.php?id=6058" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Feedback</a></li>
               </ul>
             </div>
 
@@ -816,27 +816,27 @@ const Home = () => {
             <div className="space-y-6">
               <h3 className="text-xl font-bold text-white">EXPLORE COURSES</h3>
               <ul className="space-y-3">
-                <li><a href="https://oswaal360.com/pages/cbse-online-sample-paper-question-bank-for-class-10-12-board-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CBSE</a></li>
-                <li><a href="https://oswaal360.com/pages/icse-online-specimen-sample-paper-for-class-10-board-exams" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">ICSE</a></li>
-                <li><a href="https://oswaal360.com/pages/cat-online-mock-test-sample-paper-and-course-for-the-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CAT</a></li>
-                <li><a href="https://oswaal360.com/pages/cuet-online-mock-test-sample-paper-and-course-for-the-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CUET UG</a></li>
-                <li><a href="https://oswaal360.com/pages/online-ncert-exemplar-solution-class-12" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NCERT</a></li>
-                <li><a href="https://oswaal360.com/pages/nra-cet-online-mock-test-sample-paper-and-course-for-the-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NRA CET</a></li>
-                <li><a href="https://oswaal360.com/pages/ugc-net-online-mock-test-sample-paper-and-course-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NTA UGC NET</a></li>
-                <li><a href="https://oswaal360.com/pages/upsc-online-mock-test-sample-paper-and-course-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">UPSC</a></li>
+                <li><a href="https://www.oswaal360.com/pages/cbse-online-sample-paper-question-bank-for-class-10-12-board-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CBSE</a></li>
+                <li><a href="https://www.oswaal360.com/pages/icse-online-specimen-sample-paper-for-class-10-board-exams" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">ICSE</a></li>
+                <li><a href="https://www.oswaal360.com/pages/cat-online-mock-test-sample-paper-and-course-for-the-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CAT</a></li>
+                <li><a href="https://www.oswaal360.com/pages/cuet-online-mock-test-sample-paper-and-course-for-the-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CUET UG</a></li>
+                <li><a href="https://www.oswaal360.com/pages/online-ncert-exemplar-solution-class-12" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NCERT</a></li>
+                <li><a href="https://www.oswaal360.com/pages/nra-cet-online-mock-test-sample-paper-and-course-for-the-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NRA CET</a></li>
+                <li><a href="https://www.oswaal360.com/pages/ugc-net-online-mock-test-sample-paper-and-course-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NTA UGC NET</a></li>
+                <li><a href="https://www.oswaal360.com/pages/upsc-online-mock-test-sample-paper-and-course-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">UPSC</a></li>
               </ul>
               
               <div className="pt-4">
                 <h4 className="text-lg font-semibold text-white mb-3">NCERT UPSC Video Courses</h4>
                 <ul className="space-y-2">
-                  <li><a href="https://oswaal360.com/pages/upsc-online-ncert-book-indian-polity-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Indian Polity</a></li>
-                  <li><a href="https://oswaal360.com/pages/upsc-online-ncert-book-history-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">History</a></li>
-                  <li><a href="https://oswaal360.com/pages/upsc-online-ncert-book-geography-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Geography</a></li>
-                  <li><a href="https://oswaal360.com/pages/upsc-online-ncert-book-indian-economy-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Indian Economy</a></li>
-                  <li><a href="https://oswaal360.com/pages/upsc-online-ncert-book-general-science-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Physics</a></li>
-                  <li><a href="https://oswaal360.com/pages/general-science-chemistry" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Chemistry</a></li>
-                  <li><a href="https://oswaal360.com/pages/general-science-biology" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Biology</a></li>
-                  <li><a href="https://oswaal360.com/pages/important-topics-of-class-11-class-12" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Important Topics of Class 11 & Class 12</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/upsc-online-ncert-book-indian-polity-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Indian Polity</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/upsc-online-ncert-book-history-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">History</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/upsc-online-ncert-book-geography-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Geography</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/upsc-online-ncert-book-indian-economy-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Indian Economy</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/upsc-online-ncert-book-general-science-for-latest-exam" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Physics</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/general-science-chemistry" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Chemistry</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/general-science-biology" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Biology</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/important-topics-of-class-11-class-12" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Important Topics of Class 11 & Class 12</a></li>
                 </ul>
               </div>
             </div>
@@ -845,17 +845,17 @@ const Home = () => {
             <div className="space-y-6">
               <h3 className="text-xl font-bold text-white">Olympiad Mock Papers</h3>
               <ul className="space-y-3">
-                <li><a href="https://oswaal360.com/pages/olympiad-class-1-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 1</a></li>
-                <li><a href="https://oswaal360.com/pages/olympiad-class-2-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 2</a></li>
-                <li><a href="https://oswaal360.com/pages/olympiad-class-3-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 3</a></li>
-                <li><a href="https://oswaal360.com/pages/olympiad-class-4-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 4</a></li>
-                <li><a href="https://oswaal360.com/pages/olympiad-class-4-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 5</a></li>
+                <li><a href="https://www.oswaal360.com/pages/olympiad-class-1-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 1</a></li>
+                <li><a href="https://www.oswaal360.com/pages/olympiad-class-2-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 2</a></li>
+                <li><a href="https://www.oswaal360.com/pages/olympiad-class-3-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 3</a></li>
+                <li><a href="https://www.oswaal360.com/pages/olympiad-class-4-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 4</a></li>
+                <li><a href="https://www.oswaal360.com/pages/olympiad-class-5-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 5</a></li>
               </ul>
               
               <div className="pt-4">
                 <h4 className="text-lg font-semibold text-white mb-3">Additional Resources</h4>
                 <ul className="space-y-2">
-                  <li><a href="https://oswaal360.com/pages/competency-based-questions" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Competency Based Questions</a></li>
+                  <li><a href="https://www.oswaal360.com/pages/competency-based-questions" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Competency Based Questions</a></li>
                 </ul>
               </div>
             </div>
@@ -868,9 +868,9 @@ const Home = () => {
                 © 2024 Oswaal Books. All rights reserved.
               </div>
               <div className="flex space-x-6">
-                <a href="https://oswaal360.com/pages/oswaal-360-privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Privacy Policy</a>
-                <a href="https://oswaal360.com/pages/oswaal360-terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Terms of Service</a>
-                <a href="https://oswaal360.com/pages/contact-us" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Contact</a>
+                <a href="https://www.oswaal360.com/pages/oswaal-360-privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Privacy Policy</a>
+                <a href="https://www.oswaal360.com/pages/oswaal360-terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Terms of Service</a>
+                <a href="https://www.oswaal360.com/pages/contact-us" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Contact</a>
               </div>
             </div>
           </div>
