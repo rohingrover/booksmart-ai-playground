@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ChevronDown } from "lucide-react";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function CourseExplorer({ onBoardChange, onSubjectChange }) {
   
@@ -50,27 +52,47 @@ function CourseExplorer({ onBoardChange, onSubjectChange }) {
   };
 
   return (
-      dropdowns.map((level, index) => (
-        <select
+    <div className="flex flex-col sm:flex-row gap-3">
+      {dropdowns.map((level, index) => (
+        <Select
           key={index}
-          className="border rounded p-2 w-full"
-          value={level.selected}
-          onChange={(e) => {
-            const selectedId = e.target.value;
+          value={level.selected || "all"}
+          onValueChange={(selectedId) => {
+            if (selectedId === "all") {
+              const updated = [...dropdowns];
+              updated[index].selected = "";
+              updated.splice(index + 1);
+              setDropdowns(updated);
+              if (index === 0) {
+                onBoardChange("all");
+              }
+              return;
+            }
             const opt = level.options.find((o) => o.id == selectedId);
             handleSelectChange(index, selectedId, opt?.has_child);
           }}
         >
-          <option value="all">
-            {index === 0 ? "-- Select Board/Exam --" : "-- Select --"}
-          </option>
-          {level.options.map((opt) => (
-            <option key={opt.id} value={opt.id}>
-              {opt.name}
-            </option>
-          ))}
-        </select>
-      ))
+          <SelectTrigger className="w-full sm:w-48 bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl px-4 py-3 text-gray-700 font-medium">
+            <SelectValue placeholder={index === 0 ? "-- Select Board/Exam --" : "-- Select --"} />
+            <ChevronDown className="h-4 w-4 text-gray-500" />
+          </SelectTrigger>
+          <SelectContent className="bg-white border border-gray-200 rounded-xl shadow-lg">
+            <SelectItem value="all" className="text-gray-500 font-medium">
+              {index === 0 ? "-- Select Board/Exam --" : "-- Select --"}
+            </SelectItem>
+            {level.options.map((opt) => (
+              <SelectItem 
+                key={opt.id} 
+                value={opt.id.toString()} 
+                className="text-gray-700 hover:bg-brand-primary/10 hover:text-brand-primary font-medium"
+              >
+                {opt.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      ))}
+    </div>
   );
 }
 

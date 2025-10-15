@@ -309,7 +309,7 @@ const Home = () => {
                 <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
                 <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
                 <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
-              </div>
+        </div>
             </div>
 
             {/* CTA Button */}
@@ -354,10 +354,10 @@ const Home = () => {
               <div className="space-y-6">
                 <h1 className="text-7xl font-black text-gray-900 leading-tight">
                   Oswaal <span className="text-brand-primary">HybridEdge</span>
-                </h1>
+            </h1>
                 <p className="text-2xl text-brand-secondary font-semibold leading-relaxed max-w-2xl">
-                  Where Print Meets Power.
-                </p>
+              Where Print Meets Power.
+            </p>
               </div>
 
               {/* CTA Button */}
@@ -369,10 +369,10 @@ const Home = () => {
                   disabled={isLoggingIn}
                 >
                   <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
-                  {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+                {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
                   <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </div>
+              </Button>
+            </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 relative z-20">
@@ -392,9 +392,9 @@ const Home = () => {
                   <div className="text-3xl font-bold text-brand-secondary mb-1">24/7</div>
                   <div className="text-gray-600 text-sm">AI Support</div>
                 </div>
-              </div>
-            </div>
-
+          </div>
+        </div>
+        
             {/* Right Content - Hero Image */}
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative w-full max-w-md lg:max-w-lg">
@@ -407,8 +407,8 @@ const Home = () => {
                 <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
                 <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
                 <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
-              </div>
-            </div>
+        </div>
+        </div>
           </div>
         </div>
         
@@ -488,8 +488,8 @@ const Home = () => {
           {/* Floating geometric shapes - positioned in corners */}
           <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-secondary rounded-full animate-pulse-slow"></div>
           <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
-        </div>
-        
+          </div>
+          
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - 4 Feature Items in 1x4 Grid on mobile, 2x2 on desktop */}
@@ -611,21 +611,21 @@ const Home = () => {
               <div className="group flex items-start space-x-4">
                 <div className="relative">
                   <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
-                    1
-                  </div>
+                1
+              </div>
                   <div className="absolute -inset-1 bg-brand-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">Scan the QR code inside your Oswaal Book.</h3>
                 </div>
-              </div>
-              
+            </div>
+            
               {/* Step 2 */}
               <div className="group flex items-start space-x-4">
                 <div className="relative">
                   <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
-                    2
-                  </div>
+                2
+              </div>
                   <div className="absolute -inset-1 bg-brand-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
                 <div className="flex-1">
@@ -650,8 +650,8 @@ const Home = () => {
               <div className="group flex items-start space-x-4">
                 <div className="relative">
                   <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
-                    4
-                  </div>
+                4
+              </div>
                   <div className="absolute -inset-1 bg-brand-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
                 <div className="flex-1">
@@ -785,7 +785,6 @@ const Home = () => {
                 />
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-3">
               <CourseExplorer onBoardChange={id => {
               setSearchQuery('');
               setSelectedBoard(id);
@@ -796,7 +795,6 @@ const Home = () => {
               setSelectedSubject(id);
               handlePageChange(1);
             }} />
-              </div>
             </div>
           </div>
 
@@ -831,29 +829,29 @@ const Home = () => {
                       
                       {/* Class Number - Large and Prominent */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center">
+                      <div className="text-center">
                           <div className="text-5xl font-black text-white mb-2 drop-shadow-lg">
-                            {book.grade}
-                          </div>
+                          {book.grade}
+                        </div>
                           <div className="text-sm font-semibold text-white/90 uppercase tracking-wider">
                             Class
-                          </div>
                         </div>
+                      </div>
                       </div>
                       
                       {/* Board Badge */}
                       <div className="absolute top-4 right-4">
                         <div className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
-                          {book.board_name}
+                        {book.board_name}
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Book Image Section - Enhanced */}
-                  <div className="relative -mt-16 mb-6 flex justify-center">
+                    </div>
+                    
+                  {/* Enhanced Book Image Section - Main Image */}
+                  <div className="relative -mt-20 mb-8 flex justify-center">
                     <div className="relative">
-                      <div className="w-24 h-32 bg-white rounded-xl shadow-2xl border-4 border-white overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                      <div className="w-32 h-40 bg-white rounded-2xl shadow-2xl border-4 border-white overflow-hidden group-hover:scale-105 transition-transform duration-300">
                         <img 
                           src={book.book_image || defaultImageBook} 
                           alt={book.title} 
@@ -863,8 +861,11 @@ const Home = () => {
                           }}
                         />
                       </div>
-                      {/* Image Glow Effect */}
-                      <div className="absolute inset-0 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-brand-primary/20 to-transparent"></div>
+                      {/* Enhanced Image Glow Effect */}
+                      <div className="absolute inset-0 rounded-2xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-brand-primary/20 to-transparent"></div>
+                      {/* Floating decorative elements around the book image */}
+                      <div className="absolute -top-2 -right-2 w-4 h-4 bg-brand-primary/20 rounded-full animate-pulse-slow"></div>
+                      <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-brand-secondary/20 rounded-full animate-bounce-gentle"></div>
                     </div>
                   </div>
 
@@ -897,12 +898,12 @@ const Home = () => {
                           <div className="text-sm font-bold text-gray-900">{book.chapters_count}</div>
                           <div className="text-xs text-gray-500">chapters</div>
                         </div>
-                      </div>
-                      
+                    </div>
+                    
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-brand-secondary/10 rounded-lg flex items-center justify-center">
                           <Play className="h-4 w-4 text-brand-secondary" />
-                        </div>
+                    </div>
                         <div className="text-left">
                           <div className="text-sm font-bold text-gray-900">{book.questions_count}</div>
                           <div className="text-xs text-gray-500">exercises</div>
