@@ -625,53 +625,95 @@ const Home = () => {
 
       {/* Books Section */}
       <section id="books-section" className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
-        {/* Animated Background Elements */}
+        {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
           <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating geometric shapes */}
+          {/* Enhanced floating geometric shapes */}
           <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
           <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
+          <div className="absolute top-1/2 left-10 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+          <div className="absolute top-1/3 right-10 w-6 h-6 bg-green-200 rounded-full animate-float-slow"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
+          {/* Enhanced Header */}
           <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 bg-brand-primary/10 rounded-full mb-6">
+              <span className="text-brand-primary font-medium text-sm">AI-Enhanced Learning</span>
+            </div>
+            
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
               Explore Our <span className="text-brand-primary">Interactive Books</span>
             </h2>
             
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
               Browse our collection of AI-enhanced textbooks designed for modern learning. Each book comes alive with intelligent features that adapt to your learning style.
             </p>
-          </div>
-
-          {/* Search and Filters */}
-          <div className="mb-8 space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search books by title or subject..." value={searchQuery} onChange={e => {
-              setSearchQuery(e.target.value);
-              handlePageChange(1);
-            }} className="pl-10" />
-            </div>
             
-            <div className="flex flex-col sm:flex-row gap-3">
-              <CourseExplorer onBoardChange={id => {
-              setSearchQuery('');
-              setSelectedBoard(id);
-              setSelectedSubject("all"); // reset subject if board changes
-              handlePageChange(1);
-            }} onSubjectChange={id => {
-              setSearchQuery('');
-              setSelectedSubject(id);
-              handlePageChange(1);
-            }} />
+            {/* Enhanced Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                <div className="text-2xl font-bold text-brand-primary mb-1">500+</div>
+                <div className="text-gray-600 text-sm">Books Available</div>
+              </div>
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                <div className="text-2xl font-bold text-brand-secondary mb-1">10M+</div>
+                <div className="text-gray-600 text-sm">Students Served</div>
+              </div>
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                <div className="text-2xl font-bold text-brand-primary mb-1">24/7</div>
+                <div className="text-gray-600 text-sm">AI Support</div>
+              </div>
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                <div className="text-2xl font-bold text-brand-secondary mb-1">100%</div>
+                <div className="text-gray-600 text-sm">Interactive</div>
+              </div>
             </div>
           </div>
 
-          {/* Books Grid */}
-          {loading ? <p className="text-center">Loading...</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Enhanced Search and Filters */}
+          <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100">
+            <div className="space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search books by title or subject..." 
+                  value={searchQuery} 
+                  onChange={e => {
+                    setSearchQuery(e.target.value);
+                    handlePageChange(1);
+                  }} 
+                  className="pl-10 bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl" 
+                />
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                <CourseExplorer onBoardChange={id => {
+                  setSearchQuery('');
+                  setSelectedBoard(id);
+                  setSelectedSubject("all"); // reset subject if board changes
+                  handlePageChange(1);
+                }} onSubjectChange={id => {
+                  setSearchQuery('');
+                  setSelectedSubject(id);
+                  handlePageChange(1);
+                }} />
+              </div>
+            </div>
+          </div>
+
+          {/* Enhanced Books Grid */}
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-primary rounded-2xl mb-4 shadow-xl animate-pulse">
+                <BookOpen className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-xl text-gray-600 font-medium">Loading amazing books...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {books.map((book, index) => <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group cursor-pointer overflow-hidden" onClick={handleStartLearning}>
 
                   <div className="relative overflow-hidden">
@@ -731,17 +773,29 @@ const Home = () => {
                 </Card>)}
             </div>}
 
-          {/* Pagination */}
-          <div className="flex justify-center items-center gap-4 mt-10">
-            <Button variant="outline" disabled={!pagination.has_prev} onClick={() => handlePageChange(pagination.page - 1)}>
+          {/* Enhanced Pagination */}
+          <div className="flex justify-center items-center gap-4 mt-12">
+            <Button 
+              variant="outline" 
+              disabled={!pagination.has_prev} 
+              onClick={() => handlePageChange(pagination.page - 1)}
+              className="px-6 py-2 border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 rounded-xl"
+            >
               Previous
             </Button>
 
-            <span>
-              Page {pagination.page} of {pagination.pages}
-            </span>
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl px-6 py-2 shadow-sm border border-gray-200">
+              <span className="text-gray-700 font-medium">
+                Page {pagination.page} of {pagination.pages}
+              </span>
+            </div>
 
-            <Button variant="outline" disabled={!pagination.has_next} onClick={() => handlePageChange(pagination.page + 1)}>
+            <Button 
+              variant="outline" 
+              disabled={!pagination.has_next} 
+              onClick={() => handlePageChange(pagination.page + 1)}
+              className="px-6 py-2 border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 rounded-xl"
+            >
               Next
             </Button>
           </div>
