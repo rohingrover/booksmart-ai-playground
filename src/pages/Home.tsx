@@ -226,13 +226,17 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-24">
             {/* Logo */}
-            <div className="flex items-center">
+            <button 
+              onClick={() => smoothScrollTo('hero-section')}
+              className="flex items-center hover:opacity-80 transition-opacity duration-300"
+              aria-label="Go to top of page"
+            >
               <img 
                 src={oswaalLogo} 
                 alt="Oswaal 360 Logo" 
                 className="h-[70px] w-auto"
               />
-            </div>
+            </button>
             
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center space-x-8">
@@ -301,7 +305,7 @@ const Home = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white pt-24">
+      <section id="hero-section" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white pt-24">
         {/* Animated Vector Background Elements */}
         <div className="absolute inset-0">
           {/* Large curved shapes - hidden on mobile to avoid text overlap */}
@@ -1120,13 +1124,17 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info & Contact */}
             <div className="space-y-6">
-              <div className="flex items-center">
+              <button 
+                onClick={() => smoothScrollTo('hero-section')}
+                className="flex items-center hover:opacity-80 transition-opacity duration-300"
+                aria-label="Go to top of page"
+              >
                 <img 
                   src={oswaalLogo} 
                   alt="Oswaal 360 Logo" 
                   className="h-16 w-auto"
                 />
-              </div>
+              </button>
               
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
