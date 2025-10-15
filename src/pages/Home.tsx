@@ -268,20 +268,20 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white pt-24">
         {/* Animated Vector Background Elements */}
         <div className="absolute inset-0">
-          {/* Large curved shapes */}
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-60 animate-float-slow"></div>
-          <div className="absolute top-20 right-0 w-80 h-80 bg-gradient-to-bl from-pink-50 to-rose-50 rounded-full opacity-50 animate-float-slow" style={{animationDelay: '1s'}}></div>
+          {/* Large curved shapes - hidden on mobile to avoid text overlap */}
+          <div className="hidden lg:block absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-60 animate-float-slow"></div>
+          <div className="hidden lg:block absolute top-20 right-0 w-80 h-80 bg-gradient-to-bl from-pink-50 to-rose-50 rounded-full opacity-50 animate-float-slow" style={{animationDelay: '1s'}}></div>
           
-          {/* Animated geometric shapes */}
-          <div className="absolute top-32 left-20 w-16 h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
-          <div className="absolute top-40 right-32 w-12 h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
-          <div className="absolute bottom-40 left-32 w-20 h-20 border-4 border-brand-secondary rounded-full animate-bounce-gentle"></div>
-          <div className="absolute bottom-32 right-20 w-14 h-14 bg-brand-primary transform rotate-12 animate-pulse-slow" style={{animationDelay: '2s'}}></div>
+          {/* Animated geometric shapes - repositioned for mobile */}
+          <div className="absolute top-32 left-4 lg:left-20 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
+          <div className="absolute top-40 right-4 lg:right-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
+          <div className="absolute bottom-20 lg:bottom-40 left-4 lg:left-32 w-10 lg:w-20 h-10 lg:h-20 border-4 border-brand-secondary rounded-full animate-bounce-gentle"></div>
+          <div className="absolute bottom-10 lg:bottom-32 right-4 lg:right-20 w-7 lg:w-14 h-7 lg:h-14 bg-brand-primary transform rotate-12 animate-pulse-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating circles - repositioned to avoid overlap with stats */}
-          <div className="absolute top-1/6 left-1/6 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
-          <div className="absolute top-1/5 right-1/4 w-6 h-6 bg-green-200 rounded-full animate-float-slow"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-10 h-10 bg-purple-200 rounded-full animate-pulse-slow"></div>
+          {/* Floating circles - mobile optimized positioning */}
+          <div className="absolute top-1/4 left-2 lg:top-1/6 lg:left-1/6 w-6 lg:w-8 h-6 lg:h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+          <div className="absolute top-1/3 right-2 lg:top-1/5 lg:right-1/4 w-4 lg:w-6 h-4 lg:h-6 bg-green-200 rounded-full animate-float-slow"></div>
+          <div className="absolute bottom-1/3 left-2 lg:bottom-1/4 lg:left-1/4 w-8 lg:w-10 h-8 lg:h-10 bg-purple-200 rounded-full animate-pulse-slow"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
