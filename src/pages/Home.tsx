@@ -803,16 +803,16 @@ const Home = () => {
             <div className="text-center py-16">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-primary rounded-2xl mb-4 shadow-xl animate-pulse">
                 <BookOpen className="w-8 h-8 text-white" />
-              </div>
+                        </div>
               <p className="text-xl text-gray-600 font-medium">Loading amazing books...</p>
-            </div>
+                        </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {books.map((book, index) => (
                 <Card key={book.id} className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0" onClick={handleStartLearning}>
                   
-                  {/* Enhanced Header with Gradient Background */}
-                  <div className="relative h-40 overflow-hidden">
+                  {/* Enhanced Header with Gradient Background - No Class Text */}
+                  <div className="relative h-32 overflow-hidden">
                     <div className={`absolute inset-0 ${
                       index % 4 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600" :
                       index % 4 === 1 ? "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600" :
@@ -827,18 +827,6 @@ const Home = () => {
                         <div className="absolute bottom-4 right-4 w-10 h-10 bg-white/10 rounded-full"></div>
                       </div>
                       
-                      {/* Class Number - Large and Prominent */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                          <div className="text-5xl font-black text-white mb-2 drop-shadow-lg">
-                          {book.grade}
-                        </div>
-                          <div className="text-sm font-semibold text-white/90 uppercase tracking-wider">
-                            Class
-                        </div>
-                      </div>
-                      </div>
-                      
                       {/* Board Badge */}
                       <div className="absolute top-4 right-4">
                         <div className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
@@ -848,19 +836,17 @@ const Home = () => {
                     </div>
                     </div>
                     
-                  {/* Enhanced Book Image Section - Main Image */}
-                  <div className="relative -mt-20 mb-8 flex justify-center">
+                  {/* Main Book Image - No Container Box */}
+                  <div className="relative -mt-16 mb-6 flex justify-center">
                     <div className="relative">
-                      <div className="w-32 h-40 bg-white rounded-2xl shadow-2xl border-4 border-white overflow-hidden group-hover:scale-105 transition-transform duration-300">
-                        <img 
-                          src={book.book_image || defaultImageBook} 
-                          alt={book.title} 
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = defaultImageBook;
-                          }}
-                        />
-                      </div>
+                      <img 
+                        src={book.book_image || defaultImageBook} 
+                        alt={book.title} 
+                        className="w-40 h-48 object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          e.currentTarget.src = defaultImageBook;
+                        }}
+                      />
                       {/* Enhanced Image Glow Effect */}
                       <div className="absolute inset-0 rounded-2xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-brand-primary/20 to-transparent"></div>
                       {/* Floating decorative elements around the book image */}
