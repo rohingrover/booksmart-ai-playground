@@ -912,43 +912,128 @@ const Home = () => {
           <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
         </div>
         
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
-            Experience the <span className="text-brand-secondary">Future of Learning</span>
-          </h2>
-          
-          <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-            Join millions of learners stepping into a smarter world of education.
-          </p>
-          
-          <p className="text-xl text-gray-500 mb-12 max-w-3xl mx-auto">
-            With Oswaal HybridEdge, your books don't just teach - they think with you.
-          </p>
-          
-          {/* Highlighted Explore. Learn. Evolve */}
-          <div className="bg-gradient-to-r from-brand-secondary/10 to-brand-primary/10 p-8 rounded-3xl border-2 border-brand-secondary/20 mb-12 max-w-4xl mx-auto relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-secondary to-brand-primary"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 bg-brand-secondary/10 rounded-full animate-pulse-slow"></div>
-            <div className="absolute bottom-2 left-2 w-3 h-3 bg-brand-primary/10 rounded-full animate-bounce-gentle"></div>
-            
-            <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
-              <span className="text-brand-secondary font-black">Explore.</span> <span className="text-brand-primary font-black">Learn.</span> <span className="text-brand-secondary font-black">Evolve.</span> With <span className="text-brand-primary">Oswaal HybridEdge</span>.
-            </p>
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Mobile Layout */}
+          <div className="lg:hidden space-y-12">
+            {/* Centered Heading */}
+            <div className="text-center">
+              <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-8 leading-tight">
+                Experience the <span className="text-brand-secondary">Future of Learning</span>
+              </h2>
+            </div>
+
+            {/* Future of Learning Image */}
+            <div className="relative flex justify-center">
+              <div className="relative w-full max-w-md">
+                <img 
+                  src="/src/assets/future-of-learning.png" 
+                  alt="Future of Learning - Student with Technology" 
+                  className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
+                />
+                {/* Floating decorative elements around the image - optimized for mobile */}
+                <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-4 lg:w-8 h-4 lg:h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-1 -right-3 lg:-top-2 lg:-right-6 w-3 lg:w-6 h-3 lg:h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-2 -left-3 lg:-bottom-4 lg:-left-6 w-5 lg:w-10 h-5 lg:h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-1 -right-2 lg:-bottom-2 lg:-right-4 w-3.5 lg:w-7 h-3.5 lg:h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
+              </div>
+            </div>
+
+            {/* Content and CTA */}
+            <div className="text-center space-y-8">
+              <p className="text-2xl text-gray-600 leading-relaxed">
+                Join millions of learners stepping into a smarter world of education.
+              </p>
+              
+              <p className="text-xl text-gray-500">
+                With Oswaal HybridEdge, your books don't just teach - they think with you.
+              </p>
+              
+              {/* Highlighted Explore. Learn. Evolve */}
+              <div className="bg-gradient-to-r from-brand-secondary/10 to-brand-primary/10 p-6 rounded-3xl border-2 border-brand-secondary/20 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-secondary to-brand-primary"></div>
+                <div className="absolute top-1 right-1 lg:top-2 lg:right-2 w-2 lg:w-4 h-2 lg:h-4 bg-brand-secondary/10 rounded-full animate-pulse-slow"></div>
+                <div className="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 w-1.5 lg:w-3 h-1.5 lg:h-3 bg-brand-primary/10 rounded-full animate-bounce-gentle"></div>
+                
+                <p className="text-xl font-bold text-gray-800 leading-relaxed relative z-10">
+                  <span className="text-brand-secondary font-black">Explore.</span> <span className="text-brand-primary font-black">Learn.</span> <span className="text-brand-secondary font-black">Evolve.</span> With <span className="text-brand-primary">Oswaal HybridEdge</span>.
+                </p>
+              </div>
+              
+              {/* CTA Button */}
+              <div className="flex justify-center">
+                <Button 
+                  size="lg" 
+                  className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto" 
+                  onClick={handleStartLearning} 
+                  disabled={isLoggingIn}
+                >
+                  <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
+                  {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </div>
           </div>
-          
-          {/* CTA Button */}
-          <div className="flex justify-center px-4">
-            <Button 
-              size="lg" 
-              className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl rounded-2xl shadow-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 w-full sm:w-auto" 
-              onClick={handleStartLearning} 
-              disabled={isLoggingIn}
-            >
-              <Rocket className="mr-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:animate-bounce" />
-            {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
-              <ArrowRight className="ml-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform" />
-          </Button>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Side - Content */}
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <h2 className="text-6xl font-black text-gray-900 leading-tight">
+                  Experience the <span className="text-brand-secondary">Future of Learning</span>
+                </h2>
+                
+                <p className="text-2xl text-gray-600 leading-relaxed">
+                  Join millions of learners stepping into a smarter world of education.
+                </p>
+                
+                <p className="text-xl text-gray-500">
+                  With Oswaal HybridEdge, your books don't just teach - they think with you.
+                </p>
+              </div>
+              
+              {/* Highlighted Explore. Learn. Evolve */}
+              <div className="bg-gradient-to-r from-brand-secondary/10 to-brand-primary/10 p-8 rounded-3xl border-2 border-brand-secondary/20 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-secondary to-brand-primary"></div>
+                <div className="absolute top-2 right-2 w-4 h-4 bg-brand-secondary/10 rounded-full animate-pulse-slow"></div>
+                <div className="absolute bottom-2 left-2 w-3 h-3 bg-brand-primary/10 rounded-full animate-bounce-gentle"></div>
+                
+                <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
+                  <span className="text-brand-secondary font-black">Explore.</span> <span className="text-brand-primary font-black">Learn.</span> <span className="text-brand-secondary font-black">Evolve.</span> With <span className="text-brand-primary">Oswaal HybridEdge</span>.
+                </p>
+              </div>
+              
+              {/* CTA Button */}
+              <div className="flex justify-start">
+                <Button 
+                  size="lg" 
+                  className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" 
+                  onClick={handleStartLearning} 
+                  disabled={isLoggingIn}
+                >
+                  <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
+                  {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Side - Future of Learning Image */}
+            <div className="relative flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-md lg:max-w-lg">
+                <img 
+                  src="/src/assets/future-of-learning.png" 
+                  alt="Future of Learning - Student with Technology" 
+                  className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
+                />
+                {/* Floating decorative elements around the image - optimized for mobile */}
+                <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-4 lg:w-8 h-4 lg:h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-1 -right-3 lg:-top-2 lg:-right-6 w-3 lg:w-6 h-3 lg:h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-2 -left-3 lg:-bottom-4 lg:-left-6 w-5 lg:w-10 h-5 lg:h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-1 -right-2 lg:-bottom-2 lg:-right-4 w-3.5 lg:w-7 h-3.5 lg:h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
