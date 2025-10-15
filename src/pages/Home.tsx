@@ -222,10 +222,42 @@ const Home = () => {
             
             {/* Mobile Menu Button */}
             <div className="md:hidden">
-              <button className="text-gray-700 hover:text-brand-primary transition-colors">
+              <button 
+                onClick={() => {
+                  const mobileMenu = document.getElementById('mobile-menu');
+                  if (mobileMenu) {
+                    mobileMenu.classList.toggle('hidden');
+                  }
+                }}
+                className="text-gray-700 hover:text-brand-primary transition-colors"
+              >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
+              </button>
+            </div>
+          </div>
+          
+          {/* Mobile Menu */}
+          <div id="mobile-menu" className="hidden md:hidden bg-white border-t border-gray-100">
+            <div className="px-4 py-4 space-y-4">
+              <button 
+                onClick={() => {
+                  document.getElementById('what-is-section')?.scrollIntoView({ behavior: 'smooth' });
+                  document.getElementById('mobile-menu')?.classList.add('hidden');
+                }}
+                className="block w-full text-left text-gray-700 hover:text-brand-primary transition-colors font-medium py-2"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => {
+                  document.getElementById('books-section')?.scrollIntoView({ behavior: 'smooth' });
+                  document.getElementById('mobile-menu')?.classList.add('hidden');
+                }}
+                className="block w-full text-left text-gray-700 hover:text-brand-primary transition-colors font-medium py-2"
+              >
+                Explore our books
               </button>
             </div>
           </div>
@@ -572,8 +604,8 @@ const Home = () => {
             <div className="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-8 rounded-3xl border-2 border-brand-primary/20 max-w-4xl mx-auto relative overflow-hidden">
               {/* Background decoration */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
-              <div className="absolute top-4 right-4 w-8 h-8 bg-brand-primary/20 rounded-full animate-pulse-slow"></div>
-              <div className="absolute bottom-4 left-4 w-6 h-6 bg-brand-secondary/20 rounded-full animate-bounce-gentle"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 bg-brand-primary/10 rounded-full animate-pulse-slow"></div>
+              <div className="absolute bottom-2 left-2 w-3 h-3 bg-brand-secondary/10 rounded-full animate-bounce-gentle"></div>
               
               <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
                 <span className="text-brand-primary">HybridEdge</span> ensures that every page of your book becomes a <span className="text-brand-secondary font-black">gateway to smarter learning</span>.
@@ -613,8 +645,8 @@ const Home = () => {
           <div className="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-8 rounded-3xl border-2 border-brand-primary/20 max-w-4xl mx-auto relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
-            <div className="absolute top-4 right-4 w-8 h-8 bg-brand-primary/20 rounded-full animate-pulse-slow"></div>
-            <div className="absolute bottom-4 left-4 w-6 h-6 bg-brand-secondary/20 rounded-full animate-bounce-gentle"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 bg-brand-primary/10 rounded-full animate-pulse-slow"></div>
+            <div className="absolute bottom-2 left-2 w-3 h-3 bg-brand-secondary/10 rounded-full animate-bounce-gentle"></div>
             
             <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
               <span className="text-brand-primary">HybridEdge</span> = <span className="text-brand-primary">Print</span> + <span className="text-brand-secondary">Practice</span> + <span className="text-brand-primary">AI Intelligence</span>
@@ -676,30 +708,30 @@ const Home = () => {
           {/* Enhanced Search and Filters */}
           <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   placeholder="Search books by title or subject..." 
                   value={searchQuery} 
                   onChange={e => {
-                    setSearchQuery(e.target.value);
-                    handlePageChange(1);
+              setSearchQuery(e.target.value);
+              handlePageChange(1);
                   }} 
                   className="pl-10 bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl" 
                 />
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-3">
-                <CourseExplorer onBoardChange={id => {
-                  setSearchQuery('');
-                  setSelectedBoard(id);
-                  setSelectedSubject("all"); // reset subject if board changes
-                  handlePageChange(1);
-                }} onSubjectChange={id => {
-                  setSearchQuery('');
-                  setSelectedSubject(id);
-                  handlePageChange(1);
-                }} />
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <CourseExplorer onBoardChange={id => {
+              setSearchQuery('');
+              setSelectedBoard(id);
+              setSelectedSubject("all"); // reset subject if board changes
+              handlePageChange(1);
+            }} onSubjectChange={id => {
+              setSearchQuery('');
+              setSelectedSubject(id);
+              handlePageChange(1);
+            }} />
               </div>
             </div>
           </div>
@@ -787,8 +819,8 @@ const Home = () => {
 
             <div className="bg-white/80 backdrop-blur-sm rounded-xl px-6 py-2 shadow-sm border border-gray-200">
               <span className="text-gray-700 font-medium">
-                Page {pagination.page} of {pagination.pages}
-              </span>
+              Page {pagination.page} of {pagination.pages}
+            </span>
             </div>
 
             <Button 
@@ -832,8 +864,8 @@ const Home = () => {
           <div className="bg-gradient-to-r from-brand-secondary/10 to-brand-primary/10 p-8 rounded-3xl border-2 border-brand-secondary/20 mb-12 max-w-4xl mx-auto relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-secondary to-brand-primary"></div>
-            <div className="absolute top-4 right-4 w-8 h-8 bg-brand-secondary/20 rounded-full animate-pulse-slow"></div>
-            <div className="absolute bottom-4 left-4 w-6 h-6 bg-brand-primary/20 rounded-full animate-bounce-gentle"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 bg-brand-secondary/10 rounded-full animate-pulse-slow"></div>
+            <div className="absolute bottom-2 left-2 w-3 h-3 bg-brand-primary/10 rounded-full animate-bounce-gentle"></div>
             
             <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
               <span className="text-brand-secondary font-black">Explore.</span> <span className="text-brand-primary font-black">Learn.</span> <span className="text-brand-secondary font-black">Evolve.</span> With <span className="text-brand-primary">Oswaal HybridEdge</span>.
