@@ -821,12 +821,12 @@ const Home = () => {
                       index % 4 === 2 ? "bg-gradient-to-br from-orange-500 via-red-500 to-pink-600" :
                       "bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600"
                     }`}>
-                      {/* Book Image in Header - No Background, Fit to Edges */}
-                      <div className="absolute inset-0">
+                      {/* Book Image in Header - Contained within bounds */}
+                      <div className="absolute inset-0 overflow-hidden">
                         <img 
                           src={book.book_image || defaultImageBook} 
                           alt={book.title} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
                             e.currentTarget.src = defaultImageBook;
                           }}
