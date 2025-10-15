@@ -285,17 +285,79 @@ const Home = () => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Mobile Layout */}
+          <div className="lg:hidden space-y-12">
+            {/* Heading */}
+            <div className="text-center space-y-6">
+              <h1 className="text-5xl sm:text-6xl font-black text-gray-900 leading-tight">
+                Oswaal <span className="text-brand-primary">HybridEdge</span>
+            </h1>
+              <p className="text-2xl text-brand-secondary font-semibold leading-relaxed">
+              Where Print Meets Power.
+            </p>
+            </div>
+
+            {/* Hero Image */}
+            <div className="relative flex justify-center">
+              <div className="relative w-full max-w-md">
+                <img 
+                  src="/src/assets/hero-learning.png" 
+                  alt="Oswaal HybridEdge Hero - Successful Student" 
+                  className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
+                />
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="flex justify-center">
+              <Button 
+                size="lg" 
+                className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto" 
+                onClick={handleStartLearning} 
+                disabled={isLoggingIn}
+              >
+                <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
+                {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+                <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+
+            {/* Stats in Single Line */}
+            <div className="grid grid-cols-4 gap-3 relative z-20">
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                <div className="text-xl font-bold text-brand-primary mb-1">40+</div>
+                <div className="text-gray-600 text-xs">Years</div>
+              </div>
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                <div className="text-xl font-bold text-brand-secondary mb-1">10M+</div>
+                <div className="text-gray-600 text-xs">Students</div>
+              </div>
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                <div className="text-xl font-bold text-brand-primary mb-1">500+</div>
+                <div className="text-gray-600 text-xs">Books</div>
+              </div>
+              <div className="text-center bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                <div className="text-xl font-bold text-brand-secondary mb-1">24/7</div>
+                <div className="text-gray-600 text-xs">AI Support</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="space-y-8">
               <div className="space-y-6">
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 leading-tight">
+                <h1 className="text-7xl font-black text-gray-900 leading-tight">
                   Oswaal <span className="text-brand-primary">HybridEdge</span>
-            </h1>
-                
+                </h1>
                 <p className="text-2xl text-brand-secondary font-semibold leading-relaxed max-w-2xl">
-              Where Print Meets Power.
-            </p>
+                  Where Print Meets Power.
+                </p>
               </div>
 
               {/* CTA Button */}
@@ -307,9 +369,9 @@ const Home = () => {
                   disabled={isLoggingIn}
                 >
                   <Rocket className="mr-3 h-5 w-5 group-hover:animate-bounce" />
-                {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+                  {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
                   <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+                </Button>
               </div>
 
               {/* Stats */}
@@ -336,14 +398,11 @@ const Home = () => {
             {/* Right Content - Hero Image */}
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative w-full max-w-md lg:max-w-lg">
-                {/* Oswaal HybridEdge Hero Image */}
                 <img 
                   src="/src/assets/hero-learning.png" 
                   alt="Oswaal HybridEdge Hero - Successful Student" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
-                
-                {/* Floating decorative elements around the hero image */}
                 <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
                 <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
                 <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
