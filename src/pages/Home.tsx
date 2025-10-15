@@ -393,7 +393,7 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Side - 5 Feature Items in 3x2 Grid */}
+            {/* Right Side - 4 Feature Items in 2x2 Grid */}
             <div className="grid grid-cols-2 gap-6">
               {/* Item 1 */}
               <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -429,15 +429,6 @@ const Home = () => {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Connected Ecosystem</h3>
                 <p className="text-gray-600 text-sm">Seamlessly integrated with Oswaal360, HybridEdge bridges books, practice papers, and assessments, ensuring your learning journey never stops.</p>
-              </div>
-
-              {/* Item 5 */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                  <span className="text-green-600 font-bold text-lg">05</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Designed for Every Learner</h3>
-                <p className="text-gray-600 text-sm">Whether you're a student, teacher, or parent - HybridEdge adapts to your learning style, making studying faster, simpler, and more engaging.</p>
               </div>
             </div>
           </div>
