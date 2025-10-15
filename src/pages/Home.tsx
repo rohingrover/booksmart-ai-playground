@@ -484,67 +484,100 @@ const Home = () => {
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-primary rounded-2xl mb-8 shadow-xl">
-              <Target className="w-10 h-10 text-white" />
-            </div>
-            
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
+          {/* Centered Heading */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
               How <span className="text-brand-primary">It Works</span>
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {/* Step 1 */}
-            <div className="group text-center relative">
-              <div className="relative mb-8">
-                <div className="w-24 h-24 mx-auto bg-brand-primary rounded-3xl flex items-center justify-center text-white text-3xl font-black shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  1
-                </div>
-                <div className="absolute -inset-2 bg-brand-primary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Side - Image */}
+            <div className="relative flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md lg:max-w-lg">
+                {/* How It Works Image */}
+                <img 
+                  src="/src/assets/how-it-works.png" 
+                  alt="How It Works - Student Thinking" 
+                  className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
+                />
+                
+                {/* Floating decorative elements around the image */}
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Scan the QR code inside your Oswaal Book.</h3>
             </div>
             
-            {/* Step 2 */}
-            <div className="group text-center relative">
-              <div className="relative mb-8">
-                <div className="w-24 h-24 mx-auto bg-brand-secondary rounded-3xl flex items-center justify-center text-white text-3xl font-black shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  2
+            {/* Right Side - Steps */}
+            <div className="space-y-8">
+              {/* Step 1 */}
+              <div className="group flex items-start space-x-4">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
+                    1
+                  </div>
+                  <div className="absolute -inset-1 bg-brand-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
-                <div className="absolute -inset-2 bg-brand-secondary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Scan the QR code inside your Oswaal Book.</h3>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Ask your question - concept, formula, or topic.</h3>
+              
+              {/* Step 2 */}
+              <div className="group flex items-start space-x-4">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
+                    2
+                  </div>
+                  <div className="absolute -inset-1 bg-brand-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Ask your question - concept, formula, or topic.</h3>
+                </div>
             </div>
             
-            {/* Step 3 */}
-            <div className="group text-center relative">
-              <div className="relative mb-8">
-                <div className="w-24 h-24 mx-auto bg-brand-primary rounded-3xl flex items-center justify-center text-white text-3xl font-black shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  3
+              {/* Step 3 */}
+              <div className="group flex items-start space-x-4">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
+                    3
+                  </div>
+                  <div className="absolute -inset-1 bg-brand-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
-                <div className="absolute -inset-2 bg-brand-primary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Get instant AI-powered answers, examples, and practice.</h3>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Get instant AI-powered answers, examples, and practice.</h3>
+                </div>
             </div>
             
-            {/* Step 4 */}
-            <div className="group text-center relative">
-              <div className="relative mb-8">
-                <div className="w-24 h-24 mx-auto bg-brand-secondary rounded-3xl flex items-center justify-center text-white text-3xl font-black shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  4
+              {/* Step 4 */}
+              <div className="group flex items-start space-x-4">
+                <div className="relative">
+                  <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
+                    4
+                  </div>
+                  <div className="absolute -inset-1 bg-brand-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
-                <div className="absolute -inset-2 bg-brand-secondary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Track your learning through your Oswaal360 dashboard.</h3>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Track your learning through your Oswaal360 dashboard.</h3>
             </div>
           </div>
           
+          {/* Highlighted Quote */}
           <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 max-w-4xl mx-auto">
-              <p className="text-lg text-gray-600">
-            HybridEdge ensures that every page of your book becomes a gateway to smarter learning.
-          </p>
+            <div className="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-8 rounded-3xl border-2 border-brand-primary/20 max-w-4xl mx-auto relative overflow-hidden">
+              {/* Background decoration */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
+              <div className="absolute top-4 right-4 w-8 h-8 bg-brand-primary/20 rounded-full animate-pulse-slow"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 bg-brand-secondary/20 rounded-full animate-bounce-gentle"></div>
+              
+              <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
+                <span className="text-brand-primary">HybridEdge</span> ensures that every page of your book becomes a <span className="text-brand-secondary font-black">gateway to smarter learning</span>.
+              </p>
             </div>
           </div>
         </div>
