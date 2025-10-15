@@ -9,61 +9,65 @@ import { Clock, BrainCircuit, Target, Trophy, BookOpen, Play, Settings, Award, T
 import { useParams, useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  async function fetchMyBooks({ keyword = "", board_id = 0, subject_id = 0 }) {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Token not found");
-
-    const response = await fetch(`${API_BASE_URL}/api/my-books`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ keyword, board_id, subject_id }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch books");
-    return data;
-  }
-
-  async function getBook(bookId: number) {
-    const res = await fetch(`${API_BASE_URL}/api/book/${bookId}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch books");
-    // Extract chapter_id and chapter_name from chapters array
-    const chapters = (data.chapters || []).map((ch: any) => ({
-      chapter_id: ch.chapter_id,
-      chapter_name: ch.chapter_name,
-    }));
-
-    return {
-      ...data,
-      chapters,
-    };
-  }
-
-  async function fetchQuizQuestions({ book_id, chapter_id, difficulty_level, no_of_questions }) {
-    const response = await fetch(`${API_BASE_URL}/api/quiz-questions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        book_id,
-        chapter_id,
-        difficulty_level,
-        no_of_questions,
-      }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch quiz questions");
-    return data;
-  }
-
-
+async function fetchMyBooks({
+  keyword = "",
+  board_id = 0,
+  subject_id = 0
+}) {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Token not found");
+  const response = await fetch(`${API_BASE_URL}/api/my-books`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      keyword,
+      board_id,
+      subject_id
+    })
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to fetch books");
+  return data;
+}
+async function getBook(bookId: number) {
+  const res = await fetch(`${API_BASE_URL}/api/book/${bookId}`);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to fetch books");
+  // Extract chapter_id and chapter_name from chapters array
+  const chapters = (data.chapters || []).map((ch: any) => ({
+    chapter_id: ch.chapter_id,
+    chapter_name: ch.chapter_name
+  }));
+  return {
+    ...data,
+    chapters
+  };
+}
+async function fetchQuizQuestions({
+  book_id,
+  chapter_id,
+  difficulty_level,
+  no_of_questions
+}) {
+  const response = await fetch(`${API_BASE_URL}/api/quiz-questions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      book_id,
+      chapter_id,
+      difficulty_level,
+      no_of_questions
+    })
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || "Failed to fetch quiz questions");
+  return data;
+}
 const Quiz = () => {
   type QuizAnswer = string | string[]; // one question can have one or multiple answers
   //const [selectedBook, setSelectedBook] = useState('');
@@ -81,7 +85,9 @@ const Quiz = () => {
   const [quizAnswers, setQuizAnswers] = useState<QuizAnswer[]>([]);
   const [quizScore, setQuizScore] = useState(0);
   const [selectedQuizAnswer, setSelectedQuizAnswer] = useState('');
-  const { bookId } = useParams();
+  const {
+    bookId
+  } = useParams();
   const [selectedBook, setSelectedBook] = useState<string>("");
   const [selectedBookTitle, setSelectedBookTitle] = useState<string>("");
   const [books, setBooks] = useState<any[]>([]);
@@ -89,62 +95,52 @@ const Quiz = () => {
   const navigate = useNavigate();
   const [chapters, setChapters] = useState<any[]>([]);
   const [fetchedQuestions, setFetchedQuestions] = useState<any[]>([]);
-
-  
-
   useEffect(() => {
-      const loadBooks = async () => {
-        //alert('loadBooks');
-        try {
-          setLoadingBooks(true);
-          const data = await fetchMyBooks({});
-          if (data.length > 0) {
-            setBooks(data);
-            if (bookId) {
-              
-              const selected = data.find((b: any) => String(b.id) === String(bookId));
-              if (selected) {
-                setSelectedBook(String(selected.id));
-                setSelectedBookTitle(selected.title);
-                getBook(selected.id).then(book => {
-                  //console.log(book.chapters);
-                  setChapters(book.chapters);
-                });
-              }
-            } else {
-              
-              setSelectedBook(String(data[0].id));
-              setSelectedBookTitle(data[0].title);
-              getBook(data[0].id).then(book => {
+    const loadBooks = async () => {
+      //alert('loadBooks');
+      try {
+        setLoadingBooks(true);
+        const data = await fetchMyBooks({});
+        if (data.length > 0) {
+          setBooks(data);
+          if (bookId) {
+            const selected = data.find((b: any) => String(b.id) === String(bookId));
+            if (selected) {
+              setSelectedBook(String(selected.id));
+              setSelectedBookTitle(selected.title);
+              getBook(selected.id).then(book => {
                 //console.log(book.chapters);
                 setChapters(book.chapters);
               });
-              
             }
+          } else {
+            setSelectedBook(String(data[0].id));
+            setSelectedBookTitle(data[0].title);
+            getBook(data[0].id).then(book => {
+              //console.log(book.chapters);
+              setChapters(book.chapters);
+            });
           }
-        } catch (error) {
-          console.error("Error loading books:", error);
-        } finally {
-          setLoadingBooks(false);
         }
-      };
-      loadBooks();
-    }, [bookId]);
-
-    const handleBookChange = (bookId: string) => {
-      setSelectedBook(bookId);
-      setSelectedChapter('');
-      setChapters([]);
-      const book = books.find((b) => String(b.id) === bookId);
-      if (book) {
-        setSelectedBookTitle(book.title);
-        navigate(`/quiz/${book.id}`);
+      } catch (error) {
+        console.error("Error loading books:", error);
+      } finally {
+        setLoadingBooks(false);
       }
-      //alert('handleBookChange');
     };
-
-
-  
+    loadBooks();
+  }, [bookId]);
+  const handleBookChange = (bookId: string) => {
+    setSelectedBook(bookId);
+    setSelectedChapter('');
+    setChapters([]);
+    const book = books.find(b => String(b.id) === bookId);
+    if (book) {
+      setSelectedBookTitle(book.title);
+      navigate(`/quiz/${book.id}`);
+    }
+    //alert('handleBookChange');
+  };
   const recentQuizzes = [{
     id: 1,
     title: 'Algebra Basics',
@@ -195,12 +191,10 @@ const Quiz = () => {
     questions: 25,
     difficulty: 'Hard'
   }];
-
   const handleStartQuiz = async () => {
     if (!selectedBook) return alert("Please select a book");
     //if (!selectedChapter) return alert("Please select a chapter");
     if (!selectedLevel) return alert("Please select difficulty level");
-
     try {
       setShowQuizSetup(false);
       setQuizActive(false);
@@ -210,9 +204,8 @@ const Quiz = () => {
         book_id: Number(selectedBook),
         chapter_id: Number(selectedChapter),
         difficulty_level: selectedLevel,
-        no_of_questions: questionCount[0],
+        no_of_questions: questionCount[0]
       });
-
       if (!result?.questions?.length) {
         alert("No questions found for this selection.");
         setShowQuizSetup(true);
@@ -227,23 +220,19 @@ const Quiz = () => {
 
       // ✅ Use fetched questions here
       setFetchedQuestions(result.questions);
-
       startQuiz({
         type: "custom",
         book: selectedBook,
         time: parseInt(selectedTime),
         level: selectedLevel,
-        questions: result.questions.length,
+        questions: result.questions.length
       });
-
     } catch (err) {
       console.error("Quiz start error:", err);
       alert("Failed to start quiz. Try again later.");
       setShowQuizSetup(true);
     }
   };
-
-
   const startQuiz = (settings: any) => {
     setQuizSettings(settings);
     setQuizActive(true);
@@ -315,22 +304,17 @@ const Quiz = () => {
     const questionType = quizQuestions[currentQuizQuestion].type; // e.g., 'objective_multiple_choice'
 
     const newAnswers = [...quizAnswers];
-
     if (questionType === 'objective_multiple_choice') {
-      const current = new Set((quizAnswers[currentQuizQuestion] as string[]) || []);
-      if (current.has(answer)) current.delete(answer);
-      else current.add(answer);
+      const current = new Set(quizAnswers[currentQuizQuestion] as string[] || []);
+      if (current.has(answer)) current.delete(answer);else current.add(answer);
       newAnswers[currentQuizQuestion] = Array.from(current);
       setQuizAnswers(newAnswers);
-
       setSelectedQuizAnswer(Array.from(current).join(', '));
-
     } else {
       // single-choice or subjective
       newAnswers[currentQuizQuestion] = answer;
       setQuizAnswers(newAnswers);
       setSelectedQuizAnswer(answer);
-
       if (answer === quizQuestions[currentQuizQuestion].correct) {
         setQuizScore(quizScore + 1);
       }
@@ -357,11 +341,8 @@ const Quiz = () => {
   const nextQuizQuestion = () => {
     if (currentQuizQuestion < quizQuestions.length - 1) {
       const nextIndex = currentQuizQuestion + 1;
-
       setCurrentQuizQuestion(nextIndex);
-
       const nextAnswer = quizAnswers[nextIndex];
-
       if (typeof nextAnswer === "string") {
         // Subjective (short/long)
         setSelectedQuizAnswer(nextAnswer);
@@ -376,7 +357,6 @@ const Quiz = () => {
       endQuiz();
     }
   };
-
   const endQuiz = () => {
     setQuizActive(false);
 
@@ -442,88 +422,55 @@ const Quiz = () => {
         {/* Question */}
         <Card className="shadow-elegant">
           <CardContent className="p-8">
-            <h2
-  className="text-2xl font-bold mb-6"
-  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentQ.question_text) }}
-></h2>
+            <h2 className="text-2xl font-bold mb-6" dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(currentQ.question_text)
+          }}></h2>
 
-{(() => {
-  switch (currentQ.question_type) {
-    case "objective_single_choice":
-    case "assertion":
-    case "reasoning":
-      return (
-        <div className="space-y-3">
-          {currentQ.options?.map((option, index) => (
-            <Button
-              key={index}
-              onClick={() => handleQuizAnswer(option.text)}
-              variant={selectedQuizAnswer === option.text ? "default" : "outline"}
-              className={`w-full p-4 text-left justify-start h-auto ${
-                selectedQuizAnswer === option.text ? 'gradient-primary' : 'hover:bg-accent'
-              }`}
-            >
+          {(() => {
+            switch (currentQ.question_type) {
+              case "objective_single_choice":
+              case "assertion":
+              case "reasoning":
+                return <div className="space-y-3">
+          {currentQ.options?.map((option, index) => <Button key={index} onClick={() => handleQuizAnswer(option.text)} variant={selectedQuizAnswer === option.text ? "default" : "outline"} className={`w-full p-4 text-left justify-start h-auto ${selectedQuizAnswer === option.text ? 'gradient-primary' : 'hover:bg-accent'}`}>
               <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
-              <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(option.text) }}></span>
-            </Button>
-          ))}
-        </div>
-      );
-
-    case "objective_multiple_choice":
-      return (
-        <div className="space-y-3">
-          {currentQ.options?.map((option, index) => (
-            <Button
-              key={index}
-              onClick={() => {
-                const newAnswers = new Set(quizAnswers[currentQuizQuestion] as string[] || []);
-                if (newAnswers.has(option.text)) newAnswers.delete(option.text);
-                else newAnswers.add(option.text);
-
-                const arr = [...quizAnswers];
-                arr[currentQuizQuestion] = Array.from(newAnswers); // ✅ no error now
-                setQuizAnswers(arr);
-              }}
-              variant={
-                (quizAnswers[currentQuizQuestion] || []).includes(option.text)
-                  ? "default"
-                  : "outline"
-              }
-              className="w-full p-4 text-left justify-start h-auto hover:bg-accent"
-            >
+              <span dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(option.text)
+                    }}></span>
+            </Button>)}
+        </div>;
+              case "objective_multiple_choice":
+                return <div className="space-y-3">
+          {currentQ.options?.map((option, index) => <Button key={index} onClick={() => {
+                    const newAnswers = new Set(quizAnswers[currentQuizQuestion] as string[] || []);
+                    if (newAnswers.has(option.text)) newAnswers.delete(option.text);else newAnswers.add(option.text);
+                    const arr = [...quizAnswers];
+                    arr[currentQuizQuestion] = Array.from(newAnswers); // ✅ no error now
+                    setQuizAnswers(arr);
+                  }} variant={(quizAnswers[currentQuizQuestion] || []).includes(option.text) ? "default" : "outline"} className="w-full p-4 text-left justify-start h-auto hover:bg-accent">
               <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
-              <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(option.text) }}></span>
-            </Button>
-          ))}
-        </div>
-      );
+              <span dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(option.text)
+                    }}></span>
+            </Button>)}
+        </div>;
+              case "subjective_short":
+              case "subjective_long":
+                return <textarea className="w-full border rounded-md p-3 focus:ring-2 focus:ring-primary outline-none" rows={currentQ.question_type === "subjective_long" ? 5 : 2} placeholder="Type your answer here..." value={quizAnswers[currentQuizQuestion] || ""} onChange={e => {
+                  const val = e.target.value;
 
-    case "subjective_short":
-    case "subjective_long":
-      return (
-        <textarea
-          className="w-full border rounded-md p-3 focus:ring-2 focus:ring-primary outline-none"
-          rows={currentQ.question_type === "subjective_long" ? 5 : 2}
-          placeholder="Type your answer here..."
-          value={quizAnswers[currentQuizQuestion] || ""}
-          onChange={(e) => {
-            const val = e.target.value;
+                  // Update quizAnswers array
+                  const updatedAnswers = [...quizAnswers];
+                  updatedAnswers[currentQuizQuestion] = val;
+                  setQuizAnswers(updatedAnswers);
 
-            // Update quizAnswers array
-            const updatedAnswers = [...quizAnswers];
-            updatedAnswers[currentQuizQuestion] = val;
-            setQuizAnswers(updatedAnswers);
-
-            // Update selectedQuizAnswer (important for enabling Next button)
-            setSelectedQuizAnswer(val);
-          }}
-        />
-      );
-    default:
-      return <p className="text-muted-foreground">Unsupported question type.</p>;
-  }
-})()}
+                  // Update selectedQuizAnswer (important for enabling Next button)
+                  setSelectedQuizAnswer(val);
+                }} />;
+              default:
+                return <p className="text-muted-foreground">Unsupported question type.</p>;
+            }
+          })()}
             <div className="flex justify-between mt-6">
               <Button onClick={() => {
               setQuizActive(false);
@@ -563,34 +510,7 @@ const Quiz = () => {
         </div>
 
         {/* Quick Quiz Options */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-6 flex items-center">
-            <Play className="h-6 w-6 mr-2 text-primary" />
-            Quick Start
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {quickQuizzes.map((quiz, index) => <Card key={index} className="shadow-card hover:shadow-elegant transition-smooth cursor-pointer hover:scale-105" onClick={() => handleQuickQuiz(quiz)}>
-                <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-4">{quiz.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2">{quiz.title}</h3>
-                  <p className="text-muted-foreground mb-4">{quiz.description}</p>
-                  <div className="flex justify-between text-sm">
-                    <span className="flex items-center">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {quiz.time}m
-                    </span>
-                    <span className="flex items-center">
-                      <Target className="h-4 w-4 mr-1" />
-                      {quiz.questions}Q
-                    </span>
-                  </div>
-                  <Button className="w-full mt-4 gradient-primary">
-                    Start Now
-                  </Button>
-                </CardContent>
-              </Card>)}
-          </div>
-        </div>
+        
 
         {/* Custom Quiz Setup */}
         <Card className="shadow-elegant">
@@ -608,40 +528,24 @@ const Quiz = () => {
               {/* Book Selection */}
               <div className="space-y-3">
                 <label className="text-sm font-medium">Select Book</label>
-                {loadingBooks ? (
-              <p className="text-sm text-muted-foreground">Loading books...</p>
-            ) : books.length > 0 ? (
-              <Select
-                value={selectedBook}
-                onValueChange={(value) => handleBookChange(value)}
-              >
+                {loadingBooks ? <p className="text-sm text-muted-foreground">Loading books...</p> : books.length > 0 ? <Select value={selectedBook} onValueChange={value => handleBookChange(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Choose a book" />
                 </SelectTrigger>
                 <SelectContent className="bg-background z-50 border shadow-lg">
-                  {books.map((book) => (
-                    <SelectItem
-                      key={book.id}
-                      value={String(book.id)}
-                    >
+                  {books.map(book => <SelectItem key={book.id} value={String(book.id)}>
                       <div className="flex items-center space-x-2">
                         <BookOpen className="h-4 w-4" />
                         <span>{book.title}</span>
-                        {book.board_name && (
-                          <Badge variant="secondary" className="ml-2">
+                        {book.board_name && <Badge variant="secondary" className="ml-2">
                             {book.board_name}
-                          </Badge>
-                        )}
+                          </Badge>}
                       </div>
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
-              </Select>
-            ) : (
-              <p className="text-sm text-muted-foreground">
+              </Select> : <p className="text-sm text-muted-foreground">
                 No books found for your account.
-              </p>
-            )}
+              </p>}
               </div>
 
               {/* Chapter Selection */}
@@ -652,11 +556,9 @@ const Quiz = () => {
                     <SelectValue placeholder={selectedBook ? "Choose a chapter" : "Select book first"} />
                   </SelectTrigger>
                   <SelectContent className="bg-background z-50 border shadow-lg">
-                    {selectedBook && chapters.map((chapter, index) => (
-                      <SelectItem key={index} value={chapter.chapter_id}>
+                    {selectedBook && chapters.map((chapter, index) => <SelectItem key={index} value={chapter.chapter_id}>
                         {chapter.chapter_name}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
