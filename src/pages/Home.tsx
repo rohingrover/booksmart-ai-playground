@@ -316,7 +316,7 @@ const Home = () => {
             <div className="flex justify-center">
               <Button 
                 size="lg" 
-                className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto" 
+                className="group bg-brand-secondary hover:bg-brand-secondary/90 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto" 
                 onClick={handleStartLearning} 
                 disabled={isLoggingIn}
               >
