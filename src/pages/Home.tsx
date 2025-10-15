@@ -321,10 +321,10 @@ const Home = () => {
             
             <div className="max-w-5xl mx-auto space-y-8 text-xl text-gray-600 leading-relaxed">
               <p className="text-2xl font-semibold text-gray-800">
-                Oswaal HybridEdge is the next big leap in learning innovation — an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
+                Oswaal HybridEdge is the next big leap in learning innovation - an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
               </p>
               <p>
-                It transforms every Oswaal book into a smart, interactive learning companion — giving students instant answers, personalized insights, and guided practice anytime, anywhere.
+                It transforms every Oswaal book into a smart, interactive learning companion - giving students instant answers, personalized insights, and guided practice anytime, anywhere.
               </p>
               <p>
                 With HybridEdge, Oswaal introduces a new era of Hybrid Learning, where print and technology work together to deliver one seamless, smarter learning experience.
@@ -389,7 +389,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">Personalized Support, 24×7</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Students get tailor-made help whenever they need it — doubt-solving, revision guidance, and intelligent recommendations based on their progress.
+                  Students get tailor-made help whenever they need it - doubt-solving, revision guidance, and intelligent recommendations based on their progress.
                 </p>
               </CardContent>
             </Card>
@@ -494,7 +494,7 @@ const Home = () => {
                 </div>
                 <div className="absolute -inset-2 bg-brand-secondary rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Ask your question — concept, formula, or topic.</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Ask your question - concept, formula, or topic.</h3>
             </div>
             
             {/* Step 3 */}
@@ -556,7 +556,7 @@ const Home = () => {
               For over 40 years, Oswaal Books has been synonymous with trust, quality, and excellence in education.
             </p>
             <p>
-              Now, with Oswaal HybridEdge, we're taking that legacy into the future — giving learners the power of print and the intelligence of AI in one ecosystem.
+              Now, with Oswaal HybridEdge, we're taking that legacy into the future - giving learners the power of print and the intelligence of AI in one ecosystem.
             </p>
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100">
               <p className="text-2xl font-bold text-brand-primary">
@@ -593,7 +593,7 @@ const Home = () => {
           </p>
           
           <p className="text-xl text-gray-500 mb-12 max-w-3xl mx-auto">
-            With Oswaal HybridEdge, your books don't just teach — they think with you.
+            With Oswaal HybridEdge, your books don't just teach - they think with you.
           </p>
           
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 mb-12 max-w-4xl mx-auto">
