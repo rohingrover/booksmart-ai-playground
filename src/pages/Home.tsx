@@ -6,8 +6,16 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { BookOpen, Search, Filter, Star, Users, Clock, Brain, Target, MessageSquare, Lightbulb, TrendingUp, Award, Zap, Play, CheckCircle, Globe, Smartphone, Gamepad2, BarChart3, Shield, Sparkles, ArrowRight, BookMarked, GraduationCap, Rocket, Star as StarIcon, ChevronRight, Sparkle, BookCheck, Users2, Timer, Trophy, Crown, Infinity } from 'lucide-react';
 
-// Default image will be loaded from public folder
-const defaultImageBook = '/oswaal360-logo-new.png';
+// Import images so Vite can process them
+import oswaalLogo from '@/assets/oswaal360-logo-new.png';
+import heroLearning from '@/assets/hero-learning.png';
+import professionallyCurated from '@/assets/professionally curated.png';
+import whyOswaal from '@/assets/why-oswaal.png';
+import howItWorks from '@/assets/how-it-works.png';
+import futureOfLearning from '@/assets/future-of-learning.png';
+
+// Default image
+const defaultImageBook = oswaalLogo;
 
 import { useToast } from '@/hooks/use-toast';
 import CourseExplorer from "./components/CourseExplorer";
@@ -188,7 +196,7 @@ const Home = () => {
             {/* Logo */}
             <div className="flex items-center">
               <img 
-                src="/oswaal360-logo-new.png" 
+                src={oswaalLogo} 
                 alt="Oswaal 360 Logo" 
                 className="h-[70px] w-auto"
               />
@@ -291,7 +299,7 @@ const Home = () => {
             <div className="relative flex justify-center">
               <div className="relative w-full max-w-md">
                 <img 
-                  src="/hero-learning.png" 
+                  src={heroLearning} 
                   alt="Oswaal HybridEdge Hero - Successful Student" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -389,7 +397,7 @@ const Home = () => {
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative w-full max-w-md lg:max-w-lg">
                 <img 
-                  src="/hero-learning.png" 
+                  src={heroLearning} 
                   alt="Oswaal HybridEdge Hero - Successful Student" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -438,7 +446,7 @@ const Home = () => {
               <div className="relative w-full max-w-md lg:max-w-lg">
                 {/* Professionally Curated Image */}
                 <img 
-                  src="/professionally curated.png" 
+                  src={professionallyCurated} 
                   alt="Professionally Curated Learning Experience" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -537,7 +545,7 @@ const Home = () => {
               <div className="relative flex justify-center lg:justify-end">
                 <div className="relative w-full max-w-md lg:max-w-lg">
                   <img 
-                    src="/why-oswaal.png" 
+                    src={whyOswaal} 
                     alt="Why Oswaal HybridEdge - Student Learning" 
                     className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                   />
@@ -582,7 +590,7 @@ const Home = () => {
               <div className="relative w-full max-w-md lg:max-w-lg">
                 {/* How It Works Image */}
                 <img 
-                  src="/how-it-works.png" 
+                  src={howItWorks} 
                   alt="How It Works - Student Thinking" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -952,7 +960,7 @@ const Home = () => {
             <div className="relative flex justify-center">
               <div className="relative w-full max-w-md">
                 <img 
-                  src="/future-of-learning.png" 
+                  src={futureOfLearning} 
                   alt="Future of Learning - Student with Technology" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -1049,7 +1057,7 @@ const Home = () => {
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative w-full max-w-md lg:max-w-lg">
                 <img 
-                  src="/future-of-learning.png" 
+                  src={futureOfLearning} 
                   alt="Future of Learning - Student with Technology" 
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
@@ -1072,7 +1080,7 @@ const Home = () => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <img 
-                  src="/oswaal360-logo-new.png" 
+                  src={oswaalLogo} 
                   alt="Oswaal 360 Logo" 
                   className="h-16 w-auto"
                 />
