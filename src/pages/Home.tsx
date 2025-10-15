@@ -543,8 +543,8 @@ const Home = () => {
               <div className="group flex items-start space-x-4">
                 <div className="relative">
                   <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl group-hover:scale-110 transition-transform duration-300">
-                    3
-                  </div>
+                3
+              </div>
                   <div className="absolute -inset-1 bg-brand-primary rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </div>
                 <div className="flex-1">
@@ -583,7 +583,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* The Oswaal Promise & Experience the Future Section */}
+      {/* The Oswaal Promise Section */}
       <section className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
@@ -597,7 +597,7 @@ const Home = () => {
         
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-12 leading-tight">
-            The <span className="text-brand-primary">Oswaal Promise</span> & <span className="text-brand-secondary">Future of Learning</span>
+            The <span className="text-brand-primary">Oswaal Promise</span>
           </h2>
           
           <div className="space-y-8 text-xl text-gray-600 leading-relaxed mb-12 max-w-5xl mx-auto">
@@ -607,16 +607,10 @@ const Home = () => {
             <p>
               Now, with Oswaal HybridEdge, we're taking that legacy into the future - giving learners the power of print and the intelligence of AI in one ecosystem.
             </p>
-            <p className="text-2xl text-gray-600">
-              Join millions of learners stepping into a smarter world of education.
-            </p>
-            <p className="text-xl text-gray-500">
-              With Oswaal HybridEdge, your books don't just teach - they think with you.
-            </p>
           </div>
           
           {/* Highlighted HybridEdge Formula */}
-          <div className="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-8 rounded-3xl border-2 border-brand-primary/20 mb-12 max-w-4xl mx-auto relative overflow-hidden">
+          <div className="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-8 rounded-3xl border-2 border-brand-primary/20 max-w-4xl mx-auto relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
             <div className="absolute top-4 right-4 w-8 h-8 bg-brand-primary/20 rounded-full animate-pulse-slow"></div>
@@ -625,32 +619,6 @@ const Home = () => {
             <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
               <span className="text-brand-primary">HybridEdge</span> = <span className="text-brand-primary">Print</span> + <span className="text-brand-secondary">Practice</span> + <span className="text-brand-primary">AI Intelligence</span>
             </p>
-          </div>
-          
-          {/* Highlighted Explore. Learn. Evolve */}
-          <div className="bg-gradient-to-r from-brand-secondary/10 to-brand-primary/10 p-8 rounded-3xl border-2 border-brand-secondary/20 mb-12 max-w-4xl mx-auto relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-secondary to-brand-primary"></div>
-            <div className="absolute top-4 right-4 w-8 h-8 bg-brand-secondary/20 rounded-full animate-pulse-slow"></div>
-            <div className="absolute bottom-4 left-4 w-6 h-6 bg-brand-primary/20 rounded-full animate-bounce-gentle"></div>
-            
-            <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
-              <span className="text-brand-secondary font-black">Explore.</span> <span className="text-brand-primary font-black">Learn.</span> <span className="text-brand-secondary font-black">Evolve.</span> With <span className="text-brand-primary">Oswaal HybridEdge</span>.
-            </p>
-          </div>
-          
-          {/* CTA Button */}
-          <div className="flex justify-center px-4">
-            <Button 
-              size="lg" 
-              className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl rounded-2xl shadow-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 w-full sm:w-auto" 
-              onClick={handleStartLearning} 
-              disabled={isLoggingIn}
-            >
-              <Rocket className="mr-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:animate-bounce" />
-            {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
-              <ArrowRight className="ml-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform" />
-          </Button>
           </div>
         </div>
       </section>
@@ -669,10 +637,6 @@ const Home = () => {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-primary rounded-2xl mb-8 shadow-xl">
-              <BookOpen className="w-10 h-10 text-white" />
-            </div>
-            
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
               Explore Our <span className="text-brand-primary">Interactive Books</span>
             </h2>
@@ -780,6 +744,59 @@ const Home = () => {
             <Button variant="outline" disabled={!pagination.has_next} onClick={() => handlePageChange(pagination.page + 1)}>
               Next
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Experience the Future Section */}
+      <section className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          
+          {/* Floating geometric shapes */}
+          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-secondary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
+        </div>
+        
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
+            Experience the <span className="text-brand-secondary">Future of Learning</span>
+          </h2>
+          
+          <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
+            Join millions of learners stepping into a smarter world of education.
+          </p>
+          
+          <p className="text-xl text-gray-500 mb-12 max-w-3xl mx-auto">
+            With Oswaal HybridEdge, your books don't just teach - they think with you.
+          </p>
+          
+          {/* Highlighted Explore. Learn. Evolve */}
+          <div className="bg-gradient-to-r from-brand-secondary/10 to-brand-primary/10 p-8 rounded-3xl border-2 border-brand-secondary/20 mb-12 max-w-4xl mx-auto relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-secondary to-brand-primary"></div>
+            <div className="absolute top-4 right-4 w-8 h-8 bg-brand-secondary/20 rounded-full animate-pulse-slow"></div>
+            <div className="absolute bottom-4 left-4 w-6 h-6 bg-brand-primary/20 rounded-full animate-bounce-gentle"></div>
+            
+            <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
+              <span className="text-brand-secondary font-black">Explore.</span> <span className="text-brand-primary font-black">Learn.</span> <span className="text-brand-secondary font-black">Evolve.</span> With <span className="text-brand-primary">Oswaal HybridEdge</span>.
+            </p>
+          </div>
+          
+          {/* CTA Button */}
+          <div className="flex justify-center px-4">
+            <Button 
+              size="lg" 
+              className="group bg-brand-primary hover:bg-brand-primary/90 text-white font-bold px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl rounded-2xl shadow-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 w-full sm:w-auto" 
+              onClick={handleStartLearning} 
+              disabled={isLoggingIn}
+            >
+              <Rocket className="mr-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:animate-bounce" />
+            {isLoggingIn ? "Logging in..." : "Start Your Hybrid Journey"}
+              <ArrowRight className="ml-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform" />
+          </Button>
           </div>
         </div>
       </section>
