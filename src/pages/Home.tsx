@@ -815,7 +815,7 @@ const Home = () => {
                   
                   {/* Enhanced Header with Gradient Background and Book Image */}
                   <div className="relative h-48 overflow-hidden">
-                    <div className={`absolute inset-0 ${
+                    <div className={`absolute inset-0 overflow-hidden ${
                       index % 4 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600" :
                       index % 4 === 1 ? "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600" :
                       index % 4 === 2 ? "bg-gradient-to-br from-orange-500 via-red-500 to-pink-600" :
