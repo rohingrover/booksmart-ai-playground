@@ -19,9 +19,9 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
     --popover: 0 0% 100%;
     --popover-foreground: 210 15% 15%;
 
-    --primary: 207 73% 45%;
+    --primary: 207 73% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 207 73% 55%;
+    --primary-glow: 207 73% 45%;
 
     --secondary: 359 84% 57%;
     --secondary-foreground: 0 0% 100%;
@@ -138,7 +138,8 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
   }
 
   body {
-    @apply bg-background text-foreground font-montserrat;
+    @apply bg-background text-foreground;
+    font-family: 'Montserrat VariableFont', sans-serif;
   }
 
   /* Custom utility classes */
@@ -262,6 +263,69 @@ Secondary: rgb(238, 53, 57) = hsl(359, 84%, 57%)
   }
 }
 
-.animate-gradient-x {
-  animation: gradient-x 3s ease infinite;
+  .animate-gradient-x {
+    animation: gradient-x 3s ease infinite;
+  }
+
+  /* Custom Brand Colors */
+  .text-brand-primary {
+    color: #206399;
+  }
+
+  .bg-brand-primary {
+    background-color: #206399;
+  }
+
+  .text-brand-secondary {
+    color: #ee3539;
+  }
+
+  .bg-brand-secondary {
+    background-color: #ee3539;
+  }
+
+  .border-brand-primary {
+    border-color: #206399;
+  }
+
+  .border-brand-secondary {
+    border-color: #ee3539;
+  }
+
+  /* Animated Vector Elements */
+  .animate-float-slow {
+    animation: float-slow 4s ease-in-out infinite;
+  }
+
+  .animate-rotate-slow {
+    animation: rotate-slow 8s linear infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+
+  .animate-bounce-gentle {
+    animation: bounce-gentle 2s ease-in-out infinite;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
