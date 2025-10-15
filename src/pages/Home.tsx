@@ -772,7 +772,7 @@ const Home = () => {
           {/* Enhanced Search and Filters */}
           <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4">
-            <div className="relative flex-1">
+            <div className="relative w-full lg:w-[65%]">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   placeholder="Search books by title or subject..." 
@@ -785,6 +785,7 @@ const Home = () => {
                 />
             </div>
             
+            <div className="w-full lg:w-[35%]">
               <CourseExplorer onBoardChange={id => {
               setSearchQuery('');
               setSelectedBoard(id);
@@ -795,6 +796,7 @@ const Home = () => {
               setSelectedSubject(id);
               handlePageChange(1);
             }} />
+            </div>
             </div>
           </div>
 
@@ -811,47 +813,40 @@ const Home = () => {
               {books.map((book, index) => (
                 <Card key={book.id} className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0" onClick={handleStartLearning}>
                   
-                  {/* Enhanced Header with Gradient Background - No Class Text */}
-                  <div className="relative h-32 overflow-hidden">
+                  {/* Enhanced Header with Gradient Background and Book Image */}
+                  <div className="relative h-48 overflow-hidden">
                     <div className={`absolute inset-0 ${
                       index % 4 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600" :
                       index % 4 === 1 ? "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600" :
                       index % 4 === 2 ? "bg-gradient-to-br from-orange-500 via-red-500 to-pink-600" :
                       "bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600"
                     }`}>
+                      {/* Book Image in Header */}
+                      <div className="absolute inset-0 flex items-center justify-center p-4">
+                        <img 
+                          src={book.book_image || defaultImageBook} 
+                          alt={book.title} 
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            e.currentTarget.src = defaultImageBook;
+                          }}
+                        />
+                      </div>
+                      
                       {/* Decorative Pattern Overlay */}
                       <div className="absolute inset-0 opacity-10">
                         <div className="absolute top-4 left-4 w-12 h-12 border-2 border-white/30 rounded-full"></div>
                         <div className="absolute top-8 right-6 w-8 h-8 bg-white/20 rounded-full"></div>
                         <div className="absolute bottom-6 left-8 w-6 h-6 border-2 border-white/40 rounded-full"></div>
                         <div className="absolute bottom-4 right-4 w-10 h-10 bg-white/10 rounded-full"></div>
-                      </div>
-                      
-                      {/* Board Badge */}
-                      <div className="absolute top-4 right-4">
-                        <div className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
-                        {book.board_name}
-                        </div>
-                      </div>
-                    </div>
                     </div>
                     
-                  {/* Main Book Image - No Container Box */}
-                  <div className="relative -mt-16 mb-6 flex justify-center">
-                    <div className="relative">
-                      <img 
-                        src={book.book_image || defaultImageBook} 
-                        alt={book.title} 
-                        className="w-40 h-48 object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          e.currentTarget.src = defaultImageBook;
-                        }}
-                      />
-                      {/* Enhanced Image Glow Effect */}
-                      <div className="absolute inset-0 rounded-2xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-brand-primary/20 to-transparent"></div>
-                      {/* Floating decorative elements around the book image */}
-                      <div className="absolute -top-2 -right-2 w-4 h-4 bg-brand-primary/20 rounded-full animate-pulse-slow"></div>
-                      <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-brand-secondary/20 rounded-full animate-bounce-gentle"></div>
+                      {/* Board Badge */}
+                      <div className="absolute top-4 right-4 z-10">
+                        <div className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
+                          {book.board_name}
+                        </div>
+                      </div>
                     </div>
                   </div>
 

@@ -52,7 +52,7 @@ function CourseExplorer({ onBoardChange, onSubjectChange }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3">
+    <div className="flex flex-col gap-3">
       {dropdowns.map((level, index) => (
         <Select
           key={index}
@@ -72,7 +72,7 @@ function CourseExplorer({ onBoardChange, onSubjectChange }) {
             handleSelectChange(index, selectedId, opt?.has_child);
           }}
         >
-          <SelectTrigger className="w-full sm:w-48 bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl px-4 py-3 text-gray-700 font-medium">
+          <SelectTrigger className="w-full bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl px-4 py-3 text-gray-700 font-medium">
             <SelectValue placeholder={index === 0 ? "-- Select Board/Exam --" : "-- Select --"} />
             <ChevronDown className="h-4 w-4 text-gray-500" />
           </SelectTrigger>
