@@ -843,7 +843,7 @@ const Home = () => {
                     
                       {/* Board Badge */}
                       <div className="absolute top-4 right-4 z-10">
-                        <div className="bg-white/20 backdrop-blur-sm text-brand-secondary text-xs font-bold px-3 py-1 rounded-full border border-white/30">
+                        <div className="bg-brand-secondary text-white text-xs font-bold px-3 py-1 rounded-full border border-brand-secondary/30">
                           {book.board_name}
                         </div>
                       </div>
