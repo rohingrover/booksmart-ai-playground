@@ -754,6 +754,153 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Company Info & Contact */}
+            <div className="space-y-6">
+              <div className="flex items-center">
+                <img 
+                  src="https://www.oswaal360.com/pluginfile.php/4156/block_html/content/oswaal%20360%20logo%20with%20bg.png" 
+                  alt="Oswaal 360 Logo" 
+                  className="h-16 w-auto"
+                />
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-5 h-5 mt-1">
+                    <svg className="w-5 h-5 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      1/11 Sahitya Kunj, M.G. Road, Agra, Uttar Pradesh, India
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  <div className="w-5 h-5">
+                    <svg className="w-5 h-5 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                  </div>
+                  <a href="mailto:help@oswaal360.com" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">
+                    help@oswaal360.com
+                  </a>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  <div className="w-5 h-5">
+                    <svg className="w-5 h-5 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                  </div>
+                  <a href="tel:+91-7060659900" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">
+                    Call Us: +91-7060659900
+                  </a>
+                </div>
+                
+                <div className="flex items-start space-x-3">
+                  <div className="w-5 h-5 mt-1">
+                    <svg className="w-5 h-5 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-gray-300 text-sm">
+                      Working Hours: 10:00 am - 06:30 pm<br />
+                      Monday to Saturday
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Company Links */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white">COMPANY</h3>
+              <ul className="space-y-3">
+                <li><a href="/pages/oswaal-books-about-us" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">About Us</a></li>
+                <li><a href="/blog/post" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Blog</a></li>
+                <li><a href="/pages/oswaal360-terms-and-conditions" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Terms and Conditions</a></li>
+                <li><a href="/pages/oswaal-360-privacy-policy" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Privacy Policy</a></li>
+                <li><a href="/pages/oswaal-360-refund-policy" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Refund Policy</a></li>
+                <li><a href="/pages/faqs" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">FAQs</a></li>
+                <li><a href="/pages/contact-us" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Contact Us</a></li>
+                <li><a href="/mod/feedback/view.php?id=6058" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Feedback</a></li>
+              </ul>
+            </div>
+
+            {/* Explore Courses */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white">EXPLORE COURSES</h3>
+              <ul className="space-y-3">
+                <li><a href="/pages/cbse-online-sample-paper-question-bank-for-class-10-12-board-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CBSE</a></li>
+                <li><a href="/pages/icse-online-specimen-sample-paper-for-class-10-board-exams" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">ICSE</a></li>
+                <li><a href="/pages/cat-online-mock-test-sample-paper-and-course-for-the-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CAT</a></li>
+                <li><a href="/pages/cuet-online-mock-test-sample-paper-and-course-for-the-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">CUET UG</a></li>
+                <li><a href="/pages/online-ncert-exemplar-solution-class-12" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NCERT</a></li>
+                <li><a href="/pages/nra-cet-online-mock-test-sample-paper-and-course-for-the-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NRA CET</a></li>
+                <li><a href="/pages/ugc-net-online-mock-test-sample-paper-and-course-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">NTA UGC NET</a></li>
+                <li><a href="/pages/upsc-online-mock-test-sample-paper-and-course-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">UPSC</a></li>
+              </ul>
+              
+              <div className="pt-4">
+                <h4 className="text-lg font-semibold text-white mb-3">NCERT UPSC Video Courses</h4>
+                <ul className="space-y-2">
+                  <li><a href="/pages/upsc-online-ncert-book-indian-polity-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Indian Polity</a></li>
+                  <li><a href="/pages/upsc-online-ncert-book-history-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">History</a></li>
+                  <li><a href="/pages/upsc-online-ncert-book-geography-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Geography</a></li>
+                  <li><a href="/pages/upsc-online-ncert-book-indian-economy-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Indian Economy</a></li>
+                  <li><a href="/pages/upsc-online-ncert-book-general-science-for-latest-exam" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Physics</a></li>
+                  <li><a href="/pages/general-science-chemistry" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Chemistry</a></li>
+                  <li><a href="/pages/general-science-biology" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Biology</a></li>
+                  <li><a href="/pages/important-topics-of-class-11-class-12" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Important Topics of Class 11 & Class 12</a></li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Olympiad & Additional Links */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white">Olympiad Mock Papers</h3>
+              <ul className="space-y-3">
+                <li><a href="/pages/olympiad-class-1-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 1</a></li>
+                <li><a href="/pages/olympiad-class-2-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 2</a></li>
+                <li><a href="/pages/olympiad-class-3-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 3</a></li>
+                <li><a href="/pages/olympiad-class-4-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 4</a></li>
+                <li><a href="/pages/olympiad-class-4-online-course-mock-test-series-sample-papers-for-the-latest-exam-preparation" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Class 5</a></li>
+              </ul>
+              
+              <div className="pt-4">
+                <h4 className="text-lg font-semibold text-white mb-3">Additional Resources</h4>
+                <ul className="space-y-2">
+                  <li><a href="https://www.oswaal360.com/pages/competency-based-questions" className="text-gray-300 hover:text-brand-primary transition-colors text-sm">Competency Based Questions</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          {/* Footer Bottom */}
+          <div className="border-t border-gray-700 mt-12 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+              <div className="text-gray-400 text-sm">
+                © 2024 Oswaal Books. All rights reserved.
+              </div>
+              <div className="flex space-x-6">
+                <a href="/pages/oswaal-360-privacy-policy" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Privacy Policy</a>
+                <a href="/pages/oswaal360-terms-and-conditions" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Terms of Service</a>
+                <a href="/pages/contact-us" className="text-gray-400 hover:text-brand-primary transition-colors text-sm">Contact</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>;
 };
 export default Home;
