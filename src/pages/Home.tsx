@@ -12,6 +12,13 @@ import scienceBookCover from '@/assets/science-book-cover.jpg';
 import englishBookCover from '@/assets/english-book-cover.jpg';
 import historyBookCover from '@/assets/history-book-cover.jpg';
 import defaultImageBook from '@/assets/oswaal360-logo-new.png';
+
+// Import banner images
+import heroHybridLearning from '@/assets/hero-hybrid-learning.jpg';
+import aiFeaturesBanner from '@/assets/ai-features-banner.jpg';
+import futureLearningBanner from '@/assets/future-learning-banner.jpg';
+import howItWorksBanner from '@/assets/how-it-works-banner.jpg';
+
 import { useToast } from '@/hooks/use-toast';
 import CourseExplorer from "./components/CourseExplorer";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -186,7 +193,15 @@ const Home = () => {
   return <div className="min-h-screen bg-gradient-subtle">
       {/* Hero Section */}
       <section className="relative gradient-hero text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src={heroHybridLearning} 
+            alt="Hybrid Learning" 
+            className="w-full h-full object-cover opacity-30"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40"></div>
         <div className="relative max-w-7xl mx-auto text-center">
           <div className="animate-slide-up">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
@@ -222,18 +237,27 @@ const Home = () => {
       </section>
 
       {/* What is Oswaal HybridEdge Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 opacity-10">
+          <img 
+            src={aiFeaturesBanner} 
+            alt="AI Features" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               💡 What is <span className="gradient-primary bg-clip-text text-transparent">Oswaal HybridEdge?</span>
             </h2>
             <div className="max-w-4xl mx-auto space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Oswaal HybridEdge is the next big leap in learning innovation — an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
+                Oswaal HybridEdge is the next big leap in learning innovation - an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
               </p>
               <p>
-                It transforms every Oswaal book into a smart, interactive learning companion — giving students instant answers, personalized insights, and guided practice anytime, anywhere.
+                It transforms every Oswaal book into a smart, interactive learning companion - giving students instant answers, personalized insights, and guided practice anytime, anywhere.
               </p>
               <p className="font-semibold text-foreground">
                 With HybridEdge, Oswaal introduces a new era of Hybrid Learning, where print and technology work together to deliver one seamless, smarter learning experience.
@@ -266,9 +290,9 @@ const Home = () => {
             <Card className="shadow-card hover:shadow-elegant transition-all duration-500 group hover:scale-105 bg-card/80 backdrop-blur-sm border-0">
               <CardContent className="p-8">
                 <div className="text-4xl mb-4">🧠</div>
-                <h3 className="text-xl font-bold mb-4 text-foreground">Personalized Support, 24×7</h3>
+                <h3 className="text-xl font-bold mb-4 text-foreground">Personalized Support, 24/7</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Students get tailor-made help whenever they need it — doubt-solving, revision guidance, and intelligent recommendations based on their progress.
+                  Students get tailor-made help whenever they need it - doubt-solving, revision guidance, and intelligent recommendations based on their progress.
                 </p>
               </CardContent>
             </Card>
@@ -298,7 +322,7 @@ const Home = () => {
                 <div className="text-4xl mb-4">⚡</div>
                 <h3 className="text-xl font-bold mb-4 text-foreground">Designed for Every Learner</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Whether you're a student, teacher, or parent — HybridEdge adapts to your learning style, making studying faster, simpler, and more engaging.
+                  Whether you're a student, teacher, or parent - HybridEdge adapts to your learning style, making studying faster, simpler, and more engaging.
                 </p>
               </CardContent>
             </Card>
@@ -307,8 +331,17 @@ const Home = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
-        <div className="max-w-5xl mx-auto">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 opacity-10">
+          <img 
+            src={howItWorksBanner} 
+            alt="How It Works" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               🔍 <span className="gradient-primary bg-clip-text text-transparent">How It Works</span>
@@ -327,7 +360,7 @@ const Home = () => {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white text-2xl font-bold">
                 2
               </div>
-              <p className="text-muted-foreground">Ask your question — concept, formula, or topic.</p>
+              <p className="text-muted-foreground">Ask your question - concept, formula, or topic.</p>
             </div>
             
             <div className="text-center">
@@ -352,8 +385,17 @@ const Home = () => {
       </section>
 
       {/* The Oswaal Promise Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-subtle">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-subtle relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 opacity-5">
+          <img 
+            src={futureLearningBanner} 
+            alt="Future of Learning" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        <div className="max-w-5xl mx-auto text-center relative z-10">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             🌟 The <span className="gradient-primary bg-clip-text text-transparent">Oswaal Promise</span>
           </h2>
@@ -362,7 +404,7 @@ const Home = () => {
               For over 40 years, Oswaal Books has been synonymous with trust, quality, and excellence in education.
             </p>
             <p>
-              Now, with Oswaal HybridEdge, we're taking that legacy into the future — giving learners the power of print and the intelligence of AI in one ecosystem.
+              Now, with Oswaal HybridEdge, we're taking that legacy into the future - giving learners the power of print and the intelligence of AI in one ecosystem.
             </p>
             <p className="text-2xl font-bold text-foreground">
               HybridEdge = Print + Practice + AI Intelligence
@@ -381,7 +423,7 @@ const Home = () => {
             Join millions of learners stepping into a smarter world of education.
           </p>
           <p className="text-lg text-muted-foreground mb-8">
-            With Oswaal HybridEdge, your books don't just teach — they think with you.
+            With Oswaal HybridEdge, your books don't just teach - they think with you.
           </p>
           <p className="text-2xl font-bold text-foreground mb-12">
             👉 Explore. Learn. Evolve. With Oswaal HybridEdge.
