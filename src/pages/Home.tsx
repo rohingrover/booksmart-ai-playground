@@ -342,25 +342,48 @@ const Home = () => {
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-primary rounded-2xl mb-8 shadow-xl">
-              <Lightbulb className="w-10 h-10 text-white" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Side - Image */}
+            <div className="relative flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md lg:max-w-lg">
+                {/* Professionally Curated Image */}
+                <img 
+                  src="/src/assets/professionally curated.png" 
+                  alt="Professionally Curated Learning Experience" 
+                  className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
+                />
+                
+                {/* Floating decorative elements around the image */}
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
+              </div>
             </div>
-            
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 leading-tight">
-              What is <span className="text-brand-primary">Oswaal HybridEdge?</span>
+
+            {/* Right Side - Content */}
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-primary rounded-2xl shadow-xl">
+                  <Lightbulb className="w-10 h-10 text-white" />
+                </div>
+                
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+                  What is <span className="text-brand-primary">Oswaal HybridEdge?</span>
             </h2>
-            
-            <div className="max-w-5xl mx-auto space-y-8 text-xl text-gray-600 leading-relaxed">
-              <p className="text-2xl font-semibold text-gray-800">
+              </div>
+              
+              <div className="space-y-6 text-xl text-gray-600 leading-relaxed">
+                <p className="text-2xl font-semibold text-gray-800">
                 Oswaal HybridEdge is the next big leap in learning innovation - an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
               </p>
               <p>
                 It transforms every Oswaal book into a smart, interactive learning companion - giving students instant answers, personalized insights, and guided practice anytime, anywhere.
               </p>
-              <p>
+                <p>
                 With HybridEdge, Oswaal introduces a new era of Hybrid Learning, where print and technology work together to deliver one seamless, smarter learning experience.
               </p>
+              </div>
             </div>
           </div>
         </div>
