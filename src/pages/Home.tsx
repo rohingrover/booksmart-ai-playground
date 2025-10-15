@@ -815,18 +815,18 @@ const Home = () => {
                   
                   {/* Enhanced Header with Gradient Background and Book Image */}
                   <div className="relative h-48 overflow-hidden">
-                    <div className={`absolute inset-0 overflow-hidden ${
+                    <div className={`absolute inset-0 ${
                       index % 4 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600" :
                       index % 4 === 1 ? "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600" :
                       index % 4 === 2 ? "bg-gradient-to-br from-orange-500 via-red-500 to-pink-600" :
                       "bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600"
                     }`}>
-                      {/* Book Image in Header - Contained within bounds */}
-                      <div className="absolute inset-0 overflow-hidden">
+                      {/* Book Image in Header - No Background, Fit to Edges */}
+                      <div className="absolute inset-0">
                         <img 
                           src={book.book_image || defaultImageBook} 
                           alt={book.title} 
-                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
                             e.currentTarget.src = defaultImageBook;
                           }}
@@ -843,7 +843,7 @@ const Home = () => {
                     
                       {/* Board Badge */}
                       <div className="absolute top-4 right-4 z-10">
-                        <div className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
+                        <div className="bg-white/20 backdrop-blur-sm text-brand-secondary text-xs font-bold px-3 py-1 rounded-full border border-white/30">
                           {book.board_name}
                         </div>
                       </div>
