@@ -809,64 +809,118 @@ const Home = () => {
               <p className="text-xl text-gray-600 font-medium">Loading amazing books...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {books.map((book, index) => <Card key={book.id} className="shadow-card hover:shadow-elegant transition-smooth group cursor-pointer overflow-hidden" onClick={handleStartLearning}>
-
-                  <div className="relative overflow-hidden">
-                    {/* Colorful Header with Class Number */}
-                    <div className={`h-32 relative flex items-center justify-center text-white
-                      ${index % 2 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500" : "bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500"}`}>
-                      <div className="text-center">
-                        <div className="text-4xl font-bold mb-1">
-                          {book.grade}
-                        </div>
-                        <div className="text-xs opacity-90 uppercase tracking-wider">
-                          {book.grade}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {books.map((book, index) => (
+                <Card key={book.id} className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0" onClick={handleStartLearning}>
+                  
+                  {/* Enhanced Header with Gradient Background */}
+                  <div className="relative h-40 overflow-hidden">
+                    <div className={`absolute inset-0 ${
+                      index % 4 === 0 ? "bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600" :
+                      index % 4 === 1 ? "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600" :
+                      index % 4 === 2 ? "bg-gradient-to-br from-orange-500 via-red-500 to-pink-600" :
+                      "bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600"
+                    }`}>
+                      {/* Decorative Pattern Overlay */}
+                      <div className="absolute inset-0 opacity-10">
+                        <div className="absolute top-4 left-4 w-12 h-12 border-2 border-white/30 rounded-full"></div>
+                        <div className="absolute top-8 right-6 w-8 h-8 bg-white/20 rounded-full"></div>
+                        <div className="absolute bottom-6 left-8 w-6 h-6 border-2 border-white/40 rounded-full"></div>
+                        <div className="absolute bottom-4 right-4 w-10 h-10 bg-white/10 rounded-full"></div>
+                      </div>
+                      
+                      {/* Class Number - Large and Prominent */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-5xl font-black text-white mb-2 drop-shadow-lg">
+                            {book.grade}
+                          </div>
+                          <div className="text-sm font-semibold text-white/90 uppercase tracking-wider">
+                            Class
+                          </div>
                         </div>
                       </div>
-                      <Badge className="absolute top-3 right-3 bg-white/20 text-white border-white/30">
-                        {book.board_name}
-                      </Badge>
-                      {/* Decorative elements */}
-                      <div className="absolute top-4 left-4 w-8 h-8 border-2 border-white/30 rounded rotate-45"></div>
-                      <div className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full"></div>
-                      <div className="absolute bottom-6 left-6 w-4 h-4 border-2 border-white/40 rounded-full"></div>
-                    </div>
-                    
-                    {/* Book Image */}
-                    <div className="absolute top-20 left-1/2 transform -translate-x-1/2 rounded-lg overflow-hidden border-4 border-white shadow-lg">
-                      <img src={book.book_image || defaultImageBook} alt={book.title} className="w-full h-full object-cover group-hover:scale-105 transition-smooth" />
+                      
+                      {/* Board Badge */}
+                      <div className="absolute top-4 right-4">
+                        <div className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30">
+                          {book.board_name}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <CardContent className="p-6 space-y-4">
-                    <div className="text-center">
-                      <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-smooth mb-1">
+                  {/* Book Image Section - Enhanced */}
+                  <div className="relative -mt-16 mb-6 flex justify-center">
+                    <div className="relative">
+                      <div className="w-24 h-32 bg-white rounded-xl shadow-2xl border-4 border-white overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                        <img 
+                          src={book.book_image || defaultImageBook} 
+                          alt={book.title} 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = defaultImageBook;
+                          }}
+                        />
+                      </div>
+                      {/* Image Glow Effect */}
+                      <div className="absolute inset-0 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-brand-primary/20 to-transparent"></div>
+                    </div>
+                  </div>
+
+                  {/* Enhanced Content Section */}
+                  <CardContent className="px-6 pb-6 space-y-4">
+                    {/* Title and Subject */}
+                    <div className="text-center space-y-2">
+                      <h3 className="font-bold text-lg text-gray-900 group-hover:text-brand-primary transition-colors duration-300 leading-tight">
                         {book.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground font-medium">{book.subject_name}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        {book.subject_name}
+                      </p>
                     </div>
                     
-                    <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed text-center">{book.description}</p>
+                    {/* Description */}
+                    {book.description && (
+                      <p className="text-xs text-gray-500 text-center leading-relaxed line-clamp-2">
+                        {book.description}
+                      </p>
+                    )}
                     
-                    <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="h-4 w-4" />
-                        {book.chapters_count} chapters
-                      </span>
+                    {/* Stats Section - Enhanced */}
+                    <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center">
+                          <BookOpen className="h-4 w-4 text-brand-primary" />
+                        </div>
+                        <div className="text-left">
+                          <div className="text-sm font-bold text-gray-900">{book.chapters_count}</div>
+                          <div className="text-xs text-gray-500">chapters</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-brand-secondary/10 rounded-lg flex items-center justify-center">
+                          <Play className="h-4 w-4 text-brand-secondary" />
+                        </div>
+                        <div className="text-left">
+                          <div className="text-sm font-bold text-gray-900">{book.questions_count}</div>
+                          <div className="text-xs text-gray-500">exercises</div>
+                        </div>
+                      </div>
                     </div>
                     
-                    <div className="text-center">
-                      <Badge variant="outline" className="text-xs mb-4">
-                        {book.questions_count} exercises
-                      </Badge>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-105" disabled={isLoggingIn}>
+                    {/* Enhanced CTA Button */}
+                    <Button 
+                      className="w-full bg-gradient-to-r from-brand-primary to-brand-primary/90 hover:from-brand-primary/90 hover:to-brand-primary text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0" 
+                      disabled={isLoggingIn}
+                    >
                       <Play className="mr-2 h-4 w-4" />
                       {isLoggingIn ? "Logging in..." : "Start Learning"}
                     </Button>
                   </CardContent>
-                </Card>)}
+                </Card>
+              ))}
             </div>
           )}
 
