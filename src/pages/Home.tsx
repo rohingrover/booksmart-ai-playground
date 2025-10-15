@@ -216,7 +216,7 @@ const Home = () => {
                 onClick={() => document.getElementById('books-section')?.scrollIntoView({ behavior: 'smooth' })}
                 className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
               >
-                Explore our books
+                Explore our Books
               </button>
             </nav>
             
@@ -257,7 +257,7 @@ const Home = () => {
                 }}
                 className="block w-full text-left text-gray-700 hover:text-brand-primary transition-colors font-medium py-2"
               >
-                Explore our books
+                Explore our Books
               </button>
             </div>
           </div>
