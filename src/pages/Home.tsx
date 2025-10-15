@@ -424,12 +424,13 @@ const Home = () => {
       <section id="what-is-section" className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-40 animate-float-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-30 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          {/* Background shapes - positioned in empty areas */}
+          <div className="absolute top-10 right-4 lg:top-20 lg:right-20 w-32 lg:w-64 h-32 lg:h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-40 animate-float-slow"></div>
+          <div className="absolute bottom-10 left-4 lg:bottom-20 lg:left-20 w-40 lg:w-80 h-40 lg:h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-30 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating geometric shapes */}
-          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
-          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
+          {/* Floating geometric shapes - positioned in corners */}
+          <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -452,11 +453,11 @@ const Home = () => {
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
                 
-                {/* Floating decorative elements around the image */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
-                <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
-                <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
-                <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
+                {/* Floating decorative elements around the image - optimized for mobile */}
+                <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-4 lg:w-8 h-4 lg:h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-1 -right-3 lg:-top-2 lg:-right-6 w-3 lg:w-6 h-3 lg:h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-2 -left-3 lg:-bottom-4 lg:-left-6 w-5 lg:w-10 h-5 lg:h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-1 -right-2 lg:-bottom-2 lg:-right-4 w-3.5 lg:w-7 h-3.5 lg:h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
               </div>
             </div>
 
@@ -480,12 +481,13 @@ const Home = () => {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          {/* Background shapes - positioned in empty areas */}
+          <div className="absolute top-10 right-4 lg:top-20 lg:right-20 w-32 lg:w-64 h-32 lg:h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
+          <div className="absolute bottom-10 left-4 lg:bottom-20 lg:left-20 w-40 lg:w-80 h-40 lg:h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating geometric shapes */}
-          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-secondary rounded-full animate-pulse-slow"></div>
-          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
+          {/* Floating geometric shapes - positioned in corners */}
+          <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-secondary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -566,12 +568,13 @@ const Home = () => {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          {/* Background shapes - positioned in empty areas */}
+          <div className="absolute top-10 right-4 lg:top-20 lg:right-20 w-32 lg:w-64 h-32 lg:h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
+          <div className="absolute bottom-10 left-4 lg:bottom-20 lg:left-20 w-40 lg:w-80 h-40 lg:h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating geometric shapes */}
-          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
-          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
+          {/* Floating geometric shapes - positioned in corners */}
+          <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -594,11 +597,11 @@ const Home = () => {
                   className="w-full h-auto rounded-2xl shadow-2xl animate-float-slow"
                 />
                 
-                {/* Floating decorative elements around the image */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
-                <div className="absolute -top-2 -right-6 w-6 h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
-                <div className="absolute -bottom-4 -left-6 w-10 h-10 bg-green-200 rounded-full animate-float-slow"></div>
-                <div className="absolute -bottom-2 -right-4 w-7 h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
+                {/* Floating decorative elements around the image - optimized for mobile */}
+                <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-4 w-4 lg:w-8 h-4 lg:h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+                <div className="absolute -top-1 -right-3 lg:-top-2 lg:-right-6 w-3 lg:w-6 h-3 lg:h-6 bg-brand-secondary rounded-full animate-pulse-slow"></div>
+                <div className="absolute -bottom-2 -left-3 lg:-bottom-4 lg:-left-6 w-5 lg:w-10 h-5 lg:h-10 bg-green-200 rounded-full animate-float-slow"></div>
+                <div className="absolute -bottom-1 -right-2 lg:-bottom-2 lg:-right-4 w-3.5 lg:w-7 h-3.5 lg:h-7 bg-purple-200 rounded-full animate-bounce-gentle"></div>
               </div>
             </div>
             
@@ -663,8 +666,8 @@ const Home = () => {
             <div className="bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 p-8 rounded-3xl border-2 border-brand-primary/20 max-w-4xl mx-auto relative overflow-hidden">
               {/* Background decoration */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
-              <div className="absolute top-2 right-2 w-4 h-4 bg-brand-primary/10 rounded-full animate-pulse-slow"></div>
-              <div className="absolute bottom-2 left-2 w-3 h-3 bg-brand-secondary/10 rounded-full animate-bounce-gentle"></div>
+              <div className="absolute top-1 right-1 lg:top-2 lg:right-2 w-2 lg:w-4 h-2 lg:h-4 bg-brand-primary/10 rounded-full animate-pulse-slow"></div>
+              <div className="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 w-1.5 lg:w-3 h-1.5 lg:h-3 bg-brand-secondary/10 rounded-full animate-bounce-gentle"></div>
               
               <p className="text-2xl font-bold text-gray-800 leading-relaxed relative z-10">
                 <span className="text-brand-primary">HybridEdge</span> ensures that every page of your book becomes a <span className="text-brand-secondary font-black">gateway to smarter learning</span>.
@@ -678,12 +681,13 @@ const Home = () => {
       <section className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          {/* Background shapes - positioned in empty areas */}
+          <div className="absolute top-10 right-4 lg:top-20 lg:right-20 w-32 lg:w-64 h-32 lg:h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
+          <div className="absolute bottom-10 left-4 lg:bottom-20 lg:left-20 w-40 lg:w-80 h-40 lg:h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating geometric shapes */}
-          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
-          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
+          {/* Floating geometric shapes - positioned in corners */}
+          <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
         </div>
         
         <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -718,14 +722,15 @@ const Home = () => {
       <section id="books-section" className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          {/* Background shapes - positioned in empty areas */}
+          <div className="absolute top-10 right-4 lg:top-20 lg:right-20 w-32 lg:w-64 h-32 lg:h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
+          <div className="absolute bottom-10 left-4 lg:bottom-20 lg:left-20 w-40 lg:w-80 h-40 lg:h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Enhanced floating geometric shapes */}
-          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
-          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
-          <div className="absolute top-1/2 left-10 w-8 h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
-          <div className="absolute top-1/3 right-10 w-6 h-6 bg-green-200 rounded-full animate-float-slow"></div>
+          {/* Enhanced floating geometric shapes - positioned in corners */}
+          <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-primary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-secondary transform rotate-45 animate-rotate-slow"></div>
+          <div className="absolute top-1/2 left-2 lg:left-10 w-4 lg:w-8 h-4 lg:h-8 bg-yellow-200 rounded-full animate-bounce-gentle"></div>
+          <div className="absolute top-1/3 right-2 lg:right-10 w-3 lg:w-6 h-3 lg:h-6 bg-green-200 rounded-full animate-float-slow"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -898,12 +903,13 @@ const Home = () => {
       <section className="py-24 px-6 sm:px-8 lg:px-12 bg-white relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
+          {/* Background shapes - positioned in empty areas */}
+          <div className="absolute top-10 right-4 lg:top-20 lg:right-20 w-32 lg:w-64 h-32 lg:h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-30 animate-float-slow"></div>
+          <div className="absolute bottom-10 left-4 lg:bottom-20 lg:left-20 w-40 lg:w-80 h-40 lg:h-80 bg-gradient-to-tr from-pink-50 to-rose-50 rounded-full opacity-20 animate-float-slow" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating geometric shapes */}
-          <div className="absolute top-32 right-32 w-16 h-16 border-4 border-brand-secondary rounded-full animate-pulse-slow"></div>
-          <div className="absolute bottom-32 left-32 w-12 h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
+          {/* Floating geometric shapes - positioned in corners */}
+          <div className="absolute top-4 right-4 lg:top-32 lg:right-32 w-8 lg:w-16 h-8 lg:h-16 border-4 border-brand-secondary rounded-full animate-pulse-slow"></div>
+          <div className="absolute bottom-4 left-4 lg:bottom-32 lg:left-32 w-6 lg:w-12 h-6 lg:h-12 bg-brand-primary transform rotate-45 animate-rotate-slow"></div>
         </div>
         
         <div className="max-w-6xl mx-auto text-center relative z-10">
