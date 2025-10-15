@@ -451,11 +451,11 @@ const Home = () => {
         {/* Scroll indicator */}
         <button 
           onClick={() => smoothScrollTo('what-is-section')}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
+          className="absolute bottom-8 left-1/2 animate-slow-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
           aria-label="Scroll to next section"
         >
           <div className="w-6 h-10 border-2 border-brand-primary rounded-full flex justify-center hover:border-brand-secondary transition-colors duration-300">
-            <div className="w-1 h-3 bg-brand-primary rounded-full mt-2 animate-pulse hover:bg-brand-secondary transition-colors duration-300"></div>
+            <div className="w-1 h-3 bg-brand-primary rounded-full mt-2 animate-slow-pulse hover:bg-brand-secondary transition-colors duration-300"></div>
           </div>
         </button>
       </section>
