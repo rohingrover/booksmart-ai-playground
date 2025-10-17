@@ -24,7 +24,7 @@ const smoothScrollTo = (elementId: string) => {
 
   const startPosition = window.pageYOffset;
   // Use appropriate offset for different sections
-  const offset = elementId === 'books-section' ? 500 : 80;
+  const offset = elementId === 'books-section' ? -470 : 80;
   const targetPosition = element.offsetTop - offset;
   const distance = targetPosition - startPosition;
   const duration = 1200; // Slower duration for more elegant feel
