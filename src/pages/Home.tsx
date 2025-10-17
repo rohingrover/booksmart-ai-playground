@@ -24,7 +24,7 @@ const smoothScrollTo = (elementId: string) => {
 
   const startPosition = window.pageYOffset;
   // Use appropriate offset for different sections
-  const offset = elementId === 'books-grid' ? 100 : elementId === 'books-section' ? 400 : 80;
+  const offset = elementId === 'books-section' ? 500 : 80;
   const targetPosition = element.offsetTop - offset;
   const distance = targetPosition - startPosition;
   const duration = 1200; // Slower duration for more elegant feel
@@ -249,7 +249,7 @@ const Home = () => {
               About
             </button>
             <button 
-              onClick={() => smoothScrollTo('books-grid')}
+              onClick={() => smoothScrollTo('books-section')}
               className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
             >
               Explore our Books
@@ -298,7 +298,7 @@ const Home = () => {
               </button>
               <button 
                 onClick={() => {
-                  smoothScrollTo('books-grid');
+                  smoothScrollTo('books-section');
                   const mobileMenu = document.getElementById('mobile-menu');
                   if (mobileMenu) {
                     mobileMenu.classList.add('hidden');
