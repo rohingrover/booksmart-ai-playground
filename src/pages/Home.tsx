@@ -252,6 +252,12 @@ const Home = () => {
             >
               Explore our Books
             </button>
+            <button 
+              onClick={handleStartLearning}
+              className="bg-brand-primary hover:bg-brand-primary/90 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105"
+            >
+              Get Started
+            </button>
             </nav>
             
             {/* Mobile Menu Button */}
@@ -298,6 +304,18 @@ const Home = () => {
                 className="block w-full text-left text-gray-700 hover:text-brand-primary transition-colors font-medium py-2"
               >
                 Explore our Books
+              </button>
+              <button 
+                onClick={() => {
+                  handleStartLearning();
+                  const mobileMenu = document.getElementById('mobile-menu');
+                  if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                  }
+                }}
+                className="block w-full text-center bg-brand-primary hover:bg-brand-primary/90 text-white font-medium py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
+                Get Started
               </button>
             </div>
           </div>
