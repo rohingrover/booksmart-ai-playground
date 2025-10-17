@@ -507,7 +507,7 @@ const Home = () => {
 
             {/* Right Side - Content */}
             <div className="space-y-6 text-xl text-gray-600 leading-relaxed">
-              <p className="text-2xl font-semibold text-gray-800">
+              <p>
                 Oswaal HybridEdge is the next big leap in learning innovation - an intelligent layer that connects the trusted world of Oswaal Books with the power of AI.
               </p>
               <p>
@@ -740,7 +740,7 @@ const Home = () => {
           </h2>
           
           <div className="space-y-8 text-xl text-gray-600 leading-relaxed mb-12 max-w-5xl mx-auto">
-            <p className="text-2xl font-semibold text-gray-800">
+            <p>
               For over 40 years, Oswaal Books has been synonymous with trust, quality, and excellence in education.
             </p>
             <p>
@@ -814,33 +814,112 @@ const Home = () => {
           </div>
 
           {/* Enhanced Search and Filters */}
-          <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="space-y-4 lg:space-y-0 lg:flex lg:items-center lg:gap-4">
-            <div className="relative w-full lg:w-[65%]">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search books by title or subject..." 
-                  value={searchQuery} 
-                  onChange={e => {
-              setSearchQuery(e.target.value);
-              handlePageChange(1);
-                  }} 
-                  className="pl-10 bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl" 
-                />
-            </div>
+          <div className="mb-12 bg-gradient-to-r from-white via-brand-primary/5 to-white backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-brand-primary/20 relative overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-brand-primary/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-brand-secondary/10 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
             
-            <div className="w-full lg:w-[35%]">
-              <CourseExplorer onBoardChange={id => {
-              setSearchQuery('');
-              setSelectedBoard(id);
-              setSelectedSubject("all"); // reset subject if board changes
-              handlePageChange(1);
-            }} onSubjectChange={id => {
-              setSearchQuery('');
-              setSelectedSubject(id);
-              handlePageChange(1);
-            }} />
-            </div>
+            <div className="relative z-10">
+              {/* Filter Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-brand-primary/10 rounded-xl">
+                  <Filter className="h-5 w-5 text-brand-primary" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Find Your Perfect Book</h3>
+                <div className="flex-1 h-px bg-gradient-to-r from-brand-primary/30 to-transparent"></div>
+              </div>
+              
+              <div className="space-y-6 lg:space-y-0 lg:flex lg:items-end lg:gap-6">
+                {/* Search Input */}
+                <div className="relative w-full lg:w-[65%]">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <Search className="inline h-4 w-4 mr-2 text-brand-primary" />
+                    Search Books
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-brand-primary/60" />
+                    <Input 
+                      placeholder="Search by title, subject, or topic..." 
+                      value={searchQuery} 
+                      onChange={e => {
+                        setSearchQuery(e.target.value);
+                        handlePageChange(1);
+                      }} 
+                      className="pl-12 pr-4 py-4 bg-white/90 border-2 border-brand-primary/20 focus:border-brand-primary focus:bg-white rounded-2xl text-gray-700 font-medium shadow-sm transition-all duration-300 hover:shadow-md" 
+                    />
+                  </div>
+                </div>
+                
+                {/* Filter Dropdowns */}
+                <div className="w-full lg:w-[35%]">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <Filter className="inline h-4 w-4 mr-2 text-brand-primary" />
+                    Filter by Board & Subject
+                  </label>
+                  <div className="bg-white/90 rounded-2xl p-1 shadow-sm border border-brand-primary/20">
+                    <CourseExplorer onBoardChange={id => {
+                      setSearchQuery('');
+                      setSelectedBoard(id);
+                      setSelectedSubject("all"); // reset subject if board changes
+                      handlePageChange(1);
+                    }} onSubjectChange={id => {
+                      setSearchQuery('');
+                      setSelectedSubject(id);
+                      handlePageChange(1);
+                    }} />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Active Filters Display */}
+              {(searchQuery || selectedBoard !== 'all' || selectedSubject !== 'all') && (
+                <div className="mt-6 pt-6 border-t border-brand-primary/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-sm font-semibold text-gray-600">Active Filters:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {searchQuery && (
+                      <div className="flex items-center gap-2 bg-brand-primary/10 text-brand-primary px-3 py-2 rounded-xl text-sm font-medium">
+                        <Search className="h-3 w-3" />
+                        "{searchQuery}"
+                        <button 
+                          onClick={() => setSearchQuery('')}
+                          className="ml-1 hover:bg-brand-primary/20 rounded-full p-1 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                    {selectedBoard !== 'all' && (
+                      <div className="flex items-center gap-2 bg-brand-secondary/10 text-brand-secondary px-3 py-2 rounded-xl text-sm font-medium">
+                        <Filter className="h-3 w-3" />
+                        Board: {selectedBoard}
+                        <button 
+                          onClick={() => {
+                            setSelectedBoard('all');
+                            setSelectedSubject('all');
+                          }}
+                          className="ml-1 hover:bg-brand-secondary/20 rounded-full p-1 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                    {selectedSubject !== 'all' && (
+                      <div className="flex items-center gap-2 bg-green-100 text-green-700 px-3 py-2 rounded-xl text-sm font-medium">
+                        <Filter className="h-3 w-3" />
+                        Subject: {selectedSubject}
+                        <button 
+                          onClick={() => setSelectedSubject('all')}
+                          className="ml-1 hover:bg-green-200 rounded-full p-1 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

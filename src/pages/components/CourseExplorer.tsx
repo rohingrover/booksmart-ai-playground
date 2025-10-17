@@ -72,19 +72,19 @@ function CourseExplorer({ onBoardChange, onSubjectChange }) {
             handleSelectChange(index, selectedId, opt?.has_child);
           }}
         >
-          <SelectTrigger className="w-full bg-white border-2 border-gray-200 focus:border-brand-primary rounded-xl px-4 py-3 text-gray-700 font-medium">
+          <SelectTrigger className="w-full bg-white/95 border-2 border-brand-primary/20 focus:border-brand-primary focus:bg-white rounded-2xl px-4 py-3 text-gray-700 font-medium shadow-sm transition-all duration-300 hover:shadow-md hover:border-brand-primary/40">
             <SelectValue placeholder={index === 0 ? "-- Select Board/Exam --" : "-- Select --"} />
-            <ChevronDown className="h-4 w-4 text-gray-500" />
+            <ChevronDown className="h-4 w-4 text-brand-primary/60" />
           </SelectTrigger>
-          <SelectContent className="bg-white border border-gray-200 rounded-xl shadow-lg">
-            <SelectItem value="all" className="text-gray-500 font-medium">
+          <SelectContent className="bg-white/95 backdrop-blur-sm border border-brand-primary/20 rounded-2xl shadow-xl">
+            <SelectItem value="all" className="text-gray-500 font-medium hover:bg-brand-primary/5">
               {index === 0 ? "-- Select Board/Exam --" : "-- Select --"}
             </SelectItem>
             {level.options.map((opt) => (
               <SelectItem 
                 key={opt.id} 
                 value={opt.id.toString()} 
-                className="text-gray-700 hover:bg-brand-primary/10 hover:text-brand-primary font-medium"
+                className="text-gray-700 hover:bg-brand-primary/10 hover:text-brand-primary font-medium transition-colors duration-200"
               >
                 {opt.name}
               </SelectItem>
