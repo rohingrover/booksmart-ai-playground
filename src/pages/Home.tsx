@@ -247,7 +247,7 @@ const Home = () => {
               About
             </button>
             <button 
-              onClick={() => smoothScrollTo('books-section')}
+              onClick={() => smoothScrollTo('books-grid')}
               className="text-gray-700 hover:text-brand-primary transition-colors font-medium"
             >
               Explore our Books
@@ -296,7 +296,7 @@ const Home = () => {
               </button>
               <button 
                 onClick={() => {
-                  smoothScrollTo('books-section');
+                  smoothScrollTo('books-grid');
                   const mobileMenu = document.getElementById('mobile-menu');
                   if (mobileMenu) {
                     mobileMenu.classList.add('hidden');
@@ -944,15 +944,16 @@ const Home = () => {
           </div>
 
           {/* Enhanced Books Grid */}
-          {loading ? (
-            <div className="text-center py-16">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-primary rounded-2xl mb-4 shadow-xl animate-pulse">
-                <BookOpen className="w-8 h-8 text-white" />
+          <div id="books-grid">
+            {loading ? (
+              <div className="text-center py-16">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-primary rounded-2xl mb-4 shadow-xl animate-pulse">
+                  <BookOpen className="w-8 h-8 text-white" />
                         </div>
-              <p className="text-xl text-gray-600 font-medium">Loading amazing books...</p>
+                <p className="text-xl text-gray-600 font-medium">Loading amazing books...</p>
                         </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {books.map((book, index) => (
                 <Card key={book.id} className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0" onClick={handleStartLearning}>
                   
@@ -1047,7 +1048,8 @@ const Home = () => {
                 </Card>
               ))}
             </div>
-          )}
+            )}
+          </div>
 
           {/* Enhanced Pagination */}
           <div className="flex justify-center items-center gap-4 mt-12">
