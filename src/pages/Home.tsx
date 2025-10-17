@@ -825,7 +825,7 @@ const Home = () => {
                 <div className="p-2 bg-brand-primary/10 rounded-xl">
                   <Filter className="h-5 w-5 text-brand-primary" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-800">Find Your Perfect Book</h3>
+                <h3 className="text-xl font-bold text-gray-800">Find Your Oswaal Book</h3>
                 <div className="flex-1 h-px bg-gradient-to-r from-brand-primary/30 to-transparent"></div>
               </div>
               
@@ -842,14 +842,14 @@ const Home = () => {
                       placeholder="Search by title, subject, or topic..." 
                       value={searchQuery} 
                       onChange={e => {
-                        setSearchQuery(e.target.value);
-                        handlePageChange(1);
+              setSearchQuery(e.target.value);
+              handlePageChange(1);
                       }} 
                       className="pl-12 pr-4 py-4 bg-white/90 border-2 border-brand-primary/20 focus:border-brand-primary focus:bg-white rounded-2xl text-gray-700 font-medium shadow-sm transition-all duration-300 hover:shadow-md" 
                     />
                   </div>
-                </div>
-                
+            </div>
+            
                 {/* Filter Dropdowns */}
                 <div className="w-full lg:w-[35%]">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -857,20 +857,20 @@ const Home = () => {
                     Filter by Board & Subject
                   </label>
                   <div className="bg-white/90 rounded-2xl p-1 shadow-sm border border-brand-primary/20">
-                    <CourseExplorer onBoardChange={id => {
-                      setSearchQuery('');
-                      setSelectedBoard(id);
-                      setSelectedSubject("all"); // reset subject if board changes
-                      handlePageChange(1);
-                    }} onSubjectChange={id => {
-                      setSearchQuery('');
-                      setSelectedSubject(id);
-                      handlePageChange(1);
-                    }} />
+              <CourseExplorer onBoardChange={id => {
+              setSearchQuery('');
+              setSelectedBoard(id);
+              setSelectedSubject("all"); // reset subject if board changes
+              handlePageChange(1);
+            }} onSubjectChange={id => {
+              setSearchQuery('');
+              setSelectedSubject(id);
+              handlePageChange(1);
+            }} />
                   </div>
-                </div>
-              </div>
-              
+            </div>
+          </div>
+
               {/* Active Filters Display */}
               {(searchQuery || selectedBoard !== 'all' || selectedSubject !== 'all') && (
                 <div className="mt-6 pt-6 border-t border-brand-primary/20">
