@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChevronDown } from "lucide-react";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function CourseExplorer({ onBoardChange, onSubjectChange }) {
   
@@ -74,7 +73,6 @@ function CourseExplorer({ onBoardChange, onSubjectChange }) {
         >
           <SelectTrigger className="w-full bg-white/95 border-2 border-brand-primary/20 focus:border-brand-primary focus:bg-white rounded-2xl px-4 py-3 text-gray-700 font-medium shadow-sm transition-all duration-300 hover:shadow-md hover:border-brand-primary/40">
             <SelectValue placeholder={index === 0 ? "-- Select Board/Exam --" : "-- Select --"} />
-            <ChevronDown className="h-4 w-4 text-brand-primary/60" />
           </SelectTrigger>
           <SelectContent className="bg-white/95 backdrop-blur-sm border border-brand-primary/20 rounded-2xl shadow-xl">
             <SelectItem value="all" className="text-gray-500 font-medium hover:bg-brand-primary/5">
