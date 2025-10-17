@@ -254,9 +254,10 @@ const Home = () => {
             </button>
             <button 
               onClick={handleStartLearning}
-              className="bg-brand-primary hover:bg-brand-primary/90 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105"
+              disabled={isLoggingIn}
+              className="bg-brand-primary hover:bg-brand-primary/90 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Get Started
+              {isLoggingIn ? "Logging in..." : "Get Started"}
             </button>
             </nav>
             
@@ -313,9 +314,10 @@ const Home = () => {
                     mobileMenu.classList.add('hidden');
                   }
                 }}
-                className="block w-full text-center bg-brand-primary hover:bg-brand-primary/90 text-white font-medium py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+                disabled={isLoggingIn}
+                className="block w-full text-center bg-brand-primary hover:bg-brand-primary/90 text-white font-medium py-3 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Get Started
+                {isLoggingIn ? "Logging in..." : "Get Started"}
               </button>
             </div>
           </div>
